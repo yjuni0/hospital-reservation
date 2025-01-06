@@ -125,7 +125,7 @@ React + Spring 활용 웹 사이트 제작
 
   
 
-메인 페이지와 메뉴 구성 및 전반적인 정적, 동적 페이지 구현
+시큐리티 및 Rest api 와 database 연결, JPA 구현 
 
 ### Language
 
