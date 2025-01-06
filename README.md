@@ -119,16 +119,6 @@ React + Spring 활용 웹 사이트 제작
 *   회원 상세에서 본인 예약 현황 관리 가능
 *   예약 취소 가능
 
-  
-
-  
-
-  
-
-  
-
-_Got feedback or questions?_ [_Submit a request._](https://clickup.com/features/form-view)
-
 # backend
 
 ### 웹 사이트
@@ -260,18 +250,6 @@ _Got feedback or questions?_ [_Submit a request._](https://clickup.com/features/
 *   전체 예약 현황 관리 로직
 *   병원 휴무일 설정 로직 ( 휴무일은 예약 불가 )
 *   건강 정보 내용 등록 수정 삭제 로직
-
-  
-
-  
-
-  
-
-* * *
-
-  
-
-_Got feedback or questions?_ [_Submit a request._](https://clickup.com/features/form-view)
 
 # EndPoint
 
