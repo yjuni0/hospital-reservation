@@ -275,4 +275,8 @@ React + Spring 활용 웹 사이트 제작
 
 ## ADMIN
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/8d3a7b00-282a-49e3-aa85-5eb53b3caa93/adminWorkFlow.drawio.png)
+![](https://t9018789117.p.clickup-attachments.com/t9018789117/8ad2c768-688c-4f2c-b658-683f38e09b68/adminWorkFlow.drawio.png)
+
+# ER 다이어그램
+
+![](https://t9018789117.p.clickup-attachments.com/t9018789117/20c899ac-0cf9-4247-9ea9-08a4f67d3a98/ERD%EA%B4%80%EA%B3%84.drawio.png)
