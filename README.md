@@ -125,7 +125,7 @@ React + Spring 활용 웹 사이트 제작
 
   
 
-시큐리티 및 Rest api 와 database 연결, JPA 구현 
+시큐리티 및 Rest api 와 JPA 활용 database 연결 
 
 ### Language
 
