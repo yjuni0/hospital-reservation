@@ -1,5 +1,8 @@
 # 웹 프로젝트
-
+# 수정 사항
+  ( 건강정보 -> 리뷰 게시판 변경) 
+  ( 
+  
 ## ✔ 병원 웹 사이트 ( 예약 )
 
   
@@ -27,6 +30,7 @@ React + Spring 활용 웹 사이트 제작
 ### Language
 
 [![](https://camo.githubusercontent.com/1376cb018bc52e2dcf0ebeda06b1185db8fc231a0e9588713a048e87f7c11c37/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f48544d4c352d4533344632363f7374796c653d666c61742d737175617265266c6f676f3d48544d4c35266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/1376cb018bc52e2dcf0ebeda06b1185db8fc231a0e9588713a048e87f7c11c37/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f48544d4c352d4533344632363f7374796c653d666c61742d737175617265266c6f676f3d48544d4c35266c6f676f436f6c6f723d7768697465) [![](https://camo.githubusercontent.com/62e058ea5cad05af7cd86d0ab3fccf81be8c734e8df7e7a4249c8fc49b45063b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f435353332d3135373242363f7374796c653d666c61742d737175617265266c6f676f3d43535333266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/62e058ea5cad05af7cd86d0ab3fccf81be8c734e8df7e7a4249c8fc49b45063b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f435353332d3135373242363f7374796c653d666c61742d737175617265266c6f676f3d43535333266c6f676f436f6c6f723d7768697465) 
+JS
 
 ### Framework / Library
 
@@ -38,19 +42,17 @@ React + Spring 활용 웹 사이트 제작
 
 ▶ 홈페이지
 
-*   각 병원 사이트 참조 “/” 접속 시 메인 페이지 접속을 위한 홈페이지
-*   메인 화면 ( “/main” ) 링크 삽입
+*   각 병원 사이트 참조  메인 페이지 접속을 위한 홈페이지
 
-  
 
 ▶메인 페이지
 
-*   병원 로고 “/main” 링크 삽입
-*   디자인 각 병원 사이트 참조 “/” –> “/main” 접속
+*   병원 로고 메인페이지 링크 삽입
+*   디자인 각 병원 사이트 참조
 *   Nav와 signin 및 signup 가능
 *   Signin 과 signup 은 /signin< (정보 입력) /로그인하기 / 회원 가입/ > 로그인 페이지가 우선 적용
-*   로그인 완료 후 >/main 로 리다이렉트 처리
-*   회원 가입 시도는 /signup 페이지로  
+*   로그인 완료 후 main 로 리다이렉트 처리
+*   회원 가입 시도는 signup 페이지로  
 
   
 
@@ -235,8 +237,6 @@ React + Spring 활용 웹 사이트 제작
 
 ▶ 관리자 페이지
 
-  
-
 *   관리자는 바로 로그인가능 ( 회원가입 x )
 *   전체 회원 정보 조회 로직
 *   회원 1명에 대한 정보 전체 조회 로직
@@ -280,4 +280,4 @@ React + Spring 활용 웹 사이트 제작
 
 # ER 다이어그램
 
-![ERD관계 drawio](https://github.com/user-attachments/assets/2b41b644-01ee-4b08-8a73-23e3624f3239)
+![ERD관계 drawio](https://github.com/user-attachments/assets/86dbb91a-e755-427b-9313-f623f83c53f2)
