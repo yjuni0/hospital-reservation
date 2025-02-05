@@ -274,8 +274,8 @@ React + Spring 활용 웹 사이트 제작
   
 
 ## ADMIN
+![ERD관계 drawio](https://github.com/user-attachments/assets/2b41b644-01ee-4b08-8a73-23e3624f3239)
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/8ad2c768-688c-4f2c-b658-683f38e09b68/adminWorkFlow.drawio.png)
 
 # ER 다이어그램
 
