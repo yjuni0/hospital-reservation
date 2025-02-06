@@ -1,5 +1,6 @@
 package com.project.reservation.entity;
 
+import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,17 +13,17 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Available {
+public class Available extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "available", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    public List<Slot> slots;
+    private List<Slot> slots;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false)
-    public Department department;
+    private Department department;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
@@ -31,13 +32,5 @@ public class Available {
     private LocalDateTime endTime;
 
 
-    @Builder
-    public Available(Long id, List<Slot> slots, Department department, LocalDateTime startTime, LocalDateTime endTime) {
-        this.id = id;
-        this.slots = slots;
-        this.department = department;
-        this.startTime = startTime;
-        this.endTime = endTime;
 
-    }
 }

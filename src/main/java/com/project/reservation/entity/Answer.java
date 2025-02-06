@@ -2,27 +2,28 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Reservation extends BaseTimeEntity {
+public class Answer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private User user;
+    @Column(length = 500,nullable = false)
+    private String content;
 
     @OneToOne
-    @JoinColumn(nullable = false)
-    private Slot slot;
+    @JoinColumn(name = "question_id", nullable = false)
+    private Question question;
 
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = false)
+    private User admin;
 
 
 }

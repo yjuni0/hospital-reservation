@@ -1,5 +1,6 @@
 package com.project.reservation.entity;
 
+import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Slot {
+public class Slot extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +33,5 @@ public class Slot {
     @JoinColumn(nullable = false)
     public Available available;
 
-    @Builder
-    public Slot(Long id, Reservation reservation, Available available, Boolean state, LocalDateTime startTime, LocalDateTime endTime) {
-        this.id = id;
-        this.reservation = reservation;
-        this.available = available;
-        this.state = state;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
+
 }
