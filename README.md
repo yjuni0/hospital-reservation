@@ -1,7 +1,6 @@
 # 웹 프로젝트
 # 수정 사항
   ( 건강정보 -> 리뷰 게시판 변경) 
-  ( 
   
 ## ✔ 병원 웹 사이트 ( 예약 )
 
@@ -279,5 +278,7 @@ JS
 
 
 # ER 다이어그램
+![ERD관계](https://github.com/user-attachments/assets/3a46380f-dd6b-41c5-b5a1-d20472ffc516)
 
-![ERD관계 drawio](https://github.com/user-attachments/assets/86dbb91a-e755-427b-9313-f623f83c53f2)
+
+
