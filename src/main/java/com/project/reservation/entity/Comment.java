@@ -22,13 +22,13 @@ public class Comment extends BaseTimeEntity {
     private Review review;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Builder
-    public Comment(Long id, String content, User user) {
+    public Comment(Long id, String content, Member member) {
         this.id = id;
         this.content = content;
-        this.user = user;
+        this.member = member;
     }
 }

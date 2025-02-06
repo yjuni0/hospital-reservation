@@ -9,18 +9,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class NonUser extends BaseTimeEntity {
+public class NonMember extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String name;
+
     @Column(unique = true, nullable = false,length = 13)
     private String phoneNum;
 
     @Builder
-    public NonUser(Long id, String name, String phoneNum) {
+    public NonMember(Long id, String name, String phoneNum) {
         this.id = id;
         this.name = name;
         this.phoneNum = phoneNum;

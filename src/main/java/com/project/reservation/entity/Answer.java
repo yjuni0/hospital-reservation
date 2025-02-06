@@ -24,10 +24,10 @@ public class Answer extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false)
-    private User admin;
+    private Member admin;
 
     @Builder
-    public Answer(Long id, String content, Question question, User admin) {
+    public Answer(Long id, String content, Question question, Member admin) {
         this.id = id;
         this.content = content;
         this.question = question;

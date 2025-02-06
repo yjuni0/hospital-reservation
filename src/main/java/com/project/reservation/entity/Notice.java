@@ -18,6 +18,7 @@ public class Notice extends BaseTimeEntity {
 
     @Column(length = 100, nullable = false)
     private String title;
+
     @Column(length = 500, nullable = false)
     private String content;
 
@@ -26,10 +27,10 @@ public class Notice extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "admin_id",nullable = false)
-    private User admin;
+    private Member admin;
 
     @Builder
-    public Notice(Long id, String title, String content, User admin) {
+    public Notice(Long id, String title, String content, Member admin) {
         this.id = id;
         this.title = title;
         this.content = content;

@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class User extends BaseTimeEntity {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +32,8 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false,length = 50)
     private String addr;
 
-
     private String birth;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
 
     @Column(nullable = false,length = 13,unique = true)
     private String phoneNum;
@@ -46,26 +42,26 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Pet> pets;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Question> questions;
 
     @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Notice> notices;
 
     @Builder
-    public User(Long id, String name, String nickName, String email, String password, String addr, String birth, Gender gender, String phoneNum, Role role) {
+    public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role role) {
         this.id = id;
         this.name = name;
         this.nickName = nickName;
@@ -73,7 +69,6 @@ public class User extends BaseTimeEntity {
         this.password = password;
         this.addr = addr;
         this.birth = birth;
-        this.gender = gender;
         this.phoneNum = phoneNum;
         this.role = role;
     }

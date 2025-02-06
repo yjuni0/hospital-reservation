@@ -17,7 +17,7 @@ public class Reservation extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private User user;
+    private Member member;
 
     @OneToOne
     @JoinColumn(nullable = false)
@@ -25,9 +25,9 @@ public class Reservation extends BaseTimeEntity {
 
 
     @Builder
-    public Reservation(Long id, User user, Slot slot) {
+    public Reservation(Long id, Member member, Slot slot) {
         this.id = id;
-        this.user = user;
+        this.member = member;
         this.slot = slot;
     }
 }

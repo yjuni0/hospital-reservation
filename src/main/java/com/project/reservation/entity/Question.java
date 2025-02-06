@@ -22,17 +22,17 @@ public class Question extends BaseTimeEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Answer answer;
 
     @Builder
-    public Question(Long id, String title, String content, User user) {
+    public Question(Long id, String title, String content, Member member) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.member = member;
     }
 }

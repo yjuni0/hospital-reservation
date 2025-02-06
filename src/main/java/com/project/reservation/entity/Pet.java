@@ -30,15 +30,15 @@ public class Pet extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private User user;
+    private Member member;
 
     @Builder
-    public Pet(Long id, String name, Integer age, Gender gender, Breed breed, User user) {
+    public Pet(Long id, String name, Integer age, Gender gender, Breed breed, Member member) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.breed = breed;
-        this.user = user;
+        this.member = member;
     }
 }
