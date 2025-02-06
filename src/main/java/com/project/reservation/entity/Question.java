@@ -2,6 +2,7 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,12 @@ public class Question extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Answer answer;
+
+    @Builder
+    public Question(Long id, String title, String content, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
 }

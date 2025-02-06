@@ -31,6 +31,11 @@ public class Available extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-
-
+    @Builder
+    public Available(Long id, Department department, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.department = department;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

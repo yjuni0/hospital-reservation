@@ -2,6 +2,7 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,12 @@ public class Notice extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "admin_id",nullable = false)
     private User admin;
+
+    @Builder
+    public Notice(Long id, String title, String content, User admin) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.admin = admin;
+    }
 }

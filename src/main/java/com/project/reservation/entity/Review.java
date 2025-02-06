@@ -27,4 +27,11 @@ public class Review extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Comment> comments;
+
+    public Review(Long id, String title, String content, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
 }

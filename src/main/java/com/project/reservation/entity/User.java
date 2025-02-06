@@ -64,4 +64,17 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Notice> notices;
 
+    @Builder
+    public User(Long id, String name, String nickName, String email, String password, String addr, String birth, Gender gender, String phoneNum, Role role) {
+        this.id = id;
+        this.name = name;
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+        this.addr = addr;
+        this.birth = birth;
+        this.gender = gender;
+        this.phoneNum = phoneNum;
+        this.role = role;
+    }
 }

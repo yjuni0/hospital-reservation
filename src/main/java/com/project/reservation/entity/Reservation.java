@@ -24,5 +24,10 @@ public class Reservation extends BaseTimeEntity {
     private Slot slot;
 
 
-
+    @Builder
+    public Reservation(Long id, User user, Slot slot) {
+        this.id = id;
+        this.user = user;
+        this.slot = slot;
+    }
 }

@@ -20,5 +20,9 @@ public class Department extends BaseTimeEntity {
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Available> available;
 
-
+    @Builder
+    public Department(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

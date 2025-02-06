@@ -33,5 +33,12 @@ public class Slot extends BaseTimeEntity {
     @JoinColumn(nullable = false)
     public Available available;
 
-
+    @Builder
+    public Slot(Long id, Boolean state, LocalDateTime startTime, LocalDateTime endTime, Available available) {
+        this.id = id;
+        this.state = state;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.available = available;
+    }
 }

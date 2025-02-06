@@ -32,5 +32,13 @@ public class Pet extends BaseTimeEntity {
     @JoinColumn(nullable = false)
     private User user;
 
-
+    @Builder
+    public Pet(Long id, String name, Integer age, Gender gender, Breed breed, User user) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.breed = breed;
+        this.user = user;
+    }
 }
