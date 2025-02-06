@@ -278,8 +278,9 @@ JS
 
 
 # ER 다이어그램
+![ERD관계](https://github.com/user-attachments/assets/58797b87-7858-40e9-941b-fe4d49c0369c)
 
-![ERD관계](https://github.com/user-attachments/assets/26f10c4f-1c4b-4f1c-a783-8bb487463567)
+
 
 
 
