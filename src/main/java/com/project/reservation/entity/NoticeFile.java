@@ -13,8 +13,11 @@ public class NoticeFile extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String type;
+    @Column(nullable = false)
     private String path;
 
     @ManyToOne

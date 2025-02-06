@@ -32,13 +32,17 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false,length = 50)
     private String addr;
 
+
     private String birth;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(nullable = false,length = 13,unique = true)
     private String phoneNum;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
