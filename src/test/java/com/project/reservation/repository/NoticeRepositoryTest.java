@@ -112,4 +112,60 @@ public class NoticeRepositoryTest {
         Assertions.assertNotNull(pageNotice);
         Assertions.assertEquals(1, pageNotice.getTotalPages());
     }
+    // title 검색
+    @Test
+    public void NoticeRepository_FindByContainingTitle() {
+        // given (테스트 데이터 준비)
+        Notice notice1 = Notice.builder()
+                .title("Spring Boot Guide")
+                .content("Spring Boot JPA Test")
+                .build();
+        Notice notice2 = Notice.builder()
+                .title("Spring Security Tips")
+                .content("Security Best Practices")
+                .build();
+        Notice notice3 = Notice.builder()
+                .title("Java Streams")
+                .content("Java 8 Streams API Guide")
+                .build();
+
+        repository.saveAll(List.of(notice1, notice2, notice3));
+
+        // when (제목에 'Spring'이 포함된 게시글 검색)
+        Page<Notice> pageNotice = repository.findByTitleContaining("Spring", PageRequest.of(0, 10));
+
+        // then (결과 검증)
+        Assertions.assertNotNull(pageNotice);
+        Assertions.assertEquals(2, pageNotice.getTotalElements()); // 'Spring' 포함된 2개 게시글 확인
+        Assertions.assertTrue(pageNotice.getContent().stream()
+                .allMatch(notice -> notice.getTitle().contains("Spring"))); // 제목이 'Spring'을 포함하는지 확인
+    }
+    // content 검색
+    @Test
+    public void NoticeRepository_FindByContainingContent() {
+        // given (테스트 데이터 준비)
+        Notice notice1 = Notice.builder()
+                .title("Spring Boot Guide")
+                .content("Spring Boot JPA Test")
+                .build();
+        Notice notice2 = Notice.builder()
+                .title("Spring Security Tips")
+                .content("Spring Security Best Practices")
+                .build();
+        Notice notice3 = Notice.builder()
+                .title("Java Streams")
+                .content("Java 8 Streams API Guide")
+                .build();
+
+        repository.saveAll(List.of(notice1, notice2, notice3));
+
+        // when (제목에 'Spring'이 포함된 게시글 검색)
+        Page<Notice> pageNotice = repository.findByContentContaining("Spring", PageRequest.of(0, 10));
+
+        // then (결과 검증)
+        Assertions.assertNotNull(pageNotice);
+        Assertions.assertEquals(2, pageNotice.getTotalElements()); // 'Spring' 포함된 2개 게시글 확인
+        Assertions.assertTrue(pageNotice.getContent().stream()
+                .allMatch(notice -> notice.getContent().contains("Spring"))); // 내용에 'Spring'을 포함하는지 확인
+    }
 }
