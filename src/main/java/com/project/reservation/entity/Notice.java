@@ -24,16 +24,30 @@ public class Notice extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<NoticeFile> noticeFile;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "admin_id")//,nullable = false)
+//    private Member admin;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id",nullable = false)
-    private Member admin;
+//    @Builder
+//    public Notice(Long id, String title, String content, Member admin) {
+//        this.id = id;
+//        this.title = title;
+//        this.content = content;
+//        this.admin = admin;
+//    }
 
+    // 테스트용
     @Builder
-    public Notice(Long id, String title, String content, Member admin) {
+    public Notice(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.admin = admin;
+    }
+
+    // 공지사항 수정 메서드
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

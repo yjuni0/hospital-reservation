@@ -22,6 +22,8 @@ public class Review extends BaseTimeEntity {
     @Column(length=500, nullable = false)
     private String content;
 
+    private Long count;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -29,10 +31,11 @@ public class Review extends BaseTimeEntity {
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Comment> comments;
 
-    public Review(Long id, String title, String content, Member member) {
+    public Review(Long id, String title, String content, Long count, Member member) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.count = count;
         this.member = member;
     }
 }
