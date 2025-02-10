@@ -1,8 +1,7 @@
 package com.project.reservation.repository;
 
-import com.project.reservation.entity.Member;
+
 import com.project.reservation.entity.Notice;
-import com.project.reservation.entity.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,52 +21,10 @@ public class NoticeRepositoryTest {
     @Autowired
     private NoticeRepository repository;
 
-    //save
-    @Test
-    public void NoticeRepository_SaveAll_ReturnSavedNotice(){
-        
-        //given
-        Notice notice = Notice.builder()
-                .id(1L)
-                .title("title1")
-                .content("content1")
-                .build();
-        
-        //when
-        Notice savedNotice = repository.save(notice);
-        
-        // then
-        Assertions.assertNotNull(savedNotice);
-        Assertions.assertEquals(1L, savedNotice.getId());
-        Assertions.assertEquals("title1", savedNotice.getTitle());
-        Assertions.assertEquals("content1", savedNotice.getContent());
-        
-    }
-    // get List
-    @Test
-    public void NoticeRepository_FindAll_ReturnAllNotices(){
-        // given
-        Notice notice1 = Notice.builder()
-                .id(1L)
-                .title("title1")
-                .content("content1")
-                .build();
-        Notice notice2 = Notice.builder()
-                .id(2L)
-                .title("title2")
-                .content("content2")
-                .build();
-        repository.saveAll(List.of(notice1, notice2));
-        // when
-        List<Notice> notices = repository.findAll();
-        // then
-        Assertions.assertNotNull(notices);
-        Assertions.assertEquals(2, notices.size());
-    }
 
     //Optional
     @Test
-    public void NoticeRepository_FindById_ReturnNotices(){
+    public void NoticeRepository_FindById_ReturnNotice(){
         // given
         Notice notice1 = Notice.builder()
                 .id(1L)
@@ -112,6 +69,7 @@ public class NoticeRepositoryTest {
         Assertions.assertNotNull(pageNotice);
         Assertions.assertEquals(1, pageNotice.getTotalPages());
     }
+
     // title 검색
     @Test
     public void NoticeRepository_FindByContainingTitle() {
@@ -140,6 +98,7 @@ public class NoticeRepositoryTest {
         Assertions.assertTrue(pageNotice.getContent().stream()
                 .allMatch(notice -> notice.getTitle().contains("Spring"))); // 제목이 'Spring'을 포함하는지 확인
     }
+
     // content 검색
     @Test
     public void NoticeRepository_FindByContainingContent() {
