@@ -24,18 +24,18 @@ public class Notice extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<NoticeFile> noticeFile;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id")//,nullable = false)
-//    private Member admin;
 
-//    @Builder
-//    public Notice(Long id, String title, String content, Member admin) {
-//        this.id = id;
-//        this.title = title;
-//        this.content = content;
-//        this.admin = admin;
-//    }
+    @ManyToOne
+    @JoinColumn(name = "admin_id")//,nullable = false)
+    private Member admin;
+
+    @Builder
+    public Notice(Long id, String title, String content, Member admin) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.admin = admin;
+    }
 
     // 테스트용
     @Builder
@@ -49,5 +49,10 @@ public class Notice extends BaseTimeEntity {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void setMappingAdmin(Member admin) {
+        this.admin = admin;
+        admin.getNotices().add(this);
     }
 }
