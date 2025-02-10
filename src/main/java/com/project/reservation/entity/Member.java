@@ -60,8 +60,8 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewLike> likes;
 
-//    @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Notice> notices;
+    @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Notice> notices;
 
     @Builder
     public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role role) {

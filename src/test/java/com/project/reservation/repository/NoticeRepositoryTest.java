@@ -22,7 +22,7 @@ public class NoticeRepositoryTest {
     @Autowired
     private NoticeRepository repository;
 
-    // one object save
+    //save
     @Test
     public void NoticeRepository_SaveAll_ReturnSavedNotice(){
         
