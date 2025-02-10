@@ -20,6 +20,13 @@ public class SearchDto {
         this.writerName = writerName;
     }
 
+    public static SearchDto searchNotice(String title, String content){
+        return SearchDto.builder()
+                .title(title)
+                .content(content)
+                .build();
+    }
+
     public static SearchDto searchData(String title, String content, String writerName) {
         return SearchDto.builder()
                 .title(title)
