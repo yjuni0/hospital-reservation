@@ -47,6 +47,7 @@ public class NoticeService {
         // 응답 DTO 변환 후 반환
         return NoticeDetailRes.fromEntity(saveNotice);
     }
+
     // 공지사항 전체 조회
     public Page<NoticeListRes> getAll(Pageable pageable) {
         return noticeRepository.findAll(pageable).map(NoticeListRes::fromEntity);
@@ -57,6 +58,7 @@ public class NoticeService {
         Notice notice = noticeRepository.findById(noticeId).orElse(null);
         return NoticeDetailRes.fromEntity(notice);
     }
+
     // 공지사항 수정 (예외 처리 + save 호출)
     public NoticeDetailRes update(Long noticeId, NoticeUpdateReq req) {
         Notice updateNotice = noticeRepository.findById(noticeId)
@@ -68,6 +70,7 @@ public class NoticeService {
         Notice savedNotice = noticeRepository.save(updateNotice);
         return NoticeDetailRes.fromEntity(savedNotice);
     }
+
     // 삭제
     public void delete(Long noticeId) {
         // 해당 아이디의 공지사항이 존재 하는 지 검증
@@ -76,6 +79,7 @@ public class NoticeService {
         }
         noticeRepository.deleteById(noticeId);
     }
+
     // 공지사항 검색
     public Page<NoticeListRes> search(SearchDto searchDto, Pageable pageable) {
         Page<Notice> result = null;

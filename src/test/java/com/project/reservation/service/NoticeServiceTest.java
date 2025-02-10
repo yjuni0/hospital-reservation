@@ -10,7 +10,6 @@ import com.project.reservation.Dto.response.NoticeListRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.Role;
-import com.project.reservation.repository.MemberRepository;
 import com.project.reservation.repository.NoticeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,15 +18,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+
 import org.springframework.data.domain.*;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
