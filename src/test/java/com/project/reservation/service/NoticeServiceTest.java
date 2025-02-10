@@ -111,6 +111,7 @@ public class NoticeServiceTest {
         Assertions.assertEquals("공지사항1", result.getContent().get(0).getTitle());
         verify(noticeRepository, times(1)).findAll(pageable);
     }
+
     @Test
     void 공지사항_id_조회(){
         Member member = Member.builder()
@@ -232,7 +233,7 @@ public class NoticeServiceTest {
         Assertions.assertEquals("공지사항2", result.getContent().get(1).getTitle());
         verify(noticeRepository, times(1)).findByTitleContaining(searchDto.getTitle(),pageable);
     }
-    // 공지사항 내용으로 검색
+
     @Test
     void 공지사항_내용_검색(){
         Member member = Member.builder()
