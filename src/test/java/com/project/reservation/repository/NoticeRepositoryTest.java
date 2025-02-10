@@ -14,8 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 import java.util.Optional;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@DataJpaTest // spring 이 자동으로 h2 같은 테스터용 인메모리 DB 설정
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2) 직접 테스터용 인메모리 디비 설정 방법 application.properties 에도 추가
 public class NoticeRepositoryTest {
 
     @Autowired

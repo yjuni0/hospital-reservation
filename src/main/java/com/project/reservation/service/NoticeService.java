@@ -1,30 +1,26 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.NoticeFileReq;
 import com.project.reservation.Dto.request.NoticeReq;
 import com.project.reservation.Dto.request.NoticeUpdateReq;
 import com.project.reservation.Dto.request.SearchDto;
 import com.project.reservation.Dto.response.NoticeDetailRes;
-import com.project.reservation.Dto.response.NoticeFileRes;
 import com.project.reservation.Dto.response.NoticeListRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
-import com.project.reservation.repository.MemberRepository;
 import com.project.reservation.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;

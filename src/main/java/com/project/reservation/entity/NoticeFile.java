@@ -5,9 +5,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class NoticeFile extends BaseTimeEntity {
     @Id
@@ -15,22 +17,27 @@ public class NoticeFile extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private String type;
+    private String originFileName;
     @Column(nullable = false)
     private String path;
+    @Column(nullable = false)
+    private String type;
+
 
     @ManyToOne
     @JoinColumn(name="notice_id", nullable=false)
     private Notice notice;
 
     @Builder
-    public NoticeFile(Long id, String name, String type, String path, Notice notice) {
+    public NoticeFile(Long id, String originFileName, String path, String type) {
         this.id = id;
-        this.name = name;
-        this.type = type;
+        this.originFileName = originFileName;
         this.path = path;
+        this.type = type;
+    }
+
+
+    public void setMappingNotice(Notice notice) {
         this.notice = notice;
     }
 }
