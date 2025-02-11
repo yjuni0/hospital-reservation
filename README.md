@@ -264,7 +264,8 @@ JS
 
 ## ADMIN /admin
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/2affe73f-43e5-4ae6-bc0f-de70b2166cb5/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-01-06%20174010.png)
+![엔드포인트 admin](https://github.com/user-attachments/assets/02426318-2846-424d-8ec7-121ef8ebc97e)
+
 
 # WorkFlow
 
