@@ -257,14 +257,15 @@ JS
 ## USER
 
 
-![엔드포인트 user](https://github.com/user-attachments/assets/b6ad1076-b08b-4777-af89-42bf237c6f05)
+![엔드포인트 user](https://github.com/user-attachments/assets/2b074328-8d0b-4fad-9411-b92d4a068764)
 
 
   
 
 ## ADMIN /admin
 
-![엔드포인트 admin](https://github.com/user-attachments/assets/5597f5a2-6cdc-4d72-a0cf-6cd83a570b2e)
+
+![엔드포인트 admin](https://github.com/user-attachments/assets/37ab2d2b-e171-4ceb-89b9-97a875d24f1a)
 
 
 
