@@ -1,14 +1,21 @@
 package com.project.reservation.controller;
 
 import com.project.reservation.Dto.request.qeustion.QuestionReq;
+import com.project.reservation.Dto.response.question.QuestionListRes;
 import com.project.reservation.Dto.response.question.QuestionRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
 import com.project.reservation.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/question")
@@ -24,8 +31,15 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
-    // 상세조회
+    // 리스트
     @GetMapping("/list")
+    public ResponseEntity<Page<QuestionListRes>> questionList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+        Page<QuestionListRes> listRes = questionService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(listRes);
+    }
+
+    // 상세조회
+    @GetMapping("/qusetionId")
     public ResponseEntity<QuestionRes> detail(@RequestParam("questionId")Long questionId){
         QuestionRes questionDetail = questionService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);

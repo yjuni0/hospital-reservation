@@ -42,7 +42,7 @@ public class AnswerService {
     }
 
     // 조회
-    public Page<AnswerListRes> getAnswer(Pageable pageable){
+    public Page<AnswerListRes> getAllAnswer(Pageable pageable){
         Page<Answer> answers = answerRepository.findAll(pageable);
         List<AnswerListRes> answerList = answers.stream().map(AnswerListRes::fromEntity).toList();
         return new PageImpl<>(answerList, pageable, answers.getTotalElements());

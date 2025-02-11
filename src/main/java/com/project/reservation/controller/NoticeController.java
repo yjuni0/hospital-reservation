@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 public class NoticeController {
 
     private final NoticeService noticeService;
-
-    //작성
-    @PostMapping("/write")
-    public ResponseEntity<NoticeDetailRes> write(Member member, @RequestBody NoticeReq noticeReq){
-        NoticeDetailRes saveNotice = noticeService.create(member,noticeReq);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
-    }
+// 주석 부분 관리자용으로 이동 예정
+//    //작성
+//    @PostMapping("/write")
+//    public ResponseEntity<NoticeDetailRes> write(Member member, @RequestBody NoticeReq noticeReq){
+//        NoticeDetailRes saveNotice = noticeService.create(member,noticeReq);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
+//    }
 
     // 전체 페이징
     @GetMapping("/list")
@@ -52,18 +52,18 @@ public class NoticeController {
         return ResponseEntity.status(HttpStatus.OK).body(getDetail);
     }
 
-    // 수정
-    @PatchMapping("/{noticeId}/update")
-    public ResponseEntity<NoticeDetailRes> update(@PathVariable Long noticeId, @RequestBody NoticeUpdateReq updateReq){
-        NoticeDetailRes updateDetail = noticeService.update(noticeId,updateReq);
-        return ResponseEntity.status(HttpStatus.OK).body(updateDetail);
-    }
-    // 삭제
-    @DeleteMapping("/{noticeId}/delete")
-    public ResponseEntity<Long> delete(@PathVariable Long noticeId){
-        noticeService.delete(noticeId);
-        return ResponseEntity.status(HttpStatus.OK).build(); //성공시 200 반환
-    }
+//    // 수정
+//    @PatchMapping("/{noticeId}/update")
+//    public ResponseEntity<NoticeDetailRes> update(@PathVariable Long noticeId, @RequestBody NoticeUpdateReq updateReq){
+//        NoticeDetailRes updateDetail = noticeService.update(noticeId,updateReq);
+//        return ResponseEntity.status(HttpStatus.OK).body(updateDetail);
+//    }
+//    // 삭제
+//    @DeleteMapping("/{noticeId}/delete")
+//    public ResponseEntity<Long> delete(@PathVariable Long noticeId){
+//        noticeService.delete(noticeId);
+//        return ResponseEntity.status(HttpStatus.OK).build(); //성공시 200 반환
+//    }
 
 
 }

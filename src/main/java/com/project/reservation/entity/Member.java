@@ -34,7 +34,6 @@ public class Member extends BaseTimeEntity {
 
     private String birth;
 
-
     @Column(nullable = false,length = 13,unique = true)
     private String phoneNum;
 
