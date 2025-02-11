@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -32,5 +33,18 @@ public class Answer extends BaseTimeEntity {
         this.content = content;
         this.question = question;
         this.admin = admin;
+    }
+
+
+    public void setMappingAdmin(Member admin){
+        this.admin = admin;
+        admin.getQuestions().add(question);
+    }
+    public void setMappingQuestion(Question question){
+        this.question = question;
+        question.setAnswer(this);
+    }
+    public void update(String content){
+        this.content = content;
     }
 }
