@@ -35,4 +35,19 @@ public class Question extends BaseTimeEntity {
         this.content = content;
         this.member = member;
     }
+
+    public void setMappingMember(Member member) {
+        this.member = member;
+        member.getQuestions().add(this);
+    }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
+    public void setAnswer(Answer answer) {
+    }
+
+
 }
