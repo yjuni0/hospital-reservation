@@ -252,13 +252,13 @@ JS
 
 # EndPoint
 
-## 웹 사이트 URL
+## 웹 사이트 엔드포인트
 
 ## USER
 
   
+![엔드포인트 user](https://github.com/user-attachments/assets/1cc5668a-9996-469f-89dc-4fabb6bb26fd)
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/362c2964-322c-41ac-b45f-efe500fedd1e/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-01-06%20173953.png)
 
   
 
