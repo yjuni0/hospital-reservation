@@ -256,15 +256,16 @@ JS
 
 ## USER
 
-  
-![엔드포인트 user](https://github.com/user-attachments/assets/1cc5668a-9996-469f-89dc-4fabb6bb26fd)
+
+![엔드포인트 user](https://github.com/user-attachments/assets/b6ad1076-b08b-4777-af89-42bf237c6f05)
 
 
   
 
 ## ADMIN /admin
 
-![엔드포인트 admin](https://github.com/user-attachments/assets/02426318-2846-424d-8ec7-121ef8ebc97e)
+![엔드포인트 admin](https://github.com/user-attachments/assets/5597f5a2-6cdc-4d72-a0cf-6cd83a570b2e)
+
 
 
 # WorkFlow
