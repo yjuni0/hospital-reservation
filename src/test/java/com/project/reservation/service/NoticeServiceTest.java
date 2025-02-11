@@ -2,11 +2,11 @@ package com.project.reservation.service;
 
 
 
-import com.project.reservation.Dto.request.NoticeReq;
-import com.project.reservation.Dto.request.NoticeUpdateReq;
-import com.project.reservation.Dto.request.SearchDto;
-import com.project.reservation.Dto.response.NoticeDetailRes;
-import com.project.reservation.Dto.response.NoticeListRes;
+import com.project.reservation.Dto.request.notice.NoticeReq;
+import com.project.reservation.Dto.request.notice.NoticeUpdateReq;
+import com.project.reservation.common.SearchDto;
+import com.project.reservation.Dto.response.notice.NoticeDetailRes;
+import com.project.reservation.Dto.response.notice.NoticeListRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.Role;

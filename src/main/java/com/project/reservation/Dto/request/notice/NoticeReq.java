@@ -1,10 +1,9 @@
-package com.project.reservation.Dto.request;
+package com.project.reservation.Dto.request.notice;
 
 import com.project.reservation.entity.Notice;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor

@@ -1,10 +1,10 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.NoticeReq;
-import com.project.reservation.Dto.request.NoticeUpdateReq;
-import com.project.reservation.Dto.request.SearchDto;
-import com.project.reservation.Dto.response.NoticeDetailRes;
-import com.project.reservation.Dto.response.NoticeListRes;
+import com.project.reservation.Dto.request.notice.NoticeReq;
+import com.project.reservation.Dto.request.notice.NoticeUpdateReq;
+import com.project.reservation.common.SearchDto;
+import com.project.reservation.Dto.response.notice.NoticeDetailRes;
+import com.project.reservation.Dto.response.notice.NoticeListRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.repository.NoticeRepository;
@@ -33,11 +33,8 @@ public class NoticeService {
             throw new IllegalArgumentException("관리자 정보가 유효하지 않습니다.");
         }
         //  Notice 엔티티 생성 시, 관리자 정보 포함
-        Notice notice = Notice.builder()
-                .title(req.getTitle())
-                .content(req.getContent())
-                .admin(admin) // 관리자 정보 설정
-                .build();
+        Notice notice = NoticeReq.ofEntity(req);
+        notice.setMappingAdmin(admin);
         log.info("해당 공지사항 생성 완료"+notice);
         //  공지사항 저장
         Notice saveNotice = noticeRepository.save(notice);

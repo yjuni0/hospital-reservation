@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.request;
+package com.project.reservation.Dto.request.notice;
 
 import lombok.Builder;
 import lombok.Getter;
