@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QuestionReq {
+public class ReqQuestion {
     private String title;
     private String content;
 
-    public static Question toEntity(QuestionReq questionReq){
+    public static Question toEntity(ReqQuestion reqQuestion){
         return Question.builder()
-                .title(questionReq.getTitle())
-                .content(questionReq.getContent())
+                .title(reqQuestion.getTitle())
+                .content(reqQuestion.getContent())
                 .build();
     }
 }

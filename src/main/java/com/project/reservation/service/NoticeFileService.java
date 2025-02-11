@@ -1,7 +1,7 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.noticeFile.NoticeFileDownloadRes;
-import com.project.reservation.Dto.response.noticeFile.NoticeFileUploadRes;
+import com.project.reservation.Dto.response.noticeFile.ResNoticeFileDownload;
+import com.project.reservation.Dto.response.noticeFile.ResNoticeFileUpload;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.NoticeFile;
 import com.project.reservation.repository.NoticeFileRepository;
@@ -35,7 +35,7 @@ public class NoticeFileService {
     private String FOLDER_PATH;
 
     //파일 업로드
-    public List<NoticeFileUploadRes> upload(Long noticeId, List<MultipartFile> multipartFiles){
+    public List<ResNoticeFileUpload> upload(Long noticeId, List<MultipartFile> multipartFiles){
         // 업로드 파일 개수 제한
         if (multipartFiles.size()>3){
             throw new IllegalArgumentException("파일은 최대 3개까지 업로드할 수 있습니다.");
@@ -80,13 +80,13 @@ public class NoticeFileService {
             log.info("DataBase 파일 저장 완료");
         }
         // 반환용 객체 전달을 위해 위해 dto 로 변환
-        List<NoticeFileUploadRes> dtos = noticeFiles.stream().map(NoticeFileUploadRes::fromEntity).toList();
+        List<ResNoticeFileUpload> dtos = noticeFiles.stream().map(ResNoticeFileUpload::fromEntity).toList();
         log.info("업로드 요청 파일 목록 "+dtos);
         return dtos;
     }
 
     //파일 다운로드
-    public NoticeFileDownloadRes download(Long noticeFileId) throws IOException{
+    public ResNoticeFileDownload download(Long noticeFileId) throws IOException{
         // 파일 찾기
         NoticeFile file = noticeFileRepository.findById(noticeFileId).orElseThrow(()->new IllegalArgumentException("해당 아이디와 일치하는 파일이 없습니다."));
         log.info("요청 noticeId와 일치하는 파일 "+ file);
@@ -109,7 +109,7 @@ public class NoticeFileService {
         try {
             byte[] content = Files.readAllBytes(targetFile.toPath());
             log.info("다운로드 요청 파일 목록" + content);
-            return NoticeFileDownloadRes.fromFileResource(file, contentType, content);
+            return ResNoticeFileDownload.fromFileResource(file, contentType, content);
         } catch (IOException e) {
             throw new RuntimeException("파일을 읽는 도중 오류가 발생했습니다: " + e.getMessage());
         }

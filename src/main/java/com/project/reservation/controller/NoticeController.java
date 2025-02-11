@@ -1,11 +1,8 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.request.notice.NoticeReq;
-import com.project.reservation.Dto.request.notice.NoticeUpdateReq;
+import com.project.reservation.Dto.response.notice.ResNoticeDetail;
 import com.project.reservation.common.SearchDto;
-import com.project.reservation.Dto.response.notice.NoticeDetailRes;
-import com.project.reservation.Dto.response.notice.NoticeListRes;
-import com.project.reservation.entity.Member;
+import com.project.reservation.Dto.response.notice.ResNoticeList;
 import com.project.reservation.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,37 +22,37 @@ public class NoticeController {
 // 주석 부분 관리자용으로 이동 예정
 //    //작성
 //    @PostMapping("/write")
-//    public ResponseEntity<NoticeDetailRes> write(Member member, @RequestBody NoticeReq noticeReq){
-//        NoticeDetailRes saveNotice = noticeService.create(member,noticeReq);
+//    public ResponseEntity<ResNoticeDetail> write(Member member, @RequestBody ReqNotice noticeReq){
+//        ResNoticeDetail saveNotice = noticeService.create(member,noticeReq);
 //        return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
 //    }
 
     // 전체 페이징
     @GetMapping("/list")
-    public ResponseEntity<Page<NoticeListRes>> noticeList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<NoticeListRes> listDto = noticeService.getAll(pageable);
+    public ResponseEntity<Page<ResNoticeList>> noticeList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<ResNoticeList> listDto = noticeService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDto); //200 반환
     }
 
     // 페이징 검색
     @GetMapping("/search")
-    public ResponseEntity<Page<NoticeListRes>> search(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String title, @RequestParam String content){
+    public ResponseEntity<Page<ResNoticeList>> search(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String title, @RequestParam String content){
         SearchDto searchDto = SearchDto.searchNotice(title,content);
-        Page<NoticeListRes> searchList = noticeService.search(searchDto,pageable);
+        Page<ResNoticeList> searchList = noticeService.search(searchDto,pageable);
         return ResponseEntity.status(HttpStatus.OK).body(searchList);
     }
 
     //상세보기
     @GetMapping("/{noticeId}")
-    public ResponseEntity<NoticeDetailRes> detail(@PathVariable Long noticeId){
-        NoticeDetailRes getDetail = noticeService.getId(noticeId);
+    public ResponseEntity<ResNoticeDetail> detail(@PathVariable Long noticeId){
+        ResNoticeDetail getDetail = noticeService.getId(noticeId);
         return ResponseEntity.status(HttpStatus.OK).body(getDetail);
     }
 
 //    // 수정
 //    @PatchMapping("/{noticeId}/update")
-//    public ResponseEntity<NoticeDetailRes> update(@PathVariable Long noticeId, @RequestBody NoticeUpdateReq updateReq){
-//        NoticeDetailRes updateDetail = noticeService.update(noticeId,updateReq);
+//    public ResponseEntity<ResNoticeDetail> update(@PathVariable Long noticeId, @RequestBody ReqNoticeUpdate updateReq){
+//        ResNoticeDetail updateDetail = noticeService.update(noticeId,updateReq);
 //        return ResponseEntity.status(HttpStatus.OK).body(updateDetail);
 //    }
 //    // 삭제

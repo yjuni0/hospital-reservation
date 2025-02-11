@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerReq {
+public class ReqAnswer {
     private String content;
 
-    public static Answer ofEntity(AnswerReq req){
+    public static Answer ofEntity(ReqAnswer req){
         return Answer.builder().content(req.content).build();
     }
 }

@@ -9,22 +9,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class NoticeFileUploadRes {
+public class ResNoticeFileUpload {
     private Long id;
     private String originFileName;
     private String path;
     private String type;
 
     @Builder
-    public NoticeFileUploadRes(Long id, String originFileName, String path, String type) {
+    public ResNoticeFileUpload(Long id, String originFileName, String path, String type) {
         this.id = id;
         this.originFileName = originFileName;
         this.path = path;
         this.type = type;
     }
 
-    public static NoticeFileUploadRes fromEntity(NoticeFile file){
-        return NoticeFileUploadRes.builder()
+    public static ResNoticeFileUpload fromEntity(NoticeFile file){
+        return ResNoticeFileUpload.builder()
                 .id(file.getId())
                 .originFileName(file.getOriginFileName())
                 .path(file.getPath())

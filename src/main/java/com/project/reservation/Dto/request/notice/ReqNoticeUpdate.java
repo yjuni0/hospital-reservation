@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class NoticeUpdateReq {
+public class ReqNoticeUpdate {
     private String title;
     private String content;
 
     @Builder
-    public NoticeUpdateReq(String title, String content) {
+    public ReqNoticeUpdate(String title, String content) {
         this.title = title;
         this.content = content;
     }

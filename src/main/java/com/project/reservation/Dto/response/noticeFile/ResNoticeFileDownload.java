@@ -9,20 +9,20 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Setter
-public class NoticeFileDownloadRes {
+public class ResNoticeFileDownload {
     private String originalFilename;
     private String fileType;
     private byte[] content;
 
     @Builder
-    public NoticeFileDownloadRes(String originalFilename, String fileType, byte[] content) {
+    public ResNoticeFileDownload(String originalFilename, String fileType, byte[] content) {
         this.originalFilename = originalFilename;
         this.fileType = fileType;
         this.content = content;
     }
 
-    public static NoticeFileDownloadRes fromFileResource(NoticeFile file, String contentType, byte[] content){
-        return NoticeFileDownloadRes.builder()
+    public static ResNoticeFileDownload fromFileResource(NoticeFile file, String contentType, byte[] content){
+        return ResNoticeFileDownload.builder()
                 .originalFilename(file.getOriginFileName())
                 .fileType(contentType)
                 .content(content)

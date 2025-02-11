@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QuestionListRes {
+public class ResQuestionList {
     private Long id;
     private String title;
     private String content;
@@ -20,8 +20,8 @@ public class QuestionListRes {
     private Long answerId;
     private LocalDateTime createdDate;
 
-    public static QuestionListRes fromEntity(Question question){
-        return QuestionListRes.builder()
+    public static ResQuestionList fromEntity(Question question){
+        return ResQuestionList.builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())

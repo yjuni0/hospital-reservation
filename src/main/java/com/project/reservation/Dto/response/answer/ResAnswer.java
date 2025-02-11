@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnswerRes {
+public class ResAnswer {
     private Long id;
     private Long questionId;
     private String content;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public static AnswerRes fromEntity(Answer answer) {
-        return AnswerRes.builder()
+    public static ResAnswer fromEntity(Answer answer) {
+        return ResAnswer.builder()
                 .id(answer.getId())
                 .content(answer.getContent())
                 .questionId(answer.getQuestion().getId())

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
-public class NoticeDetailRes {
+public class ResNoticeDetail {
     private Long id;
     private String title;
     private String content;
@@ -20,7 +20,7 @@ public class NoticeDetailRes {
     private LocalDateTime updatedTime;
 
     @Builder
-    public NoticeDetailRes(Long id, String title, String content, String adminName, LocalDateTime createdTime, LocalDateTime updatedTime) {
+    public ResNoticeDetail(Long id, String title, String content, String adminName, LocalDateTime createdTime, LocalDateTime updatedTime) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -29,8 +29,8 @@ public class NoticeDetailRes {
         this.updatedTime = updatedTime;
     }
 
-    public static NoticeDetailRes fromEntity(Notice notice) {
-        return NoticeDetailRes.builder()
+    public static ResNoticeDetail fromEntity(Notice notice) {
+        return ResNoticeDetail.builder()
                 .id(notice.getId())
                 .title(notice.getTitle())
                 .content(notice.getContent())

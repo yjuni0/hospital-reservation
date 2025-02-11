@@ -1,7 +1,7 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.noticeFile.NoticeFileDownloadRes;
-import com.project.reservation.Dto.response.noticeFile.NoticeFileUploadRes;
+import com.project.reservation.Dto.response.noticeFile.ResNoticeFileDownload;
+import com.project.reservation.Dto.response.noticeFile.ResNoticeFileUpload;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.NoticeFile;
 import com.project.reservation.repository.NoticeFileRepository;
@@ -65,7 +65,7 @@ private final String FOLDER_PATH = "./files/";
         when(noticeFileRepository.save(any(NoticeFile.class))).thenReturn(mockNoticeFile);
 
         // when
-        List<NoticeFileUploadRes> result = noticeFileService.upload(1L, List.of(file));
+        List<ResNoticeFileUpload> result = noticeFileService.upload(1L, List.of(file));
 
         // then
         assertNotNull(result);
@@ -103,7 +103,7 @@ private final String FOLDER_PATH = "./files/";
         when(noticeFileRepository.findById(1L)).thenReturn(Optional.of(noticeFile));
 
         //when
-        NoticeFileDownloadRes downloadRes = noticeFileService.download(1L);
+        ResNoticeFileDownload downloadRes = noticeFileService.download(1L);
 
         //then
         assertNotNull(downloadRes);

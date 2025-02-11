@@ -2,11 +2,11 @@ package com.project.reservation.service;
 
 
 
-import com.project.reservation.Dto.request.notice.NoticeReq;
-import com.project.reservation.Dto.request.notice.NoticeUpdateReq;
+import com.project.reservation.Dto.request.notice.ReqNotice;
+import com.project.reservation.Dto.request.notice.ReqNoticeUpdate;
+import com.project.reservation.Dto.response.notice.ResNoticeDetail;
 import com.project.reservation.common.SearchDto;
-import com.project.reservation.Dto.response.notice.NoticeDetailRes;
-import com.project.reservation.Dto.response.notice.NoticeListRes;
+import com.project.reservation.Dto.response.notice.ResNoticeList;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.Role;
@@ -51,8 +51,8 @@ public class NoticeServiceTest {
                 .nickName("admin")
                 .build();
 
-        // 3. 테스트용 NoticeReq 객체 생성
-        NoticeReq noticeReq = NoticeReq.builder()
+        // 3. 테스트용 ReqNotice 객체 생성
+        ReqNotice reqNotice = ReqNotice.builder()
                 .title("title1")
                 .content("content1")
                 .build();
@@ -60,15 +60,15 @@ public class NoticeServiceTest {
         // 4. Mock 설정 (noticeRepository.save() 호출 시 저장된 Notice 반환)
         Notice savedNotice = Notice.builder()
                 .id(1L)
-                .title(noticeReq.getTitle())
-                .content(noticeReq.getContent())
+                .title(reqNotice.getTitle())
+                .content(reqNotice.getContent())
                 .admin(member)
                 .build();
 
         when(noticeRepository.save(Mockito.any(Notice.class))).thenReturn(savedNotice);
 
         // 5. 실제 서비스 메서드 호출
-        NoticeDetailRes saveNotice = noticeService.create(member, noticeReq);
+        ResNoticeDetail saveNotice = noticeService.create(member, reqNotice);
 
         // 6. 검증
         Assertions.assertNotNull(saveNotice);
@@ -99,7 +99,7 @@ public class NoticeServiceTest {
         when(noticeRepository.findAll(pageable)).thenReturn(noticePage);
 
         //when
-        Page<NoticeListRes> result = noticeService.getAll(pageable);
+        Page<ResNoticeList> result = noticeService.getAll(pageable);
 
         //then
         Assertions.assertNotNull(result);
@@ -131,7 +131,7 @@ public class NoticeServiceTest {
 
         when(noticeRepository.findById(noticeId)).thenReturn(Optional.of(notice));
         // When
-        NoticeDetailRes result = noticeService.getId(noticeId);
+        ResNoticeDetail result = noticeService.getId(noticeId);
 
         //then
         Assertions.assertNotNull(result);
@@ -155,11 +155,11 @@ public class NoticeServiceTest {
         // given
         Long noticeId = 1L;
         Notice ExistNotice = Notice.builder().id(noticeId).admin(member).title("기존 title1").content("기존 content1").build();
-        NoticeUpdateReq updateRequest = NoticeUpdateReq.builder().title("새 제목1").content("새 내용1").build();
+        ReqNoticeUpdate updateRequest = ReqNoticeUpdate.builder().title("새 제목1").content("새 내용1").build();
         when(noticeRepository.findById(noticeId)).thenReturn(Optional.of(ExistNotice));
         when(noticeRepository.save(Mockito.any(Notice.class))).thenReturn(ExistNotice);
         //when
-        NoticeDetailRes result = noticeService.update(noticeId,updateRequest);
+        ResNoticeDetail result = noticeService.update(noticeId,updateRequest);
 
         //then
         Assertions.assertNotNull(result);
@@ -222,7 +222,7 @@ public class NoticeServiceTest {
         when(noticeRepository.findByTitleContaining(searchDto.getTitle(),pageable)).thenReturn(noticePage);
 
         // when 공지사항 검색 호출
-        Page<NoticeListRes> result = noticeService.search(searchDto,pageable);
+        Page<ResNoticeList> result = noticeService.search(searchDto,pageable);
         //then
         Assertions.assertNotNull(result);
         Assertions.assertEquals("공지사항1", result.getContent().get(0).getTitle());
@@ -260,7 +260,7 @@ public class NoticeServiceTest {
         when(noticeRepository.findByContentContaining(searchDto.getContent(),pageable)).thenReturn(noticePage);
 
         // when
-        Page<NoticeListRes> result = noticeService.search(searchDto,pageable);
+        Page<ResNoticeList> result = noticeService.search(searchDto,pageable);
         //then
         Assertions.assertNotNull(result);
         Assertions.assertEquals(2, result.getContent().size());

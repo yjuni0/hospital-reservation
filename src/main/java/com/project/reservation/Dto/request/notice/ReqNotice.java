@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class NoticeReq {
+public class ReqNotice {
     private String title;
     private String content;
 
     @Builder
-    public NoticeReq(String title, String content) {
+    public ReqNotice(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
-    public static Notice ofEntity(NoticeReq req) {
+    public static Notice ofEntity(ReqNotice req) {
         return Notice.builder().title(req.getTitle()).content(req.getContent()).build();
     }
 }

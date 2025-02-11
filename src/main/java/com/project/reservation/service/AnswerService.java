@@ -1,8 +1,8 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.answer.AnswerReq;
-import com.project.reservation.Dto.response.answer.AnswerListRes;
-import com.project.reservation.Dto.response.answer.AnswerRes;
+import com.project.reservation.Dto.request.answer.ReqAnswer;
+import com.project.reservation.Dto.response.answer.ResAnswer;
+import com.project.reservation.Dto.response.answer.ResAnswerList;
 import com.project.reservation.entity.Answer;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
@@ -30,37 +30,37 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
 
     // 작성
-    public AnswerRes write(Long questionId, Member admin, AnswerReq answerReq){
+    public ResAnswer write(Long questionId, Member admin, ReqAnswer reqAnswer){
         Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("해당 문의가 존재하지 않습니다."));
 
-        Answer answer = AnswerReq.ofEntity(answerReq);
+        Answer answer = ReqAnswer.ofEntity(reqAnswer);
         answer.setMappingAdmin(admin);
         answer.setMappingQuestion(question);
         answerRepository.save(answer);
 
-        return AnswerRes.fromEntity(answer);
+        return ResAnswer.fromEntity(answer);
     }
 
     // 조회
-    public Page<AnswerListRes> getAllAnswer(Pageable pageable){
+    public Page<ResAnswerList> getAllAnswer(Pageable pageable){
         Page<Answer> answers = answerRepository.findAll(pageable);
-        List<AnswerListRes> answerList = answers.stream().map(AnswerListRes::fromEntity).toList();
+        List<ResAnswerList> answerList = answers.stream().map(ResAnswerList::fromEntity).toList();
         return new PageImpl<>(answerList, pageable, answers.getTotalElements());
     }
 
     // 상세 조회
-    public AnswerRes getById(Long answerId){
+    public ResAnswer getById(Long answerId){
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 답변이 존재하지 않습니다."));
-        return AnswerRes.fromEntity(answer);
+        return ResAnswer.fromEntity(answer);
     }
 
     // 수정
-    public AnswerRes update(Long answerId, AnswerReq answerReq){
+    public ResAnswer update(Long answerId, ReqAnswer reqAnswer){
         Answer updateAnswer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 답변이 존재하지 않습니다."));
-        updateAnswer.update(answerReq.getContent());
-        return AnswerRes.fromEntity(updateAnswer);
+        updateAnswer.update(reqAnswer.getContent());
+        return ResAnswer.fromEntity(updateAnswer);
     }
     // 삭제
     public void delete(Long answerId){
