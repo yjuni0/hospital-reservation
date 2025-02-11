@@ -252,19 +252,22 @@ JS
 
 # EndPoint
 
-## 웹 사이트 URL
+## 웹 사이트 엔드포인트
 
 ## USER
 
-  
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/362c2964-322c-41ac-b45f-efe500fedd1e/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-01-06%20173953.png)
+![엔드포인트 user](https://github.com/user-attachments/assets/2b074328-8d0b-4fad-9411-b92d4a068764)
+
 
   
 
 ## ADMIN /admin
 
-![](https://t9018789117.p.clickup-attachments.com/t9018789117/2affe73f-43e5-4ae6-bc0f-de70b2166cb5/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-01-06%20174010.png)
+
+![엔드포인트 admin](https://github.com/user-attachments/assets/37ab2d2b-e171-4ceb-89b9-97a875d24f1a)
+
+
 
 # WorkFlow
 
