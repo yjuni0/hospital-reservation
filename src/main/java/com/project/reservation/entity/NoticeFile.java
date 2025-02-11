@@ -37,7 +37,11 @@ public class NoticeFile extends BaseTimeEntity {
     }
 
 
+    // 매핑 메서드
     public void setMappingNotice(Notice notice) {
         this.notice = notice;
+        if (notice != null) {
+            notice.getNoticeFile().add(this);  // 양방향 설정
+        }
     }
 }

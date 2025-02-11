@@ -1,7 +1,7 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.NoticeFileDownloadRes;
-import com.project.reservation.Dto.response.NoticeFileUploadRes;
+import com.project.reservation.Dto.response.noticeFile.NoticeFileDownloadRes;
+import com.project.reservation.Dto.response.noticeFile.NoticeFileUploadRes;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.NoticeFile;
 import com.project.reservation.repository.NoticeFileRepository;
@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

@@ -1,10 +1,10 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.request.NoticeReq;
-import com.project.reservation.Dto.request.NoticeUpdateReq;
-import com.project.reservation.Dto.request.SearchDto;
-import com.project.reservation.Dto.response.NoticeDetailRes;
-import com.project.reservation.Dto.response.NoticeListRes;
+import com.project.reservation.Dto.request.notice.NoticeReq;
+import com.project.reservation.Dto.request.notice.NoticeUpdateReq;
+import com.project.reservation.common.SearchDto;
+import com.project.reservation.Dto.response.notice.NoticeDetailRes;
+import com.project.reservation.Dto.response.notice.NoticeListRes;
 import com.project.reservation.entity.Member;
 import com.project.reservation.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +17,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/notice")
+@RequestMapping("/api/member/notice")
 @RequiredArgsConstructor
 public class NoticeController {
 
     private final NoticeService noticeService;
 
     //작성
-    @PostMapping
+    @PostMapping("/write")
     public ResponseEntity<NoticeDetailRes> write(Member member, @RequestBody NoticeReq noticeReq){
         NoticeDetailRes saveNotice = noticeService.create(member,noticeReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
     }
 
     // 전체 페이징
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<Page<NoticeListRes>> noticeList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<NoticeListRes> listDto = noticeService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDto); //200 반환

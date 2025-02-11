@@ -1,14 +1,11 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.NoticeFileDownloadRes;
-import com.project.reservation.Dto.response.NoticeFileUploadRes;
-import com.project.reservation.entity.Member;
+import com.project.reservation.Dto.response.noticeFile.NoticeFileDownloadRes;
+import com.project.reservation.Dto.response.noticeFile.NoticeFileUploadRes;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.NoticeFile;
-import com.project.reservation.entity.Role;
 import com.project.reservation.repository.NoticeFileRepository;
 import com.project.reservation.repository.NoticeRepository;
-import com.project.reservation.repository.NoticeRepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +18,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
