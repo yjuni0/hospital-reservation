@@ -30,4 +30,14 @@ public class Reservation extends BaseTimeEntity {
         this.member = member;
         this.slot = slot;
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getReservations().add(this);
+    }
+
+    public void setSlot(Slot slot) {
+        this.slot = slot;
+        slot.setReservation(this);
+    }
 }

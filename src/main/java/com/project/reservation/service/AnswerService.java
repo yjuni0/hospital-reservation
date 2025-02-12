@@ -26,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
-    private final MemberRepository memberRepository;
     private final QuestionRepository questionRepository;
 
     // 작성

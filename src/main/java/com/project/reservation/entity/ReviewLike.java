@@ -21,6 +21,4 @@ public class ReviewLike {
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
-
-
 }

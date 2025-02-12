@@ -41,4 +41,12 @@ public class Slot extends BaseTimeEntity {
         this.endTime = endTime;
         this.available = available;
     }
+
+    public void setAvailable(Available available) {
+        this.available = available;
+        available.getSlots().add(this);
+    }
+
+    public void setReservation(Reservation reservation) {
+    }
 }

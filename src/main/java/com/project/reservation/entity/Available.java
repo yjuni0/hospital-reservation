@@ -38,4 +38,9 @@ public class Available extends BaseTimeEntity {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public void setSlots(List<Slot> slots) {
+        this.slots = slots;
+    }
+
 }
