@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/api/member/question")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -30,29 +30,29 @@ public class QuestionController {
 
     // 리스트
     @GetMapping("/list")
-    public ResponseEntity<Page<ResQuestionList>> questionList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity<Page<ResQuestionList>> questionList(Member member,@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<ResQuestionList> listRes = questionService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listRes);
     }
 
     // 상세조회
-    @GetMapping("/qusetionId")
-    public ResponseEntity<ResQuestion> detail(@RequestParam("questionId")Long questionId){
+    @GetMapping("/{questionId}")
+    public ResponseEntity<ResQuestion> detail(Member member,@PathVariable Long questionId){
         ResQuestion questionDetail = questionService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);
     }
 
     // 수정
     @PutMapping("/{questionId}/update")
-    public ResponseEntity<ResQuestion> update(@PathVariable Long questionId, @RequestBody ReqQuestion req) {
-        ResQuestion updateQuestion = questionService.update(questionId,req);
+    public ResponseEntity<ResQuestion> update(Member member,@PathVariable Long questionId, @RequestBody ReqQuestion req) {
+        ResQuestion updateQuestion = questionService.update(member,questionId,req);
         return ResponseEntity.status(HttpStatus.OK).body(updateQuestion);
     }
 
     // 삭제
     @DeleteMapping("/{questionId}/delete")
-    public ResponseEntity<Long> delete(@PathVariable Long questionId) {
-        questionService.delete(questionId);
+    public ResponseEntity<Long> delete(Member member,@PathVariable Long questionId) {
+        questionService.delete(member,questionId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

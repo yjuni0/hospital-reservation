@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 
 public record ReqReservation(String petName,Long SlotId) {
 
-    public static Reservation toEntity(Member member, Pet pet,String department, LocalDateTime reservationDate) {
+    public static Reservation toEntity(Member member, Pet pet,String departmentName, LocalDateTime reservationDate) {
         return Reservation.builder()
                 .member(member)
                 .pet(pet)
-                .department(department)
+                .departmentName(departmentName)
                 .reservationTime(reservationDate)
                 .build();
     }

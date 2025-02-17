@@ -5,6 +5,7 @@ import com.project.reservation.Dto.response.question.ResQuestionList;
 import com.project.reservation.Dto.response.question.ResQuestion;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
+import com.project.reservation.entity.Role;
 import com.project.reservation.repository.MemberRepository;
 import com.project.reservation.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,25 +58,35 @@ public class QuestionService {
     }
 
     // 수정
-    public ResQuestion update(Long questionId, ReqQuestion req) {
+    public ResQuestion update(Member member, Long questionId, ReqQuestion req) {
         Question updateQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> {
                     log.warn("온라인 문의 수정 실패 - 존재하지 않음: id={}", questionId);
                     return new IllegalArgumentException("해당하는 온라인 문의가 없습니다.");
                 });
-
+        if (!updateQuestion.getMember().getId().equals(member.getId()) && !isAdmin(member)) {
+            throw new IllegalArgumentException("자신이 작성한 게시글만 수정할 수 있습니다.");
+        }
         updateQuestion.update(req.getTitle(), req.getContent());
         log.info("온라인 문의 수정 완료: id={}, title={}", questionId, req.getTitle());
         return ResQuestion.fromEntity(updateQuestion);
     }
 
     // 삭제
-    public void delete(Long questionId) {
-        if (!questionRepository.existsById(questionId)) {
-            log.warn("온라인 문의 삭제 실패 - 존재하지 않음: id={}", questionId);
-            throw new IllegalArgumentException("해당 온라인 문의가 없습니다.");
+    public void delete(Member member,Long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 온라인 문의가 없습니다."));
+
+        // 작성자와 로그인한 멤버가 일치하거나 관리자인지 확인
+        if (!question.getMember().getId().equals(member.getId()) && !isAdmin(member)) {
+            throw new IllegalArgumentException("자신이 작성한 게시글만 삭제할 수 있습니다.");
         }
+
         questionRepository.deleteById(questionId);
         log.info("온라인 문의 삭제 완료: id={}", questionId);
+    }
+
+    private boolean isAdmin(Member member) {
+        return member.getRole().equals(Role.ADMIN); // Role.ADMIN이 관리자 역할로 가정
     }
 }

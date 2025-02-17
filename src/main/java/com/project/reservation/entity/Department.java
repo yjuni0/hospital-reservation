@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Department extends BaseTimeEntity {
+public class Department{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,4 +25,5 @@ public class Department extends BaseTimeEntity {
         this.id = id;
         this.name = name;
     }
+
 }

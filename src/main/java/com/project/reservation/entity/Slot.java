@@ -21,19 +21,22 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean isAvailable;
+    private Boolean isAvailable = true;
 
     @Column(nullable = false)
     private LocalTime slotTime;  // 슬롯 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     public AvailableDate availableDate;
 
 
     public void setAvailableDate(AvailableDate availableDate) {
         this.availableDate = availableDate;
         availableDate.getSlots().add(this);
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
     }
 
 }

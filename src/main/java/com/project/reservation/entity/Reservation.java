@@ -28,7 +28,7 @@ public class Reservation extends BaseTimeEntity {
     @JoinColumn(nullable = false)
     private Pet pet;
 
-    private String department;
+    private String departmentName;
 
     private LocalDateTime reservationTime;
 

@@ -9,6 +9,7 @@ public record ResReservation(
         Long reservationId,
         String memberName,
         String petName,
+        String departmentName,
         String availableDate,
         String slotTime,
         LocalDateTime createdDate
@@ -18,6 +19,7 @@ public record ResReservation(
                 reservation.getId(),
                 reservation.getMember().getName(),
                 reservation.getPet().getName(),
+                reservation.getDepartmentName(),
                 reservation.getReservationTime().toLocalDate().toString(),
                 reservation.getReservationTime().toLocalTime().toString(),
                 reservation.getCreatedDate()
