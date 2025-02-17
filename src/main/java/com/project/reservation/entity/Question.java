@@ -22,7 +22,7 @@ public class Question extends BaseTimeEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Member member;
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER )

@@ -5,6 +5,7 @@ import com.project.reservation.Dto.response.question.ResQuestionList;
 import com.project.reservation.Dto.response.question.ResQuestion;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
+import com.project.reservation.repository.MemberRepository;
 import com.project.reservation.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,13 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-
+    private final MemberRepository memberRepository;
     // 작성
     public ResQuestion write(Member member, ReqQuestion req) {
         Question saveQuestion = ReqQuestion.toEntity(req);
+        if (!memberRepository.existsById(member.getId())) {
+            throw new IllegalArgumentException("존재하지 않는 멤버입니다. ");
+        }
         saveQuestion.setMappingMember(member);
         questionRepository.save(saveQuestion);
         log.info("온라인 문의 작성: {}", saveQuestion);

@@ -2,51 +2,38 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Slot extends BaseTimeEntity {
+@AllArgsConstructor
+@Builder
+public class Slot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean state;
+    private Boolean isAvailable;
 
     @Column(nullable = false)
-    private LocalDateTime startTime;  // 슬롯 시작 시간
-
-    @Column(nullable = false)
-    private LocalDateTime endTime;    // 슬롯 종료 시간
-
-    @OneToOne(mappedBy = "slot", cascade = CascadeType.ALL)
-    public Reservation reservation;
+    private LocalTime slotTime;  // 슬롯 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    public Available available;
+    public AvailableDate availableDate;
 
-    @Builder
-    public Slot(Long id, Boolean state, LocalDateTime startTime, LocalDateTime endTime, Available available) {
-        this.id = id;
-        this.state = state;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.available = available;
+
+    public void setAvailableDate(AvailableDate availableDate) {
+        this.availableDate = availableDate;
+        availableDate.getSlots().add(this);
     }
 
-    public void setAvailable(Available available) {
-        this.available = available;
-        available.getSlots().add(this);
-    }
-
-    public void setReservation(Reservation reservation) {
-    }
 }

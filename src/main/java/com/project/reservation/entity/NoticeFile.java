@@ -25,7 +25,7 @@ public class NoticeFile extends BaseTimeEntity {
 
 
     @ManyToOne
-    @JoinColumn(name="notice_id", nullable=false)
+    @JoinColumn(nullable=false)
     private Notice notice;
 
     @Builder

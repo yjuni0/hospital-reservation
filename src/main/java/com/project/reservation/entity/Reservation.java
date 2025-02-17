@@ -2,13 +2,18 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Reservation extends BaseTimeEntity {
 
     @Id
@@ -19,25 +24,18 @@ public class Reservation extends BaseTimeEntity {
     @JoinColumn(nullable = false)
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = false)
-    private Slot slot;
+    private Pet pet;
 
+    private String department;
 
-    @Builder
-    public Reservation(Long id, Member member, Slot slot) {
-        this.id = id;
-        this.member = member;
-        this.slot = slot;
-    }
+    private LocalDateTime reservationTime;
+
 
     public void setMember(Member member) {
         this.member = member;
         member.getReservations().add(this);
     }
 
-    public void setSlot(Slot slot) {
-        this.slot = slot;
-        slot.setReservation(this);
-    }
 }

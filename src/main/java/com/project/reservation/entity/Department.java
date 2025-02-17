@@ -18,7 +18,7 @@ public class Department extends BaseTimeEntity {
     private String name;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Available> available;
+    private List<AvailableDate> availableDate;
 
     @Builder
     public Department(Long id, String name) {

@@ -6,19 +6,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Available extends BaseTimeEntity {
+public class AvailableDate extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "available", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "availableDate", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Slot> slots;
 
     @ManyToOne
@@ -26,21 +26,12 @@ public class Available extends BaseTimeEntity {
     private Department department;
 
     @Column(nullable = false)
-    private LocalDateTime startTime;
-
-    @Column(nullable = false)
-    private LocalDateTime endTime;
+    private LocalDate date;
 
     @Builder
-    public Available(Long id, Department department, LocalDateTime startTime, LocalDateTime endTime) {
+    public AvailableDate(Long id, Department department,LocalDate date) {
         this.id = id;
         this.department = department;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.date = date;
     }
-
-    public void setSlots(List<Slot> slots) {
-        this.slots = slots;
-    }
-
 }
