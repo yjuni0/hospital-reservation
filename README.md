@@ -265,7 +265,7 @@ JS
 ## ADMIN /admin
 
 
-![엔드포인트 admin](https://github.com/user-attachments/assets/37ab2d2b-e171-4ceb-89b9-97a875d24f1a)
+![관리자용 api 엔드포인트](https://github.com/user-attachments/assets/12c9805d-6feb-4df4-a4a6-9bec93799e07)
 
 
 
