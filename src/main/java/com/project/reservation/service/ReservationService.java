@@ -66,7 +66,9 @@ public class ReservationService {
     }
 
     // 예약 조회 - 본인 예약만 확인 가능
-    public ResReservation getReservation(Member member, Long reservationId) {
+    public ResReservation getReservation(Long memberId, Long reservationId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
+
         log.info("예약 조회 요청: memberId={}, reservationId={}", member.getId(), reservationId);
 
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -85,7 +87,8 @@ public class ReservationService {
     }
 
     // 예약 목록 조회 - 관리자와 사용자 구분
-    public Page<ResReservationList> listReservation(Member member, Pageable pageable) {
+    public Page<ResReservationList> listReservation(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
         log.info("예약 목록 조회 요청: memberId={}, role={}", member.getId(), member.getRole());
 
         Page<Reservation> reservations;
@@ -105,7 +108,8 @@ public class ReservationService {
     }
 
     // 예약 취소
-    public void deleteReservation(Member member, Long reservationId) {
+    public void deleteReservation(Long memberId, Long reservationId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
         log.info("예약 취소 요청: memberId={}, reservationId={}", member.getId(), reservationId);
 
         Reservation reservation = reservationRepository.findById(reservationId)
