@@ -27,7 +27,7 @@ public class Review extends BaseTimeEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReviewLike> likes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 

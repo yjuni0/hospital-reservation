@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin/notice/{noticeId}/file")
-public class NoticeFileController {
+public class AdminNoticeFileController {
     private final NoticeFileService noticeFileService;
 
     @PostMapping("/upload")

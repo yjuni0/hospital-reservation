@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
-public class AnswerController {
+public class AdminAnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/question/{questionId}/answer/write")

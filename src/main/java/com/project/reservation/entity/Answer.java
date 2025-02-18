@@ -19,11 +19,11 @@ public class Answer extends BaseTimeEntity {
     @Column(length = 500,nullable = false)
     private String content;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "admin_id", nullable = false)
     private Member admin;
 

@@ -22,7 +22,7 @@ public class AvailableDate{
     @OneToMany(mappedBy = "availableDate", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Slot> slots;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Department department;
 

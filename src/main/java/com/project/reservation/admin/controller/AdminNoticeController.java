@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin/notice")
-public class NoticeController {
+public class AdminNoticeController {
     private final NoticeService noticeService;
     //작성
     @PostMapping("/write")

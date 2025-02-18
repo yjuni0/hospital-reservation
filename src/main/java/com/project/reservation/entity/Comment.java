@@ -17,11 +17,11 @@ public class Comment extends BaseTimeEntity {
 
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 

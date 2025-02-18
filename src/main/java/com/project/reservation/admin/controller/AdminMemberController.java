@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin/member")
-public class MemberController {
+public class AdminMemberController {
 }

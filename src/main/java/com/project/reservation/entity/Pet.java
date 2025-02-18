@@ -30,7 +30,7 @@ public class Pet extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Breed breed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Member member;
 

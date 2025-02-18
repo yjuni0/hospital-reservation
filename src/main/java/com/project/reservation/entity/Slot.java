@@ -24,7 +24,7 @@ public class Slot {
     @Column(nullable = false)
     private LocalTime slotTime;  // 슬롯 시간
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     public AvailableDate availableDate;
 
