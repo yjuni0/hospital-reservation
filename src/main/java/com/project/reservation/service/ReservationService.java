@@ -29,12 +29,12 @@ public class ReservationService {
     private final SlotRepository slotRepository;
 
     // 예약 등록
-    public ResReservation registerReservation(Member member, ReqReservation reqReservation) {
-        log.info("예약 등록 요청: memberId={}, petName={}, slotId={}", member.getId(), reqReservation.petName(), reqReservation.SlotId());
+    public ResReservation registerReservation(Long memberId, ReqReservation reqReservation) {
+        log.info("예약 등록 요청: memberId={}, petName={}, slotId={}", memberId, reqReservation.petName(), reqReservation.slotId());
 
-        Member rvMember = memberRepository.findById(member.getId())
+        Member rvMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> {
-                    log.error("멤버가 존재하지 않음: memberId={}", member.getId());
+                    log.error("멤버가 존재하지 않음: memberId={}", memberId);
                     return new IllegalArgumentException("멤버가 없음");
                 });
 
@@ -44,9 +44,9 @@ public class ReservationService {
                     return new IllegalArgumentException("펫이 없음");
                 });
 
-        Slot rvSlot = slotRepository.findById(reqReservation.SlotId())
+        Slot rvSlot = slotRepository.findById(reqReservation.slotId())
                 .orElseThrow(() -> {
-                    log.error("슬롯이 존재하지 않음: slotId={}", reqReservation.SlotId());
+                    log.error("슬롯이 존재하지 않음: slotId={}", reqReservation.slotId());
                     return new IllegalArgumentException("슬롯이 없음");
                 });
 
@@ -60,6 +60,7 @@ public class ReservationService {
         rvSave.setMember(rvMember);
         rvSlot.setIsAvailable(false);
         reservationRepository.save(rvSave);
+        slotRepository.save(rvSlot);
 
         log.info("예약 저장 완료: reservationId={}", rvSave.getId());
         return ResReservation.fromEntity(rvSave);

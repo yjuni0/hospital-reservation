@@ -7,7 +7,7 @@ import com.project.reservation.entity.Reservation;
 
 import java.time.LocalDateTime;
 
-public record ReqReservation(String petName,Long SlotId) {
+public record ReqReservation(String petName,Long slotId) {
 
     public static Reservation toEntity(Member member, Pet pet,String departmentName, LocalDateTime reservationTime) {
         return Reservation.builder()

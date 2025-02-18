@@ -7,10 +7,8 @@ import com.project.reservation.entity.Slot;
 import com.project.reservation.repository.AvailableDateRepository;
 import com.project.reservation.repository.DepartmentRepository;
 import com.project.reservation.repository.SlotRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +22,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SlotService {
     private final SlotRepository slotRepository;
     private final AvailableDateRepository availableDateRepository;
@@ -33,7 +32,9 @@ public class SlotService {
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         log.info("[init] 실행 : 슬롯 생성 시작");
-        generateSlotsBatch();
+        if (slotRepository.count() == 0) {
+            generateSlotsBatch();
+        }
     }
 
 
@@ -70,12 +71,12 @@ public class SlotService {
 
     // 슬롯 조회
     public List<ResSlotList> getSlotListOfDateAndDepartment(String departmentName, LocalDate date) {
-        AvailableDate availableDate = availableDateRepository.findByDate(date)
-                .orElseThrow(()->new IllegalArgumentException("해당 날짜에 대한 예약 가능 일이 없음 "));
-        Department department = departmentRepository.findByName(departmentName)
-                .orElseThrow(()->new IllegalArgumentException("해당 진료과가 없음"));
+        Department department = departmentRepository.findByName(departmentName).orElseThrow(()->new IllegalArgumentException("해당 진료과가 없음"));
+        AvailableDate availableDate = availableDateRepository.findByDateAndDepartment(date,department)
+                .orElseThrow(()->new IllegalArgumentException("  진료과에 해당 예약 가능 날짜가 없음  "));
 
-        List<Slot> slots = slotRepository.findByAvailableDateDateAndAvailableDateDepartment(date,department);
+        List<Slot> slots = slotRepository.findByAvailableDateAndAvailableDateDepartment(availableDate,department);
+        log.info("슬롯 조회 {} 개", slots.size() );
 
         return slots.stream().map(ResSlotList::fromEntity).toList();
 

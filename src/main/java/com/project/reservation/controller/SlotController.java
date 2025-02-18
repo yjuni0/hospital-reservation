@@ -18,10 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/slot")
 public class SlotController {
+
     private final SlotService slotService;
 
     @GetMapping
-    public ResponseEntity<List<ResSlotList>> getSlotList(@RequestParam("departmentName") String departmentName, @RequestParam("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+    public ResponseEntity<List<ResSlotList>> getSlotList(@RequestParam(name = "departmentName") String departmentName, @RequestParam(name = "date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         List<ResSlotList> slotList = slotService.getSlotListOfDateAndDepartment(departmentName, date);
         return ResponseEntity.status(HttpStatus.CREATED).body(slotList);
     }

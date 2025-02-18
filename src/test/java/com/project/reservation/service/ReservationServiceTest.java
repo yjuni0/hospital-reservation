@@ -72,7 +72,7 @@ public class ReservationServiceTest {
 
         // 테스트 서비스 메소드
         ReqReservation reqReservation = new ReqReservation("똥개",1L);
-        ResReservation result = reservationService.registerReservation(member, reqReservation);
+        ResReservation result = reservationService.registerReservation(1L, reqReservation);
 
         // 결과
         assertNotNull(result);

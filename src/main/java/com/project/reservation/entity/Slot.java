@@ -2,10 +2,7 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,12 +18,13 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private Boolean isAvailable = true;
 
     @Column(nullable = false)
     private LocalTime slotTime;  // 슬롯 시간
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false)
     public AvailableDate availableDate;
 
@@ -34,9 +32,6 @@ public class Slot {
     public void setAvailableDate(AvailableDate availableDate) {
         this.availableDate = availableDate;
         availableDate.getSlots().add(this);
-    }
-
-    public void setIsAvailable(Boolean isAvailable) {
     }
 
 }

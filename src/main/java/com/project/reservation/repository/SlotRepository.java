@@ -6,14 +6,11 @@ import com.project.reservation.entity.Slot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface SlotRepository extends JpaRepository<Slot, Long> {
+    List<Slot> findByAvailableDateAndAvailableDateDepartment(AvailableDate availableDate, Department availableDate_department);
 
-    List<Slot> findByAvailableDateDateAndAvailableDateDepartment(LocalDate date, Department department);
 }

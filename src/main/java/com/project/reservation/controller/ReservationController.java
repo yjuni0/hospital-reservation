@@ -21,8 +21,8 @@ public class ReservationController {
 
 
     @PostMapping("/reservation/register")
-    public ResponseEntity<ResReservation> register(Member member, @RequestBody ReqReservation reqReservation) {
-        ResReservation ReservationRegister = reservationService.registerReservation(member,reqReservation);
+    public ResponseEntity<ResReservation> register(@RequestParam("memberId") Long memberId, @RequestBody ReqReservation reqReservation) {
+        ResReservation ReservationRegister = reservationService.registerReservation(memberId,reqReservation);
         return ResponseEntity.status(HttpStatus.CREATED).body(ReservationRegister);
     }
 
