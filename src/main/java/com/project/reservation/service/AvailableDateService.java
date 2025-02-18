@@ -25,35 +25,53 @@ import java.util.List;
 public class AvailableDateService {
     private final AvailableDateRepository availableDateRepository;
     private final DepartmentRepository departmentRepository;
-    @Scheduled(cron = "0 0 0 1 * ?")
-    public void scheduleAvailableDatesGeneration(){
-        deletePreviousMonthAvailableDates();
-        generateAvailableDatesForDepartments();
 
 
-    }
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        generateAvailableDatesForDepartments();
+        log.info("[init] 서버 실행 : 오늘부터 다음 달 마지막 날까지 예약 가능 일자 생성 시작");
+        generateAvailableDatesForFromTodayToNextMonthEnd();
     }
-
-    private void generateAvailableDatesForDepartments(){
+    // 서버 실행 시 현재 날 부터 다음 달 마지막 날까지 예약 가능 날짜 자동 생성
+    public void generateAvailableDatesForFromTodayToNextMonthEnd(){
         List<Department> departments = departmentRepository.findAll();
         LocalDate today = LocalDate.now();
-        LocalDate nextMonth = today.plusMonths(1).withDayOfMonth(1);
+        LocalDate nextMonthEnd = today.plusMonths(1).withDayOfMonth(today.plusMonths(1).lengthOfMonth());
 
+        log.info("{}~{} 예약 가능 일자 생성", today, nextMonthEnd);
         // 각 부서마다 가능한 날짜를 생성
         for (Department department : departments) {
-            for (LocalDate date = today.withDayOfMonth(1); !date.isAfter(nextMonth); date = date.plusDays(1)) {
-                AvailableDate availableDate = AvailableDate.builder()
-                        .department(department)
-                        .localDate(date)
-                        .build();
-                availableDateRepository.save(availableDate);
+            for (LocalDate date = today.withDayOfMonth(1); !date.isAfter(nextMonthEnd); date = date.plusDays(1)) {
+                if (!availableDateRepository.existsByDepartmentAndDate(department, date)) {
+                    availableDateRepository.save(AvailableDate.builder()
+                            .department(department)
+                            .localDate(date)
+                            .build());
+                    log.debug("[init ] : {}부서 - {}날짜 생성 완료", department, date);
+                }
             }
         }
     }
-    private void deletePreviousMonthAvailableDates() {
+    // 다음 달 예약 가능 날짜 자동 생성 메서드
+    public void generateAvailableDatesForNextMonth() {
+        List<Department> departments = departmentRepository.findAll();
+        LocalDate nextMonthStart = LocalDate.now().plusMonths(1).withDayOfMonth(1);
+        LocalDate nextMonthEnd = nextMonthStart.withDayOfMonth(nextMonthStart.lengthOfMonth());
+        log.info("[다음 달 예약 가능 일 생성 실행] {} ~ {} 날짜 생성 시작 ", nextMonthStart, nextMonthEnd);
+        for (Department department : departments) {
+            for (LocalDate date = nextMonthStart; !date.isAfter(nextMonthEnd); date = date.plusDays(1)) {
+                if (!availableDateRepository.existsByDepartmentAndDate(department, date)) {
+                    availableDateRepository.save(AvailableDate.builder()
+                            .department(department)
+                            .localDate(date)
+                            .build());
+                    log.debug("[스케줄]:{} 부서 - {} 날짜 생성 완료 ", department, date);
+                }
+            }
+        }
+    }
+    // 이전 달의 예약 가능 날짜 삭제 메서드 ( 불필요 데이터 삭제 )
+    public void deletePreviousMonthAvailableDates() {
         // 오늘 날짜
         LocalDate today = LocalDate.now();
 
@@ -65,11 +83,10 @@ public class AvailableDateService {
 
         // 이전 달의 AvailableDate를 삭제
         List<AvailableDate> previousMonthAvailableDates = availableDateRepository.findByDateBetween(firstDayOfPreviousMonth, lastDayOfPreviousMonth);
-
         // 삭제
         availableDateRepository.deleteAll(previousMonthAvailableDates);
 
-        log.info("Deleted AvailableDates for previous month: {} to {}", firstDayOfPreviousMonth, lastDayOfPreviousMonth);
+        log.info("이전 달의 예약 가능 날짜 삭제: {} to {}", firstDayOfPreviousMonth, lastDayOfPreviousMonth);
     }
 
 }
