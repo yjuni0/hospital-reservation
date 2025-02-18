@@ -29,7 +29,7 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
 
     // 작성
-    public ResAnswer write(Long questionId, Member admin, ReqAnswer reqAnswer){
+    public ResAnswer write(Member admin,Long questionId,  ReqAnswer reqAnswer){
         Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("해당 문의가 존재하지 않습니다."));
 
         Answer answer = ReqAnswer.ofEntity(reqAnswer);
@@ -48,8 +48,9 @@ public class AnswerService {
     }
 
     // 상세 조회
-    public ResAnswer getById(Long answerId){
-        Answer answer = answerRepository.findById(answerId)
+    public ResAnswer getById(Long questionId,Long answerId){
+        Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("해당 문의글이 없습니다 "));
+        Answer answer = answerRepository.findByQuestionAndId(question,answerId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 답변이 존재하지 않습니다."));
         return ResAnswer.fromEntity(answer);
     }

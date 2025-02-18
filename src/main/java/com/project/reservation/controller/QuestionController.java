@@ -37,21 +37,21 @@ public class QuestionController {
 
     // 상세조회
     @GetMapping("/{questionId}")
-    public ResponseEntity<ResQuestion> detail(Member member,@PathVariable Long questionId){
+    public ResponseEntity<ResQuestion> detail(Member member,@PathVariable("questionId") Long questionId){
         ResQuestion questionDetail = questionService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);
     }
 
     // 수정
     @PutMapping("/{questionId}/update")
-    public ResponseEntity<ResQuestion> update(Member member,@PathVariable Long questionId, @RequestBody ReqQuestion req) {
+    public ResponseEntity<ResQuestion> update(Member member,@PathVariable("questionId") Long questionId, @RequestBody ReqQuestion req) {
         ResQuestion updateQuestion = questionService.update(member,questionId,req);
         return ResponseEntity.status(HttpStatus.OK).body(updateQuestion);
     }
 
     // 삭제
     @DeleteMapping("/{questionId}/delete")
-    public ResponseEntity<Long> delete(Member member,@PathVariable Long questionId) {
+    public ResponseEntity<Long> delete(Member member,@PathVariable("questionId") Long questionId) {
         questionService.delete(member,questionId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

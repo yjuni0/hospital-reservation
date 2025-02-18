@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 @Slf4j
@@ -123,7 +124,10 @@ public class ReservationService {
             log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", member.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");
         }
-
+        LocalTime slotTime = reservation.getReservationTime().toLocalTime();
+        Slot cancelSlot = slotRepository.findBySlotTime(slotTime);
+        cancelSlot.setIsAvailable(true);
+        slotRepository.save(cancelSlot);
         reservationRepository.delete(reservation);
         log.info("예약 취소 성공: reservationId={}", reservationId);
     }

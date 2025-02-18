@@ -81,7 +81,7 @@ public class NoticeFileService {
         }
         // 반환용 객체 전달을 위해 위해 dto 로 변환
         List<ResNoticeFileUpload> dtos = noticeFiles.stream().map(ResNoticeFileUpload::fromEntity).toList();
-        log.info("업로드 요청 파일 목록 "+dtos);
+        log.info("업로드 요청 파일 목록 {}", dtos);
         return dtos;
     }
 
