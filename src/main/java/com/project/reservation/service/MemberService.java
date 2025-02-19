@@ -16,11 +16,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.project.reservation.security.jwt.JwtTokenUtil;
 
 
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;

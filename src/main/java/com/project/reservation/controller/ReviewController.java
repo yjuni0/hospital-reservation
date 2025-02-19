@@ -38,7 +38,7 @@ public class ReviewController {
     // 리뷰 검색
     @GetMapping("/search")
     public ResponseEntity<Page<ResReviewList>> search(
-            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam String title,
             @RequestParam String content,
             @RequestParam String writerName) {

@@ -3,7 +3,6 @@ package com.project.reservation.service;
 import com.project.reservation.entity.Department;
 import com.project.reservation.repository.DepartmentRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

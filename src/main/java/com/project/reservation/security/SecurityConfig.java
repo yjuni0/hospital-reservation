@@ -70,7 +70,7 @@ public class SecurityConfig {
                 // 보안예외처리 구성 메소드. authenticationEntryPoint - 인증되지 않은 사용자가 보호된 리소스에 접근하려 할 때의 동작을 정의.
                 // 필터체인에 커스텀 JWT 인증 필터를 추가하는 메소드. JWT 토큰 검증이 먼저 수행해서 추가적인 인증 과정 거치지 않게.
                 //JWT 토큰이 유효하지 않거나 없는 경우에만 다음 필터로 진행.
-                // HttpSecurity 객체에 설정된 모든 보안 구성을 바탕으로 최종적인 SecurityFilterChain 객체를 생성
+                // HttpSecurity 객체에 설정된 모든 보안 구성을 바탕으로 최종적인 SecurityFilterChain 설정
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(excep -> excep.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

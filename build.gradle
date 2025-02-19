@@ -34,7 +34,7 @@ dependencies {
 	// H2 인메모리 데이터베이스 의존성 추가
 	testImplementation 'com.h2database:h2'
 	implementation 'jakarta.activation:jakarta.activation-api:2.0.1' // MIME 데이터 유형을 처리하기 위한 JavaBeans Activation Framework (JAF)를 제공
-
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	// JUnit 5 (Jupiter)
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 

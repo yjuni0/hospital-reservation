@@ -46,7 +46,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -85,7 +85,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -117,7 +117,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -148,7 +148,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -179,7 +179,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -204,7 +204,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();
@@ -239,7 +239,7 @@ public class NoticeServiceTest {
                 .phoneNum("01011112222")
                 .addr("test")
                 .email("admin1@gmail.com")
-                .role(Role.ADMIN)
+                .roles(Role.ADMIN)
                 .birth("960601")
                 .nickName("admin")
                 .build();

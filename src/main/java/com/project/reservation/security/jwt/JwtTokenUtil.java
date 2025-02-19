@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
 
     // serialVersionUID 는 개발자가 직접 값을 지정하는 비밀키로, 직렬화된 객체를 역직렬화 할때 일치해야 함.
+    @Serial
     private static final long serialVersionUID = -2550185165626007488L;
     
     // 미리 소스코드에서 분리해놓은 설정파일(프로퍼티나 yml) 에서 " " 에 맞는 데이터를 가져와서 필드에 주입
