@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.response.reservation;
+package com.project.reservation.dto.response.reservation;
 
 import com.project.reservation.entity.Reservation;
 

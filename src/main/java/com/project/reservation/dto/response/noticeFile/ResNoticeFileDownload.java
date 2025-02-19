@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.response.noticeFile;
+package com.project.reservation.dto.response.noticeFile;
 
 import com.project.reservation.entity.NoticeFile;
 import lombok.Builder;

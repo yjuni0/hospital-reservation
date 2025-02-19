@@ -1,7 +1,7 @@
 package com.project.reservation.admin.controller;
 
-import com.project.reservation.Dto.request.answer.ReqAnswer;
-import com.project.reservation.Dto.response.answer.ResAnswer;
+import com.project.reservation.dto.request.answer.ReqAnswer;
+import com.project.reservation.dto.response.answer.ResAnswer;
 import com.project.reservation.entity.Member;
 import com.project.reservation.service.AnswerService;
 import lombok.RequiredArgsConstructor;

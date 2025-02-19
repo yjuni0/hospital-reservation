@@ -33,6 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	// H2 인메모리 데이터베이스 의존성 추가
 	testImplementation 'com.h2database:h2'
+	implementation 'jakarta.activation:jakarta.activation-api:2.0.1' // MIME 데이터 유형을 처리하기 위한 JavaBeans Activation Framework (JAF)를 제공
 
 	// JUnit 5 (Jupiter)
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
@@ -41,6 +42,17 @@ dependencies {
 	testImplementation 'org.mockito:mockito-core:5.2.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
 
+
+	implementation 'com.sun.mail:jakarta.mail:2.0.1' // 인증메일관련
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // 인증메일관련
+
+	implementation 'org.springframework.boot:spring-boot-starter-security' // 인증 및 권한 부여를 위한 Spring Security 지원을 제공
+	implementation 'org.springframework.security:spring-security-crypto' // 암호화 관련 기능을 제공하는 Spring Security Crypto 모듈을 제공
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 JJWT API 를 제공
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 JJWT 구현을 제공
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 Jackson 기반 JJWT 구현을 제공
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth 2.0 클라이언트 기능을 위한 Spring Boot 스타터를 제공
+	Test
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

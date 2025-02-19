@@ -1,6 +1,6 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.response.noticeFile.ResNoticeFileDownload;
+import com.project.reservation.dto.response.noticeFile.ResNoticeFileDownload;
 import com.project.reservation.service.NoticeFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;

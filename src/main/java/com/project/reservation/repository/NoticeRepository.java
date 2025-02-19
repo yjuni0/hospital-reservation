@@ -1,6 +1,7 @@
 package com.project.reservation.repository;
 
 import com.project.reservation.entity.Notice;
+import com.project.reservation.entity.NoticeFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,4 +20,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Page<Notice> findByTitleContaining(String title, Pageable pageable);
 
     Page<Notice> findByContentContaining(String content, Pageable pageable);
+
 }

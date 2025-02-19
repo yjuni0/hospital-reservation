@@ -1,8 +1,8 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.response.notice.ResNoticeDetail;
+import com.project.reservation.dto.response.notice.ResNoticeDetail;
 import com.project.reservation.common.SearchDto;
-import com.project.reservation.Dto.response.notice.ResNoticeList;
+import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

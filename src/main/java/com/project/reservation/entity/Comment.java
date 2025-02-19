@@ -31,4 +31,16 @@ public class Comment extends BaseTimeEntity {
         this.content = content;
         this.member = member;
     }
+    public void setReview(Review review) {
+        this.review = review;
+        review.getComments().add(this);
+    }
+    public void setMember(Member member) {
+        this.member = member;
+        member.getComments().add(this);
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

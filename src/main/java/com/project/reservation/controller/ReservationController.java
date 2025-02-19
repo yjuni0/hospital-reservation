@@ -1,10 +1,8 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.request.reservation.ReqReservation;
-import com.project.reservation.Dto.response.reservation.ResReservation;
-import com.project.reservation.Dto.response.reservation.ResReservationList;
-import com.project.reservation.entity.Member;
-import com.project.reservation.repository.ReservationRepository;
+import com.project.reservation.dto.request.reservation.ReqReservation;
+import com.project.reservation.dto.response.reservation.ResReservation;
+import com.project.reservation.dto.response.reservation.ResReservationList;
 import com.project.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

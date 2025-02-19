@@ -1,8 +1,8 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.reservation.ReqReservation;
-import com.project.reservation.Dto.response.reservation.ResReservation;
-import com.project.reservation.Dto.response.reservation.ResReservationList;
+import com.project.reservation.dto.request.reservation.ReqReservation;
+import com.project.reservation.dto.response.reservation.ResReservation;
+import com.project.reservation.dto.response.reservation.ResReservationList;
 import com.project.reservation.entity.*;
 import com.project.reservation.repository.*;
 
@@ -91,10 +91,10 @@ public class ReservationService {
     // 예약 목록 조회 - 관리자와 사용자 구분
     public Page<ResReservationList> listReservation(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
-        log.info("예약 목록 조회 요청: memberId={}, role={}", member.getId(), member.getRole());
-
+        log.info("예약 목록 조회 요청: memberId={}, role={}", member.getId(), member.getRoles());
+        member.getReservations().stream().toList();
         Page<Reservation> reservations;
-        if (member.getRole().equals(Role.ADMIN)) {
+        if (member.getRoles().equals(Role.ADMIN)) {
             reservations = reservationRepository.findAll(pageable);
             log.info("관리자 모든 예약 조회: total={}", reservations.getTotalElements());
         } else {
@@ -120,7 +120,7 @@ public class ReservationService {
                     return new IllegalArgumentException("해당 아이디의 예약이 없음");
                 });
 
-        if (!reservation.getMember().getId().equals(member.getId()) && member.getRole().equals(Role.ADMIN)) {
+        if (!reservation.getMember().getId().equals(member.getId()) && member.getRoles().equals(Role.ADMIN)) {
             log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", member.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");
         }

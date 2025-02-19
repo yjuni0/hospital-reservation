@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.request.reservation;
+package com.project.reservation.dto.request.reservation;
 
 
 import com.project.reservation.entity.Member;

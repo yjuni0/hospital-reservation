@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.response.question;
+package com.project.reservation.dto.response.question;
 
 import com.project.reservation.entity.Question;
 import lombok.AllArgsConstructor;

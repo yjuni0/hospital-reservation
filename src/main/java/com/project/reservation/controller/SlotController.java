@@ -1,6 +1,6 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.response.ResSlotList;
+import com.project.reservation.dto.response.ResSlotList;
 import com.project.reservation.service.SlotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

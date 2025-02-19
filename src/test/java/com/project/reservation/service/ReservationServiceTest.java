@@ -1,7 +1,7 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.reservation.ReqReservation;
-import com.project.reservation.Dto.response.reservation.ResReservation;
+import com.project.reservation.dto.request.reservation.ReqReservation;
+import com.project.reservation.dto.response.reservation.ResReservation;
 import com.project.reservation.entity.*;
 import com.project.reservation.repository.*;
 import org.junit.jupiter.api.BeforeEach;

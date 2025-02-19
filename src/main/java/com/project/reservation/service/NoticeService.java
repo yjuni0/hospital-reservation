@@ -1,10 +1,10 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.notice.ReqNotice;
-import com.project.reservation.Dto.request.notice.ReqNoticeUpdate;
-import com.project.reservation.Dto.response.notice.ResNoticeDetail;
+import com.project.reservation.dto.request.notice.ReqNotice;
+import com.project.reservation.dto.request.notice.ReqNoticeUpdate;
+import com.project.reservation.dto.response.notice.ResNoticeDetail;
 import com.project.reservation.common.SearchDto;
-import com.project.reservation.Dto.response.notice.ResNoticeList;
+import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.repository.NoticeRepository;
@@ -51,7 +51,7 @@ public class NoticeService {
 
     // 해당 id 의 공지사항 조회
     public ResNoticeDetail getId(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId).orElse(null);
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(()->new IllegalArgumentException("해당 공지사항이 없음."));
         log.info("요청한 아이디에 일치하는 공지사항 "+notice);
         return ResNoticeDetail.fromEntity(notice);
     }

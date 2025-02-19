@@ -1,6 +1,6 @@
 package com.project.reservation.admin.controller;
 
-import com.project.reservation.Dto.response.noticeFile.ResNoticeFileUpload;
+import com.project.reservation.dto.response.noticeFile.ResNoticeFileUpload;
 import com.project.reservation.service.NoticeFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

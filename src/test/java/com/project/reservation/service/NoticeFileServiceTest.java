@@ -1,7 +1,7 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.noticeFile.ResNoticeFileDownload;
-import com.project.reservation.Dto.response.noticeFile.ResNoticeFileUpload;
+import com.project.reservation.dto.response.noticeFile.ResNoticeFileDownload;
+import com.project.reservation.dto.response.noticeFile.ResNoticeFileUpload;
 import com.project.reservation.entity.Notice;
 import com.project.reservation.entity.NoticeFile;
 import com.project.reservation.repository.NoticeFileRepository;

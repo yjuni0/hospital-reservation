@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.response.answer;
+package com.project.reservation.dto.response.answer;
 
 import com.project.reservation.entity.Answer;
 import lombok.AllArgsConstructor;
@@ -12,18 +12,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResAnswer {
+public class ResAnswerList {
     private Long id;
     private Long questionId;
     private String content;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public static ResAnswer fromEntity(Answer answer) {
-        return ResAnswer.builder()
+    public static ResAnswerList fromEntity(Answer answer){
+        return ResAnswerList.builder()
                 .id(answer.getId())
-                .content(answer.getContent())
                 .questionId(answer.getQuestion().getId())
+                .content(answer.getContent())
                 .createdDate(answer.getCreatedDate())
                 .modifiedDate(answer.getModifiedDate())
                 .build();

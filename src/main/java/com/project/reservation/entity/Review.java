@@ -2,9 +2,11 @@ package com.project.reservation.entity;
 
 import com.project.reservation.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,10 +24,9 @@ public class Review extends BaseTimeEntity {
     @Column(length=500, nullable = false)
     private String content;
 
-    private Long count;
+    private int views;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ReviewLike> likes;
+    private int likes;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
@@ -34,11 +35,41 @@ public class Review extends BaseTimeEntity {
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Comment> comments;
 
-    public Review(Long id, String title, String content, Long count, Member member) {
+    @Builder
+    public Review(Long id, String title, String content, int views, int likes, Member member) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.count = count;
+        this.views = views;
         this.member = member;
+    }
+
+    public void setMember(Member writerMember) {
+        this.member = writerMember;
+        writerMember.getReviews().add(this);
+    }
+
+    //수정
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    //views 증가
+    public void upViews() {
+        this.views++;
+    }
+
+    //likes 증가
+    public void upLikes(){
+        this.likes++;
+    }
+
+    //likes 감소
+    public void downLikes(){
+        //0 이하로 내려가지 않게
+        if (this.likes > 0){
+            this.likes--;
+        }
     }
 }

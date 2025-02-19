@@ -1,8 +1,8 @@
 package com.project.reservation.admin.controller;
 
-import com.project.reservation.Dto.request.notice.ReqNotice;
-import com.project.reservation.Dto.request.notice.ReqNoticeUpdate;
-import com.project.reservation.Dto.response.notice.ResNoticeDetail;
+import com.project.reservation.dto.request.notice.ReqNotice;
+import com.project.reservation.dto.request.notice.ReqNoticeUpdate;
+import com.project.reservation.dto.response.notice.ResNoticeDetail;
 import com.project.reservation.entity.Member;
 import com.project.reservation.service.NoticeService;
 import lombok.RequiredArgsConstructor;

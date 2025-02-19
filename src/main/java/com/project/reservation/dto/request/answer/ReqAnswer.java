@@ -1,4 +1,4 @@
-package com.project.reservation.Dto.request.answer;
+package com.project.reservation.dto.request.answer;
 
 
 import com.project.reservation.entity.Answer;

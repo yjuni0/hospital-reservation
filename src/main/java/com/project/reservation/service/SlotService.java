@@ -1,6 +1,6 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.response.ResSlotList;
+import com.project.reservation.dto.response.ResSlotList;
 import com.project.reservation.entity.AvailableDate;
 import com.project.reservation.entity.Department;
 import com.project.reservation.entity.Slot;
@@ -55,7 +55,7 @@ public class SlotService {
 
                 count++;
                 if (count % batchSize == 0) {
-                    // 배치 크기마다 flush를 해서 성능을 최적화합니다.
+                    // 배치 크기마다 flush를 해서 성능을 최적화
                     slotRepository.flush();
 
                     log.info("현재 슬롯 생성된 수: {}", slotsToSave.size());

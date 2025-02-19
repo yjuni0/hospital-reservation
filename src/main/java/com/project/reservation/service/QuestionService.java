@@ -1,8 +1,8 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.qeustion.ReqQuestion;
-import com.project.reservation.Dto.response.question.ResQuestionList;
-import com.project.reservation.Dto.response.question.ResQuestion;
+import com.project.reservation.dto.request.qeustion.ReqQuestion;
+import com.project.reservation.dto.response.question.ResQuestionList;
+import com.project.reservation.dto.response.question.ResQuestion;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
 import com.project.reservation.entity.Role;
@@ -87,6 +87,6 @@ public class QuestionService {
     }
 
     private boolean isAdmin(Member member) {
-        return member.getRole().equals(Role.ADMIN); // Role.ADMIN이 관리자 역할로 가정
+        return member.getRoles().equals(Role.ADMIN); // Role.ADMIN이 관리자 역할로 가정
     }
 }

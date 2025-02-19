@@ -1,8 +1,8 @@
 package com.project.reservation.controller;
 
-import com.project.reservation.Dto.request.qeustion.ReqQuestion;
-import com.project.reservation.Dto.response.question.ResQuestionList;
-import com.project.reservation.Dto.response.question.ResQuestion;
+import com.project.reservation.dto.request.qeustion.ReqQuestion;
+import com.project.reservation.dto.response.question.ResQuestionList;
+import com.project.reservation.dto.response.question.ResQuestion;
 import com.project.reservation.entity.Member;
 import com.project.reservation.service.QuestionService;
 import lombok.RequiredArgsConstructor;

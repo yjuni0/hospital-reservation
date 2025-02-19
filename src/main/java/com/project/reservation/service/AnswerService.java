@@ -1,13 +1,12 @@
 package com.project.reservation.service;
 
-import com.project.reservation.Dto.request.answer.ReqAnswer;
-import com.project.reservation.Dto.response.answer.ResAnswer;
-import com.project.reservation.Dto.response.answer.ResAnswerList;
+import com.project.reservation.dto.request.answer.ReqAnswer;
+import com.project.reservation.dto.response.answer.ResAnswer;
+import com.project.reservation.dto.response.answer.ResAnswerList;
 import com.project.reservation.entity.Answer;
 import com.project.reservation.entity.Member;
 import com.project.reservation.entity.Question;
 import com.project.reservation.repository.AnswerRepository;
-import com.project.reservation.repository.MemberRepository;
 import com.project.reservation.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
