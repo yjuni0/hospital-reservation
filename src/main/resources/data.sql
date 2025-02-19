@@ -1,1 +1,0 @@
-insert into department (name) values ('내과'),('안과'),('외과'),('치과'),('피부과'),('정형외과');
