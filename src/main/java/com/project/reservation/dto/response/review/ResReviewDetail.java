@@ -1,15 +1,12 @@
 package com.project.reservation.dto.response.review;
 
-import com.project.reservation.dto.response.comment.ResComment;
-import com.project.reservation.entity.Review;
+import com.project.reservation.entity.customerReviews.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

@@ -1,6 +1,6 @@
 package com.project.reservation.dto.response.comment;
 
-import com.project.reservation.entity.Comment;
+import com.project.reservation.entity.customerReviews.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

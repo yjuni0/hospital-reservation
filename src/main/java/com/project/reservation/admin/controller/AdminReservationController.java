@@ -1,7 +1,7 @@
 package com.project.reservation.admin.controller;
 
 import com.project.reservation.dto.response.reservation.ResReservationList;
-import com.project.reservation.service.ReservationService;
+import com.project.reservation.service.onlineReserve.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

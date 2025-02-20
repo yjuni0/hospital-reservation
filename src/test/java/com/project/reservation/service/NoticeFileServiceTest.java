@@ -2,10 +2,11 @@ package com.project.reservation.service;
 
 import com.project.reservation.dto.response.noticeFile.ResNoticeFileDownload;
 import com.project.reservation.dto.response.noticeFile.ResNoticeFileUpload;
-import com.project.reservation.entity.Notice;
-import com.project.reservation.entity.NoticeFile;
-import com.project.reservation.repository.NoticeFileRepository;
-import com.project.reservation.repository.NoticeRepository;
+import com.project.reservation.entity.notice.Notice;
+import com.project.reservation.entity.notice.NoticeFile;
+import com.project.reservation.repository.notice.NoticeFileRepository;
+import com.project.reservation.repository.notice.NoticeRepository;
+import com.project.reservation.service.notice.NoticeFileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

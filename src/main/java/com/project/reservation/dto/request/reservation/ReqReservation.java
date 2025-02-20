@@ -1,9 +1,9 @@
 package com.project.reservation.dto.request.reservation;
 
 
-import com.project.reservation.entity.Member;
-import com.project.reservation.entity.Pet;
-import com.project.reservation.entity.Reservation;
+import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Pet;
+import com.project.reservation.entity.onlineReserve.Reservation;
 
 import java.time.LocalDateTime;
 

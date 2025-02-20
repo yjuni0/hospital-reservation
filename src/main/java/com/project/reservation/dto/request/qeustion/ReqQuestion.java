@@ -1,6 +1,6 @@
 package com.project.reservation.dto.request.qeustion;
 
-import com.project.reservation.entity.Question;
+import com.project.reservation.entity.onlineConsult.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

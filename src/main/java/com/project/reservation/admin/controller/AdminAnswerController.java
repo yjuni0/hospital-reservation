@@ -2,8 +2,8 @@ package com.project.reservation.admin.controller;
 
 import com.project.reservation.dto.request.answer.ReqAnswer;
 import com.project.reservation.dto.response.answer.ResAnswer;
-import com.project.reservation.entity.Member;
-import com.project.reservation.service.AnswerService;
+import com.project.reservation.entity.member.Member;
+import com.project.reservation.service.onlineConsult.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

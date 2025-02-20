@@ -1,6 +1,6 @@
 package com.project.reservation.dto.request.member;
 
-import com.project.reservation.entity.Pet;
+import com.project.reservation.entity.member.Pet;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

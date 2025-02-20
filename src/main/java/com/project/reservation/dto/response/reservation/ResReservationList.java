@@ -1,6 +1,6 @@
 package com.project.reservation.dto.response.reservation;
 
-import com.project.reservation.entity.Reservation;
+import com.project.reservation.entity.onlineReserve.Reservation;
 
 import java.time.LocalDateTime;
 

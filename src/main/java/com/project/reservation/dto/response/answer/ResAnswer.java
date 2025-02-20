@@ -1,6 +1,6 @@
 package com.project.reservation.dto.response.answer;
 
-import com.project.reservation.entity.Answer;
+import com.project.reservation.entity.onlineConsult.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

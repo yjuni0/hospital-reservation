@@ -1,6 +1,6 @@
 package com.project.reservation.dto.response.noticeFile;
 
-import com.project.reservation.entity.NoticeFile;
+import com.project.reservation.entity.notice.NoticeFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

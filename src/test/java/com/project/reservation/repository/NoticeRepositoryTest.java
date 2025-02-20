@@ -1,7 +1,8 @@
 package com.project.reservation.repository;
 
 
-import com.project.reservation.entity.Notice;
+import com.project.reservation.entity.notice.Notice;
+import com.project.reservation.repository.notice.NoticeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
