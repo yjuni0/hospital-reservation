@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
@@ -33,4 +34,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 리뷰의 총 좋아요 수 조회
     @Query(value = "SELECT COUNT(l) FROM ReviewLike l WHERE l.review.id = :reviewId")
     long countLikesByReview(Long reviewId);
+
+    List<Review> findTop4ByOrderByViewsDesc();
 }

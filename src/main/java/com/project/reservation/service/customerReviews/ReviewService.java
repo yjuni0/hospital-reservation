@@ -11,12 +11,13 @@ import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.customerReviews.Review;
 import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,8 @@ public class ReviewService {
 
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+
+
 
     // 모든 리뷰 조회(페이징) - 페이징
     public Page<ResReviewList> getReviews(Pageable pageable) {

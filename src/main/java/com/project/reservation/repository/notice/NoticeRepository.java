@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
@@ -14,4 +16,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     Page<Notice> findByContentContaining(String content, Pageable pageable);
 
+    List<Notice> findTop4ByOrderByCreatedDateDesc();
 }

@@ -8,8 +8,10 @@ import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.notice.Notice;
 import com.project.reservation.repository.notice.NoticeRepository;
+import com.project.reservation.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final RedisService redisService;
 
     // 공지사항 작성
     public ResNoticeDetail create(Member admin, ReqNotice req) {
@@ -38,7 +41,7 @@ public class NoticeService {
         log.info("해당 공지사항 생성 완료"+notice);
         //  공지사항 저장
         Notice saveNotice = noticeRepository.save(notice);
-
+        redisService.deleteCacheNotices();
         // 응답 DTO 변환 후 반환
         return ResNoticeDetail.fromEntity(saveNotice);
     }
