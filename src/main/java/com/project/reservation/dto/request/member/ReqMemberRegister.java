@@ -1,5 +1,6 @@
 package com.project.reservation.dto.request.member;
 
+import com.project.reservation.dto.request.pet.ReqPet;
 import com.project.reservation.entity.member.Role;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.member.Pet;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,23 +17,20 @@ public class ReqMemberRegister {
 
     private String name;
     private String email;
-    private boolean emailVerified = false;  // 이메일 인증 여부
-    private String emailVerificationCode;   //이메일 인증 코드
     private String password;
     private String passwordCheck;
     private String nickName;
     private String addr;
     private String birth;
     private String phoneNum;
-    private List<Pet> pets;
+    private List<ReqPet> pets;
 
     @Builder
     public ReqMemberRegister(
-            String name, String email, String emailVerificationCode, String password, String passwordCheck,
-            String nickName, String addr, String birth, String phoneNum, List<Pet> pets) {
+            String name, String email,String password, String passwordCheck,
+            String nickName, String addr, String birth, String phoneNum, List<ReqPet> pets) {
         this.name = name;
         this.email = email;
-        this.emailVerificationCode = emailVerificationCode;
         this.password = password;
         this.passwordCheck = passwordCheck;
         this.nickName = nickName;

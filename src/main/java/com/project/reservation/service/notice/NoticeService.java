@@ -81,19 +81,6 @@ public class NoticeService {
         noticeRepository.deleteById(noticeId);
     }
 
-    // 공지사항 검색
-    public Page<ResNoticeList> search(SearchDto searchDto, Pageable pageable) {
-        Page<Notice> result = null;
-        if (!searchDto.getTitle().isEmpty()) {
-            result = noticeRepository.findByTitleContaining(searchDto.getTitle(), pageable);
-            log.info("검색 요청한 타이틀에 포함된 검색어{}", result);
-        }else if (!searchDto.getContent().isEmpty()) {
-            result = noticeRepository.findByContentContaining(searchDto.getContent(), pageable);
-            log.info("검색 요청한 컨텐트에 포함된 검색어{}", result);
-        }
-        List<ResNoticeList> list = result.getContent().stream().map(ResNoticeList::fromEntity).collect(Collectors.toList());
-        log.info("검색어에 해당하는 리스트{}", list);
-        return new PageImpl<>(list, pageable, result.getTotalElements());
-    }
+
 
 }

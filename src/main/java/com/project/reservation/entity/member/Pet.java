@@ -3,6 +3,7 @@ package com.project.reservation.entity.member;
 import com.project.reservation.common.BaseTimeEntity;
 import com.project.reservation.entity.onlineReserve.Reservation;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
+@Builder
 public class Pet extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +41,11 @@ public class Pet extends BaseTimeEntity {
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
-    @Builder
-    public Pet(Long id, String name, Integer age, Gender gender, Breed breed, Member member) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.breed = breed;
+    public Pet(long l, String name, int i, com.nimbusds.openid.connect.sdk.claims.Gender male, Breed breed, Member member) {
+        super();
+    }
+    public void addMember(Member member) {
         this.member = member;
+        member.getPets().add(this);
     }
 }

@@ -1,5 +1,6 @@
 package com.project.reservation.service;
 
+import com.nimbusds.openid.connect.sdk.claims.Gender;
 import com.project.reservation.dto.request.reservation.ReqReservation;
 import com.project.reservation.dto.response.reservation.ResReservation;
 import com.project.reservation.entity.member.*;

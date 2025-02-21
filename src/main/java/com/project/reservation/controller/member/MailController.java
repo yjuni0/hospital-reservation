@@ -1,61 +1,50 @@
-//package com.project.reservation.controller.member;
-//
-//
-//import com.project.reservation.service.member.MailService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.HashMap;
-//
-//@RequiredArgsConstructor
-//@RestController
-//@RequestMapping("/api/email")
-//public class MailController {
-//
-//    private final MailService mailService;
-//    private double number = 117714.58872397916; // 이메일 인증 숫자를 저장하는 변수
-//
-//
-////    @ResponseBody
-////    @PostMapping("/send")
-////    public String MailSend(String mail){
-////
-////        int number = mailService.sendMail(mail);
-////
-////        String num = "" + number;
-////
-////        return num;
-////    }
-////
-////}
-//
-//    // 인증 이메일 전송
-//    @PostMapping("/send")
-//    public HashMap<String, Object> mailSend(@RequestParam("mail") String mail) {
-//        HashMap<String, Object> map = new HashMap<>();
-//
-//        try {
-//            number = mailService.sendMail(mail);
-//            String num = String.valueOf(number);
-//
-//            map.put("success", Boolean.TRUE);
-//            map.put("number", num);
-//        } catch (Exception e) {
-//            map.put("success", Boolean.FALSE);
-//            map.put("error", e.getMessage());
-//        }
-//        return map;
-//    }
-//
-//    // 인증번호 일치여부 확인
-//    @GetMapping("/mailCheck")
-//    public ResponseEntity<?> mailCheck(@RequestParam("verifyCode") String userNumber) {
-//
-//        boolean isMatch = userNumber.equals(String.valueOf(number));
-//
-//
-//        return ResponseEntity.ok(isMatch);
-//    }
-//}
-//
+package com.project.reservation.controller.member;
+
+
+
+import com.project.reservation.service.member.MailService;
+import com.project.reservation.service.member.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/email")
+public class MailController {
+
+    private final MailService mailService;
+    private final MemberService memberService;
+
+    // 전송
+    @PostMapping("/send")
+    //  클라이언트가 전송한 이메일 주소를 추출해서 파라미터에 바인딩
+    public ResponseEntity<?> send(@RequestParam("receiver") String receiver) {
+        try {
+            mailService.sendMail(receiver);
+            // 성공시
+            return ResponseEntity.ok("인증 메일이 전송되었습니다!");
+        } catch (Exception e) {
+            // 실패시
+            return ResponseEntity.badRequest().body("메일 전송 실패");
+        }
+    }
+
+    // 검증
+    @PostMapping("/verify")
+    //  클라이언트가 전송한 이메일 주소와 인증코드를 추출해서 파라미터에 바인딩
+    public ResponseEntity<?> verify(@RequestParam("receiver") String receiver, @RequestParam("code") String code) {
+        boolean isVerified = mailService.verifyCode(receiver, code);
+        if (isVerified) {
+            // 성공시 verificationStatus 동시성 맵에 수신자와 true 값 저장
+            memberService.setEmailVerified(receiver);
+            return ResponseEntity.ok("메일 인증 성공!");
+        } else {
+            // 실패시
+            return ResponseEntity.badRequest().body("메일 인증 실패 또는 만료된 코드입니다. 메일 인증을 다시 시도해주세요.");
+        }
+    }
+}
+

@@ -28,13 +28,7 @@ public class NoticeController {
         return ResponseEntity.status(HttpStatus.OK).body(listDto); //200 반환
     }
 
-    // 페이징 검색
-    @GetMapping("/search")
-    public ResponseEntity<Page<ResNoticeList>> search(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable, @RequestParam("title") String title, @RequestParam("content") String content){
-        SearchDto searchDto = SearchDto.searchNotice(title,content);
-        Page<ResNoticeList> searchList = noticeService.search(searchDto,pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(searchList);
-    }
+
 
     //상세보기
     @GetMapping("/{noticeId}")
