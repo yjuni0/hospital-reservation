@@ -31,13 +31,13 @@ public class NoticeService {
     private final RedisService redisService;
 
     // 공지사항 작성
-    public ResNoticeDetail create(Member admin, ReqNotice req) {
-        if (admin == null) {
+    public ResNoticeDetail create(Member member, ReqNotice req) {
+        if (member == null) {
             throw new IllegalArgumentException("관리자 정보가 유효하지 않습니다.");
         }
         //  Notice 엔티티 생성 시, 관리자 정보 포함
         Notice notice = ReqNotice.ofEntity(req);
-        notice.setMappingAdmin(admin);
+        notice.setMappingAdmin(member);
         log.info("해당 공지사항 생성 완료"+notice);
         //  공지사항 저장
         Notice saveNotice = noticeRepository.save(notice);

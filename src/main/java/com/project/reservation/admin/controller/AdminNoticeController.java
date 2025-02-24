@@ -8,6 +8,7 @@ import com.project.reservation.service.notice.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class AdminNoticeController {
     private final NoticeService noticeService;
     //작성
     @PostMapping("/write")
-    public ResponseEntity<ResNoticeDetail> write(Member member, @RequestBody ReqNotice noticeReq){
-        ResNoticeDetail saveNotice = noticeService.create(member,noticeReq);
+    public ResponseEntity<ResNoticeDetail> write(@AuthenticationPrincipal Member admin, @RequestBody ReqNotice noticeReq){
+        ResNoticeDetail saveNotice = noticeService.create(admin,noticeReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
     }
         // 수정
