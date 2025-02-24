@@ -48,4 +48,7 @@ public class Pet extends BaseTimeEntity {
         this.member = member;
         member.getPets().add(this);
     }
+
+    public void updatePet(String name, String breed, int age) {
+    }
 }

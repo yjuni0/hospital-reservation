@@ -5,7 +5,7 @@ import com.project.reservation.entity.onlineReserve.Reservation;
 import java.time.LocalDateTime;
 
 public record ResReservationList(Long reservationId,
-                                 String memberName,
+                                 String memberNickName,
                                  LocalDateTime reservationDateTime,
                                  String petName,
                                  LocalDateTime createdDate) {
@@ -13,7 +13,7 @@ public record ResReservationList(Long reservationId,
     public static ResReservationList fromEntity(Reservation reservation) {
         return new ResReservationList(
                 reservation.getId(),
-                reservation.getMember().getName(),
+                reservation.getMember().getNickName(),
                 reservation.getReservationTime(),
                 reservation.getPet().getName(),
                 reservation.getCreatedDate()

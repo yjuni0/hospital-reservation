@@ -1,4 +1,4 @@
-package com.project.reservation.security;
+package com.project.reservation.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

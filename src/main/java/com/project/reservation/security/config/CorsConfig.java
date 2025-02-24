@@ -1,4 +1,4 @@
-package com.project.reservation.security;
+package com.project.reservation.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,13 +26,13 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // CorsConfiguration 에 포함된 메소드 (setAllowedOrigins) 허용된 출처 설정 - 프론트엔드 개발 서버의 주소
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://172.16.6.159:3000","http://172.16.6.158:3000"));
 
         // CorsConfiguration 에 포함된 메소드 (setAllowedMethods) 허용된 HTTP 메서드 설정
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS", "PATCH", "DELETE"));
 
         // CorsConfiguration 에 포함된 메소드 (setAllowedHeaders)허용된 헤더 설정 -  "Content-Type"과 "Authorization" 헤더를 허용
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
 
         // UrlBasedCorsConfigurationSource - CorsConfigurationSource 인터페이스의 구현체. CORS 설정을 URL 패턴별로 적용할 수 있게 해주는 클래스.
         // 새로운 UrlBasedCorsConfigurationSource 객체를 생성해서 source 이름으로 대입한다.

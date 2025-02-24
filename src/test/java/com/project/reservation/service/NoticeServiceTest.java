@@ -12,6 +12,7 @@ import com.project.reservation.entity.notice.Notice;
 import com.project.reservation.entity.member.Role;
 import com.project.reservation.repository.notice.NoticeRepository;
 import com.project.reservation.service.notice.NoticeService;
+import com.project.reservation.service.search.SearchNotice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +34,8 @@ public class NoticeServiceTest {
 
     @Mock
     private NoticeRepository noticeRepository;
-
+    @Mock
+    private SearchNotice searchService;
     @InjectMocks
     private NoticeService noticeService;
 
@@ -223,7 +225,8 @@ public class NoticeServiceTest {
         when(noticeRepository.findByTitleContaining(searchDto.getTitle(),pageable)).thenReturn(noticePage);
 
         // when 공지사항 검색 호출
-        Page<ResNoticeList> result = noticeService.search(searchDto,pageable);
+
+        Page<ResNoticeList> result = searchService.listNotice(searchDto,pageable);
         //then
         Assertions.assertNotNull(result);
         Assertions.assertEquals("공지사항1", result.getContent().get(0).getTitle());
@@ -231,41 +234,4 @@ public class NoticeServiceTest {
         verify(noticeRepository, times(1)).findByTitleContaining(searchDto.getTitle(),pageable);
     }
 
-    @Test
-    void 공지사항_내용_검색(){
-        Member member = Member.builder()
-                .id(1L)
-                .name("admin")
-                .password("admin1")
-                .phoneNum("01011112222")
-                .addr("test")
-                .email("admin1@gmail.com")
-                .roles(Role.ADMIN)
-                .birth("960601")
-                .nickName("admin")
-                .build();
-
-        Notice notice1 = Notice.builder().id(1L).admin(member).title("공지사항1").content("내용1").build();
-        Notice notice2 = Notice.builder().id(2L).admin(member).title("공지사항2").content("내용2").build();
-        List<Notice> noticeList = List.of(notice1, notice2);
-
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
-        // SearchDto 설정 (제목으로 검색)
-        SearchDto searchDto = new SearchDto();
-        searchDto.setTitle("");
-        searchDto.setContent("내용1");// 내용으로 검색
-
-        // Mock: 내용으로 검색한 결과 반환
-        Page<Notice> noticePage = new PageImpl<>(noticeList, pageable, noticeList.size());
-
-        when(noticeRepository.findByContentContaining(searchDto.getContent(),pageable)).thenReturn(noticePage);
-
-        // when
-        Page<ResNoticeList> result = noticeService.search(searchDto,pageable);
-        //then
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(2, result.getContent().size());
-        Assertions.assertEquals("내용1", result.getContent().get(0).getContent());
-        Assertions.assertEquals("내용2",result.getContent().get(1).getContent());
-    }
 }

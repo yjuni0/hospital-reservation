@@ -1,4 +1,4 @@
-package com.project.reservation.security;
+package com.project.reservation.security.config;
 
 import com.project.reservation.security.jwt.JwtAuthenticationEntryPoint;
 import com.project.reservation.security.jwt.JwtAuthenticationFilter;
@@ -50,12 +50,12 @@ public class SecurityConfig {
                 // requestMatchers - 특정 HTTP 요청에 대한 보안 규칙을 정의하는 데 사용되는 메소드
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/api/member/**","/api/member/notice/search/**","/api/member/notice/**").permitAll()      // 추가 필요
+                                "/**").permitAll()  )    // 추가 필요
 
 
 //                        .requestMatchers("/api/member/**").hasRole("USER")      // 추가 필요
 
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN"))     // 추가 필요
+//                        .requestMatchers("/api/admin/**").hasRole("ADMIN"))     // 추가 필요
 
                 // 서버가 클라이언트 세션을 유지하지 않도록 무상태로 설정 메소드
                 // 보안예외처리 구성 메소드. authenticationEntryPoint - 인증되지 않은 사용자가 보호된 리소스에 접근하려 할 때의 동작을 정의.

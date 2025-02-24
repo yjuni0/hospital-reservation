@@ -11,9 +11,7 @@ import com.project.reservation.dto.response.member.ResMember;
 
 import com.project.reservation.dto.response.member.ResMemberToken;
 import com.project.reservation.entity.member.Member;
-import com.project.reservation.entity.member.Pet;
 import com.project.reservation.repository.member.MemberRepository;
-import com.project.reservation.repository.member.PetRepository;
 import com.project.reservation.security.jwt.CustomUserDetailsService;
 import com.project.reservation.security.jwt.JwtTokenUtil;
 import jakarta.transaction.Transactional;
@@ -28,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,24 +44,18 @@ public class MemberService {
     // 인증상태를 관리하기 위한 동시성 맵. 키값은 수신자, 값은 true/false
     private final Map<String, Boolean> verificationStatus = new ConcurrentHashMap<>();
 
-    // 이메일 중복체크 - private 메소드 실행 후 HttpStatus 반환
-    public HttpStatus checkIdDuplicate(String email) {
+    // 이메일 중복체크 - private 메소드 실행
+    public void checkIdDuplicate(String email) {
         isExistUserEmail(email);
-        return HttpStatus.OK;
     }
-
-    // 닉네임 중복체크  - private 메소드 실행 후 HttpStatus 반환
-    public HttpStatus checkNickNameDuplicate(String nickName) {
-        isExistUserNickName(nickName);
-        return HttpStatus.OK;
+    public boolean isEmailExist(String email) {
+        return memberRepository.findByEmail(email).isPresent();
     }
-
-    // checkEmailVerified
-    public HttpStatus checkEmailVerified(String receiver) {
-        isEmailVerified(receiver);
-        return HttpStatus.OK;
+    public String findEmail(String name, String phone) {
+        Member member = memberRepository.findByNameAndPhoneNum(name, phone)
+                .orElseThrow(() -> new MemberException("회원정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        return member.getEmail();
     }
-
 
     public void setEmailVerified(String receiver) {
         verificationStatus.put(receiver, true);
@@ -135,7 +126,7 @@ public class MemberService {
     }
 
     // 이메일 인증체크
-    private boolean isEmailVerified(String receiver) {
+    public boolean isEmailVerified(String receiver) {
         Boolean isVerified = verificationStatus.get(receiver);
 
         if (isVerified == null || !isVerified) {
@@ -145,14 +136,14 @@ public class MemberService {
     }
 
     // 닉네임 중복체크 - 리파지토리 조회 후 중복시 예외 처리
-    private void isExistUserNickName(String nickName) {
+    public void isExistUserNickName(String nickName) {
         if (memberRepository.findByNickName(nickName).isPresent()) {
             throw new MemberException("이미 사용 중인 닉네임입니다.", HttpStatus.BAD_REQUEST);
         }
     }
 
     // 비밀번호와 비밀번호 확인 같은지 체크
-    private void checkPassword(String password, String passwordCheck) {
+    public void checkPassword(String password, String passwordCheck) {
         if (!password.equals(passwordCheck)) {
             throw new MemberException("비밀번호 확인 불일치", HttpStatus.BAD_REQUEST);
         }
