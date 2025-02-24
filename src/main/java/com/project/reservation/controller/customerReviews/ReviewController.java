@@ -42,7 +42,7 @@ public class ReviewController {
             @RequestParam String title,
             @RequestParam String content,
             @RequestParam String writerName) {
-        SearchDto searchDto = SearchDto.searchData(title, content, writerName);
+        SearchDto searchDto = SearchDto.builder().build();
         Page<ResReviewList> searchReview = reviewService.search(searchDto, pageable);
         return  ResponseEntity.status(HttpStatus.OK).body(searchReview);
     }

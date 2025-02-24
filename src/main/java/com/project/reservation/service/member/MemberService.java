@@ -25,7 +25,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,9 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PetRepository petRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -127,46 +125,6 @@ public class MemberService {
         return ResMember.fromEntity(currentMember);
     }
 
-    /**
-     *
-     // 수정
-     public ResMember update(Member member, ReqMemberUpdate reqMemberUpdate) {
-     // 업데이트 폼의 새 비밀번호와 비밀번호 확인이 일치하는지 확인
-     checkPassword(reqMemberUpdate.getPassword(), reqMemberUpdate.getPasswordCheck());
-     // 새 비밀번호 암호화
-     String encodedPassword = passwordEncoder.encode(reqMemberUpdate.getPassword());
-     //
-     Member currentMember =  memberRepository.findByEmail(member.getEmail()).orElseThrow(
-     () -> new ResourceNotFoundException("Member", "Member Email", member.getEmail())
-     );
-     currentMember.updateMember(encodedPassword, reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getBirth(), reqMemberUpdate.getPhone());
-     return ResMember.fromEntity(currentMember);
-     }
-
-     탈퇴 등 추후에 **/
-
-
-
-    // 회원의 펫 정보 조회
-    public List<Pet> getPetsByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-        return member.getPets();
-    }
-
-//    // 펫 정보 수정
-//    @Transactional
-//    public void updatePet(Long petId, String name, String breed, int age, double weight) {
-//        Pet pet = petRepository.findById(petId).orElseThrow(() -> new RuntimeException("Pet not found"));
-//        pet.updatePet(name, breed, age, weight);
-//        petRepository.save(pet);
-//    }
-//
-//    // 펫 정보 삭제
-//    @Transactional
-//    public void deletePet(Long petId) {
-//        petRepository.deleteById(petId);
-//    }
-
 
     // private 메소드들 =========================================================================
     // 이메일 중복체크 - 리파지토리 조회 후 중복시 예외 처리
@@ -222,5 +180,6 @@ public class MemberService {
             throw new MemberException("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
     }
+
 
 }

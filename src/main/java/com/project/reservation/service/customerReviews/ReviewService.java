@@ -97,11 +97,8 @@ public class ReviewService {
         if (!searchData.getTitle().isEmpty()) {
             result = reviewRepository.findAllTitleContaining(searchData.getTitle(), pageable);
             // 내용이 비어있지 않으면 내용으로 검색
-        } else if (!searchData.getContent().isEmpty()) {
-            result = reviewRepository.findAllContentContaining(searchData.getContent(), pageable);
-            // 작성자 이름이 비어있지 않으면 작성자 이름으로 검색
-        } else if (!searchData.getWriterName().isEmpty()) {
-            result = reviewRepository.findAllNicknameContaining(searchData.getWriterName(), pageable);
+        } else if (!searchData.getWriter().isEmpty()) {
+            result = reviewRepository.findAllNicknameContaining(searchData.getWriter(), pageable);
         }
         // 검색 결과를 ResReviewList로 변환
         List<ResReviewList> list = result.getContent().stream()

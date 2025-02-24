@@ -1,37 +1,19 @@
 package com.project.reservation.common;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
-@Setter
+@AllArgsConstructor
+@Builder
 public class SearchDto {
+    private Long id;
+    private String nickName;
+    private String email;
     private String title;
-    private String content;
-    private String writerName;
-
-    @Builder
-    public SearchDto(String title, String content, String writerName) {
-        this.title = title;
-        this.content = content;
-        this.writerName = writerName;
-    }
-
-    public static SearchDto searchNotice(String title, String content){
-        return SearchDto.builder()
-                .title(title)
-                .content(content)
-                .build();
-    }
-
-    public static SearchDto searchData(String title, String content, String writerName) {
-        return SearchDto.builder()
-                .title(title)
-                .content(content)
-                .writerName(writerName)
-                .build();
-    }
+    private String writer;
+    private LocalDateTime createdDate;
+    private int views;
+    private int likes;
 }
