@@ -42,7 +42,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Column(nullable = false,length = 500)
     private String password;
 
-    @Column(nullable = false,length = 50)
+    @Column(length = 50)
     private String addr;
 
     private String birth;
@@ -74,10 +74,6 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewLike> likes;
-
-    @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Notice> notices;
-
     @Builder
     public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles) {
         this.id = id;
@@ -121,5 +117,9 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

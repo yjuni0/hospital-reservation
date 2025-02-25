@@ -1,10 +1,12 @@
 package com.project.reservation.security.jwt;
 
+import com.project.reservation.entity.member.Member;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
 // Serializable 인터페이스 구현. 현재 클래스의 객체를 직렬화한다.
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -37,8 +41,16 @@ public class JwtTokenUtil implements Serializable {
     // 최종적으로 claims 안에는 String 타입의 여러 키와 Object 타입의 여러 값이 쌍으로 매핑되어 들어갑니다. JSON 데이터 같은 것.
     // 예를 들어, claims에 사용자 역할을 추가하고 싶다면 다음과 같이 할 수 있습니다: claims.put("role", userDetails.getRole());
     // doGenerateToken 메소드로 실제 토큰 생성. 초기화된 claims 맵과 userDetails 객체에서 가져온 사용자 이름(이메일)을 매개변수로 전달.
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id",member.getNickName());
+        claims.put("roles", member.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+        return doGenerateToken(claims, member.getUsername());
+    }
+    public String googleToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id",userDetails.getUsername());
+        claims.put("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
@@ -58,20 +70,6 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    //===========================================================================================================
-    /**
-     * 내 코드
-     **/
-    public String unifiedGenerateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpirationTime * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
-    }
     //===========================================================================================================
     // 2. getAllClaimsFromToken - 토큰에서 1.헤더, 2.클레임, 3.서명 중에서 -> 2. 클레임만 객체로 추출
     // getAllClaimsFromToken - 토큰에서 모든 클레임 추출. 반환 타입은 Claims. 분석할 JWT 토큰 문자열을 매개변수로.

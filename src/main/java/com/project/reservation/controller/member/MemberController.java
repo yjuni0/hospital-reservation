@@ -9,6 +9,7 @@ import com.project.reservation.dto.response.member.ResMember;
 import com.project.reservation.dto.response.member.ResMemberToken;
 import com.project.reservation.service.member.MailService;
 import com.project.reservation.service.member.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -55,9 +56,9 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<ResMemberToken> login(@RequestBody ReqMemberLogin reqMemberLogin){
+    public ResponseEntity<ResMemberToken> login(@RequestBody ReqMemberLogin reqMemberLogin, HttpServletResponse response){
         // 서비스레이어에서 요청 DTO 로 로그인 메소드를 한 결과를 ResMemberToken 로 받음. 성공시 생성된 토큰 정보
-        ResMemberToken resMemberToken = memberService.login(reqMemberLogin);
+        ResMemberToken resMemberToken = memberService.login(reqMemberLogin,response);
         return  ResponseEntity.status(HttpStatus.OK).header(resMemberToken.getToken()).body(resMemberToken);
 //        return ResponseEntity.ok()
 //                .header("Authorization", "Bearer " + resMemberToken.getToken())

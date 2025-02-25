@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,10 @@ public class Notice extends BaseTimeEntity {
     @Column(length = 500, nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<NoticeFile> noticeFile;
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<NoticeFile> noticeFile = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "admin_id")//,nullable = false)
     private Member admin;
 
@@ -54,8 +55,4 @@ public class Notice extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void setMappingAdmin(Member admin) {
-        this.admin = admin;
-        admin.getNotices().add(this);
-    }
 }

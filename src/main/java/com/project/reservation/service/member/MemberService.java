@@ -11,9 +11,12 @@ import com.project.reservation.dto.response.member.ResMember;
 
 import com.project.reservation.dto.response.member.ResMemberToken;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Role;
 import com.project.reservation.repository.member.MemberRepository;
+import com.project.reservation.security.google.OAuth2UserPrincipal;
 import com.project.reservation.security.jwt.CustomUserDetailsService;
 import com.project.reservation.security.jwt.JwtTokenUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -48,9 +52,11 @@ public class MemberService {
     public void checkIdDuplicate(String email) {
         isExistUserEmail(email);
     }
+
     public boolean isEmailExist(String email) {
         return memberRepository.findByEmail(email).isPresent();
     }
+
     public String findEmail(String name, String phone) {
         Member member = memberRepository.findByNameAndPhoneNum(name, phone)
                 .orElseThrow(() -> new MemberException("회원정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
@@ -69,7 +75,7 @@ public class MemberService {
         log.info("2번 통과");
 
         // 이메일 인증 여부 확인
-        if (isEmailVerified(reqMemberRegister.getEmail())){
+        if (isEmailVerified(reqMemberRegister.getEmail())) {
             // 비밀번호는 HttpStatus 반환 안함?
             checkPassword(reqMemberRegister.getPassword(), reqMemberRegister.getPasswordCheck());
             log.info("3번 통과");
@@ -91,18 +97,25 @@ public class MemberService {
     }
 
     // 로그인
-    public ResMemberToken login(ReqMemberLogin reqMemberLogin) {
-        // authenticate 메소드에 (로그인 요청 DTO 의 email, 로그인 요청 DTO 의 password)
-        authenticate(reqMemberLogin.getEmail(), reqMemberLogin.getPassword());
-        // customUserDetailsService 에서 반환되는 UserDetails 객체를 foundMember 이름으로 대입
-        UserDetails foundMember = customUserDetailsService.loadUserByUsername(reqMemberLogin.getEmail());
-        // checkStoredPasswordInDB 메소드로 입력된 비밀번호가 DB 에 저장된 암호화된 비밀번호와 같은지 체크
-        checkStoredPasswordInDB(reqMemberLogin.getPassword(), foundMember.getPassword());
-        /** unifiedGenerateToken 로 바꾸는거 고려해보기 **/
-        // foundMember 로 토큰 생성
-        String token = jwtTokenUtil.generateToken(foundMember);
-        // 클라이언트에게 응답으로 토큰 보냄
-        return ResMemberToken.fromEntity(foundMember, token);
+    public ResMemberToken login(ReqMemberLogin loginDto, HttpServletResponse response) {
+        try {
+            // 사용자 엔티티 조회
+            Member member = memberRepository.findByEmail(loginDto.getEmail())
+                    .orElseThrow(() -> new MemberException( "사용자를 찾을 수 없습니다.",HttpStatus.BAD_REQUEST));
+
+            // 비밀번호 검증
+            if (!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
+                throw new MemberException( "비밀번호가 일치하지 않습니다.",HttpStatus.BAD_REQUEST);
+            }
+
+            String accessToken = jwtTokenUtil.generateToken(member);
+
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            return ResMemberToken.fromEntity(member, accessToken);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 
     // 마이페이지 - 비밀번호 확인
@@ -172,5 +185,22 @@ public class MemberService {
         }
     }
 
+    public void saveOrUpdateMember(OAuth2UserPrincipal principal) {
+        // 구글 사용자 정보로 Member 엔티티 생성
+        Member member = Member.builder()
+                .email(principal.getName())
+                .password(principal.getPassword())
+                .name(principal.getName())
+                .nickName(principal.getName())
+                .roles(Role.USER)
+                .build();
 
+        // 이미 존재하는 사용자라면 업데이트, 아니라면 새로 저장
+        Optional<Member> existingMember = memberRepository.findByEmail(member.getEmail());
+        if (!existingMember.isPresent()) {
+            memberRepository.save(member);
+
+        }
+
+    }
 }

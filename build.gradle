@@ -63,7 +63,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 Jackson 기반 JJWT 구현을 제공
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth 2.0 클라이언트 기능을 위한 Spring Boot 스타터를 제공
 
-
+	//oauth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	// -------------------- TEST --------------------------------------------------------------------
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

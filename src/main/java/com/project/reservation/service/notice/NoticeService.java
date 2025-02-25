@@ -7,6 +7,7 @@ import com.project.reservation.common.SearchDto;
 import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.notice.Notice;
+import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.repository.notice.NoticeRepository;
 import com.project.reservation.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -28,24 +29,28 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final MemberRepository memberRepository;
     private final RedisService redisService;
 
-    // 공지사항 작성
-    public ResNoticeDetail create(Member member, ReqNotice req) {
-        if (member == null) {
+    public ResNoticeDetail create(Member admin, ReqNotice req) {
+        if (admin == null) {
             throw new IllegalArgumentException("관리자 정보가 유효하지 않습니다.");
         }
-        //  Notice 엔티티 생성 시, 관리자 정보 포함
-        Notice notice = ReqNotice.ofEntity(req);
-        notice.setMappingAdmin(member);
-        log.info("해당 공지사항 생성 완료"+notice);
-        //  공지사항 저장
-        Notice saveNotice = noticeRepository.save(notice);
-        redisService.deleteCacheNotices();
-        // 응답 DTO 변환 후 반환
-        return ResNoticeDetail.fromEntity(saveNotice);
-    }
 
+        // Member 엔티티를 환영속 상태로 변
+        Member persistentAdmin = memberRepository.findById(admin.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관리자입니다."));
+
+        req.setMember(persistentAdmin); // 영속 상태의 Member 설정
+
+        Notice notice = ReqNotice.ofEntity(req);
+        log.info("해당 공지사항 생성 완료: {}", notice);
+
+        Notice savedNotice = noticeRepository.save(notice);
+        redisService.deleteCacheNotices();
+
+        return ResNoticeDetail.fromEntity(savedNotice);
+    }
     // 공지사항 전체 조회
     public Page<ResNoticeList> getAll(Pageable pageable) {
         log.info("요청 한 공지사항 전체 리스트"+noticeRepository.findAll(pageable).map(ResNoticeList::fromEntity));
