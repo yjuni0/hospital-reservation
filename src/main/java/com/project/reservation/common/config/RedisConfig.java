@@ -13,6 +13,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
@@ -44,11 +45,10 @@ public class RedisConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
 
-        // 아래 설정에서는 RedisTemplate을 생성하여 Redis에 데이터를 저장하고 가져올 수 있는 기능을 제공.
-        // StringRedisSerializer를 사용하여 키와 값을 String 형식으로 직렬화.
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
-
+        // Jackson을 이용한 JSON 직렬화 및 역직렬화 설정
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        redisTemplate.setValueSerializer(serializer);  // 값 직렬화
+        redisTemplate.setKeySerializer(new StringRedisSerializer());  // 키 직렬화
         return redisTemplate;
     }
 

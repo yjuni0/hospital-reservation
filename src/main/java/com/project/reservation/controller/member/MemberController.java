@@ -99,17 +99,6 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/findPw/checkPassword")
-    public ResponseEntity<?> checkPassword(@RequestBody ReqMemberFindPw reqMemberFindPw) {
-        try {
-            memberService.checkPassword(reqMemberFindPw.newPassword(), reqMemberFindPw.newPasswordCheck());
-            return ResponseEntity.ok("비밀번호가 일치합니다.");
-        } catch (MemberException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-
     @PostMapping("/findPw/resetPw")
     public ResponseEntity<?> resetPassword(@RequestBody ReqMemberFindPw reqMemberFindPw) {
         if (mailService.verifyCode(reqMemberFindPw.email(), reqMemberFindPw.code())) {
@@ -123,9 +112,6 @@ public class MemberController {
             return ResponseEntity.badRequest().body("인증 실패 또는 만료된 코드입니다.");
         }
     }
-
-
-    /** 수정 삭제 등 추후에 **/
 
 
 }

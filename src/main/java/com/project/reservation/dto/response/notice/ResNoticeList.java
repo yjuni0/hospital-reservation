@@ -5,16 +5,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
-public class ResNoticeList {
+public class ResNoticeList implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String adminName;
     private String title;
     private String content;
 
     @Builder
-    public ResNoticeList(Long id, String adminName , String title, String content) {
+    public ResNoticeList(Long id, String adminName, String title, String content) {
         this.id = id;
         this.adminName = adminName;
         this.title = title;
@@ -29,6 +33,4 @@ public class ResNoticeList {
                 .content(notice.getContent())
                 .build();
     }
-
-
 }

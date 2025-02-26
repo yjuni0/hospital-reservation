@@ -1,11 +1,13 @@
 package com.project.reservation.service.notice;
 
+import com.project.reservation.common.exception.MemberException;
 import com.project.reservation.dto.request.notice.ReqNotice;
 import com.project.reservation.dto.request.notice.ReqNoticeUpdate;
 import com.project.reservation.dto.response.notice.ResNoticeDetail;
 import com.project.reservation.common.SearchDto;
 import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Role;
 import com.project.reservation.entity.notice.Notice;
 import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.repository.notice.NoticeRepository;
@@ -16,6 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +36,9 @@ public class NoticeService {
     private final RedisService redisService;
 
     public ResNoticeDetail create(Member admin, ReqNotice req) {
-        if (admin == null) {
-            throw new IllegalArgumentException("관리자 정보가 유효하지 않습니다.");
+        if(!(admin.getRoles() == Role.ADMIN)){
+            throw new MemberException("관리자가 아닙니다.", HttpStatus.BAD_REQUEST);
         }
-
         // Member 엔티티를 환영속 상태로 변
         Member persistentAdmin = memberRepository.findById(admin.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관리자입니다."));

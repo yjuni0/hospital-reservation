@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Column(nullable = false,length = 50)
     private String email;
 
-    @Column(nullable = false,length = 500)
+    @Column(length = 500)
     private String password;
 
     @Column(length = 50)
@@ -47,7 +47,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     private String birth;
 
-    @Column(nullable = false,length = 13,unique = true)
+    @Column(length = 13,unique = true)
     private String phoneNum;
 
     @Column(nullable = false)

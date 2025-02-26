@@ -7,25 +7,40 @@ import com.project.reservation.entity.notice.Notice;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
 import com.project.reservation.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RedisService {
     private final NoticeRepository noticeRepository;
     private final ReviewRepository reviewRepository;
+    private final CacheManager cacheManager;
 
 
     // 공지사항 최근 4개 캐시히트 불러오기
-    @Cacheable(value = "notices", key = "'latestNotices'")
     public List<ResNoticeList> getLatestNotice(){
+        var cache = cacheManager.getCache("notices");
+        List<ResNoticeList> cachedNotices = cache != null ? cache.get("latestNotices", List.class) : null;
+
+        if (cachedNotices != null) {
+            return cachedNotices;
+        }
+
         List<Notice> notices = noticeRepository.findTop4ByOrderByCreatedDateDesc();
-        return notices.stream().map(ResNoticeList::fromEntity).toList();
+        List<ResNoticeList> noticeList = notices.stream().map(ResNoticeList::fromEntity).toList();
+
+        if (cache != null) {
+            cache.put("latestNotices", noticeList);
+        }
+        return noticeList;
     }
 
     // 리뷰 4개 캐시 ( 조회수 기준 )

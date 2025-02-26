@@ -1,6 +1,7 @@
 package com.project.reservation.security.google;
 
 import com.project.reservation.entity.member.Member;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.Map;
 
 
+@Getter
 public class OAuth2UserPrincipal  implements OAuth2User, UserDetails {
 
     private final OAuth2UserInfo userInfo;
@@ -65,7 +67,4 @@ public class OAuth2UserPrincipal  implements OAuth2User, UserDetails {
         return userInfo.getName();
     }
 
-    public OAuth2UserInfo getUserInfo() {
-        return userInfo;
-    }
 }

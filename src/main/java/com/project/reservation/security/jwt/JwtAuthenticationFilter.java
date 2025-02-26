@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Bearer lkshg.afuqwo.cxoih 가 null 이 아니고, Bearer 로 시작하면
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
             // Bearer lkshg.afuqwo.cxoih 에서 Bearer 를 공백으로 대체해서 (순수 토큰만 분리해서) 미리 초기화한 authToken 에 대입
-            authToken = header.replace(TOKEN_PREFIX," ");
+            authToken = header.substring(TOKEN_PREFIX.length());
             // jwtTokenUtil 의 getUsernameFromToken 메소드 사용해서 클레임에서 getSubject 로 사용자 이름만 추출해서 초기화해둔 username 에 대입
             // .this 는 멤버변수임을 확실히 하기 위해 사용되었고, 빼고 사용해도 문제없다.
             // IllegalArgumentException: 잘못된 인자 (예: 널 토큰), ExpiredJwtException: 만료된 토큰,

@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 
-public class ResReviewList {
+public class ResReviewList implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long reviewId;
     private String title;

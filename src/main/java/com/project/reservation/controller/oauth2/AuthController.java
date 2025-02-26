@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -21,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.project.reservation.dto.response.member.ResMemberToken.fromEntity;
 
 @Slf4j
 @RestController
@@ -49,11 +52,11 @@ public class AuthController {
         return ResponseEntity.ok(googleAuthUrl);
     }
     @GetMapping("/oauth2/callback")
-    public ResponseEntity<ResMemberToken> googleCallBack(@RequestParam("code") String code) throws IOException {
+    public ResponseEntity<ResMemberToken> googleCallBack(@RequestParam("code") String code,HttpServletResponse response) throws IOException {
         String redirectUri = "https://5889-211-197-18-247.ngrok-free.app/api/oauth2/callback"; // 구글에서 리디렉션될 URI
         log.info("요청 코드 는 {}",code);
         // 토큰 요청 파라미터
-        String body = "code=" + code +
+        String body =code +
                 "&client_id=" + clientId +
                 "&client_secret=" + clientSecret +
                 "&redirect_uri=" + redirectUri +
@@ -72,8 +75,9 @@ public class AuthController {
         String jwtToken = jwtTokenUtil.googleToken(userPrincipal);
         log.info("발급한 토큰 {}",jwtToken);
         // 5. JWT 토큰을 응답에 포함
-        ResMemberToken resMemberToken = new ResMemberToken(userPrincipal.getUsername(),jwtToken);
-        return ResponseEntity.ok(resMemberToken);
+        ResMemberToken resMemberToken = ResMemberToken.fromEntity(userPrincipal, jwtToken);
+        log.info(resMemberToken.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(resMemberToken);
     }
 
     // 구글에서 받은 `code`를 통해 액세스 토큰을 얻는 메서드
@@ -99,8 +103,9 @@ public class AuthController {
             ResponseEntity<Map> responseEntity = restTemplate.exchange(
                     tokenUrl, HttpMethod.POST, requestEntity, Map.class
             );
+            log.info("requestEntity{}",responseEntity);
 
-            Map<String, Object> responseBody = responseEntity.getBody();
+            Map responseBody = responseEntity.getBody();
             log.info("응답 바디: {}", responseBody); // 응답 로그 추가
 
             if (responseBody != null && responseBody.containsKey("access_token")) {
@@ -116,7 +121,7 @@ public class AuthController {
     }
 
     // 구글 API로부터 사용자 정보를 가져오는 메서드
-    private Map<String, Object> getGoogleUserInfoFromAPI(String accessToken) throws IOException {
+    public OAuth2UserPrincipal getUserInfoFromGoogle(String accessToken) throws IOException {
         String userInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
 
         // HTTP 헤더 설정
@@ -141,22 +146,14 @@ public class AuthController {
             throw new RuntimeException("Failed to obtain user info from Google.");
         }
 
-        return userInfo;
-    }
-
-    // 구글 액세스 토큰을 통해 사용자 정보 가져오기
-    public OAuth2UserPrincipal getUserInfoFromGoogle(String accessToken) throws IOException {
-        // 구글 API를 사용하여 사용자 정보 가져오기
-        Map<String, Object> attributes = getGoogleUserInfoFromAPI(accessToken);
-
-        // GoogleOAuth2UserInfo 생성
-        GoogleOAuth2UserInfo userInfo = GoogleOAuth2UserInfo.builder()
+        // GoogleOAuth2UserInfo 객체 생성
+        GoogleOAuth2UserInfo userInfoObject = GoogleOAuth2UserInfo.builder()
                 .accessToken(accessToken)
-                .attributes(attributes)
+                .attributes(userInfo)
                 .build();
 
         // OAuth2UserPrincipal 객체 생성하여 반환
-        return new OAuth2UserPrincipal(userInfo);
+        return new OAuth2UserPrincipal(userInfoObject);
     }
 
 }

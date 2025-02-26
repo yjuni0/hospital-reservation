@@ -76,10 +76,6 @@ public class MemberService {
 
         // 이메일 인증 여부 확인
         if (isEmailVerified(reqMemberRegister.getEmail())) {
-            // 비밀번호는 HttpStatus 반환 안함?
-            checkPassword(reqMemberRegister.getPassword(), reqMemberRegister.getPasswordCheck());
-            log.info("3번 통과");
-
             // 패스워드 암호화
             String encodedPassword = passwordEncoder.encode(reqMemberRegister.getPassword());
             log.info("4번 통과");

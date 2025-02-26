@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Map;
 @Getter
 @AllArgsConstructor
-public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
+public class GoogleOAuth2UserInfo implements OAuth2UserInfo  {
 
     private final Map<String, Object> attributes;
     private final String accessToken;
