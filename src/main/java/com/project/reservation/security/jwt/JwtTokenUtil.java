@@ -1,7 +1,6 @@
 package com.project.reservation.security.jwt;
 
 import com.project.reservation.entity.member.Member;
-import com.project.reservation.security.google.OAuth2UserPrincipal;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -47,12 +46,6 @@ public class JwtTokenUtil implements Serializable {
         claims.put("id",member.getNickName());
         claims.put("roles", member.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         return doGenerateToken(claims, member.getUsername());
-    }
-    public String googleToken(OAuth2UserPrincipal userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id",userDetails.getName());
-        claims.put("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
-        return doGenerateToken(claims, userDetails.getUsername());
     }
 
     // doGenerateToken - 실제 토큰 생성 로직 구현. 반환 타입은 String, JWT 토큰 문자열을 반환.

@@ -7,6 +7,7 @@ import com.project.reservation.service.onlineConsult.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +17,7 @@ public class AdminAnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/question/{questionId}/answer/write")
-    public ResponseEntity<ResAnswer> writeAnswer(Member admin, @PathVariable Long questionId, @RequestBody ReqAnswer reqAnswer) {
+    public ResponseEntity<ResAnswer> writeAnswer(@AuthenticationPrincipal Member admin, @PathVariable Long questionId, @RequestBody ReqAnswer reqAnswer) {
         ResAnswer resAnswer = answerService.write(admin,questionId,reqAnswer);
         return ResponseEntity.status(HttpStatus.OK).body(resAnswer);
     }

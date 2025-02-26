@@ -24,7 +24,7 @@ public class NoticeFile extends BaseTimeEntity {
     private String type;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(nullable=false)
     private Notice notice;
 

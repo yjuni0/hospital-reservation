@@ -11,11 +11,12 @@ import com.project.reservation.dto.response.member.ResMember;
 
 import com.project.reservation.dto.response.member.ResMemberToken;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Pet;
 import com.project.reservation.entity.member.Role;
 import com.project.reservation.repository.member.MemberRepository;
-import com.project.reservation.security.google.OAuth2UserPrincipal;
 import com.project.reservation.security.jwt.CustomUserDetailsService;
 import com.project.reservation.security.jwt.JwtTokenUtil;
+import com.project.reservation.service.pet.PetService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,7 @@ public class MemberService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+    private final PetService petService;
 
     // 인증상태를 관리하기 위한 동시성 맵. 키값은 수신자, 값은 true/false
     private final Map<String, Boolean> verificationStatus = new ConcurrentHashMap<>();
@@ -85,6 +87,7 @@ public class MemberService {
             log.info("5번 통과");
         }
         // DTO 를 엔티티 객체로 변환, 변환된 Member 엔티티를 데이터베이스에 저장, 변수에 대입
+
         Member registerMember = memberRepository.save(
                 ReqMemberRegister.ofEntity(reqMemberRegister));
         log.info("6번 통과");
@@ -179,24 +182,5 @@ public class MemberService {
         } catch (BadCredentialsException e) {
             throw new MemberException("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-    }
-
-    public void saveOrUpdateMember(OAuth2UserPrincipal principal) {
-        // 구글 사용자 정보로 Member 엔티티 생성
-        Member member = Member.builder()
-                .email(principal.getName())
-                .password(principal.getPassword())
-                .name(principal.getName())
-                .nickName(principal.getName())
-                .roles(Role.USER)
-                .build();
-
-        // 이미 존재하는 사용자라면 업데이트, 아니라면 새로 저장
-        Optional<Member> existingMember = memberRepository.findByEmail(member.getEmail());
-        if (!existingMember.isPresent()) {
-            memberRepository.save(member);
-
-        }
-
     }
 }

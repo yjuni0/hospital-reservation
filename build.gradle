@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+
 	// DB
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -61,10 +62,11 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 JJWT API 를 제공
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 JJWT 구현을 제공
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 Jackson 기반 JJWT 구현을 제공
+
+	//OAuth2
+	implementation  'com.google.http-client:google-http-client-jackson2'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth 2.0 클라이언트 기능을 위한 Spring Boot 스타터를 제공
 
-	//oauth2
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	// -------------------- TEST --------------------------------------------------------------------
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

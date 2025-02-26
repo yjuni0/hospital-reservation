@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,36 +24,36 @@ public class QuestionController {
 
     // 작성
     @PostMapping("/write")
-    public ResponseEntity<ResQuestion> write(Member member, @RequestBody ReqQuestion req) {
+    public ResponseEntity<ResQuestion> write(@AuthenticationPrincipal Member member, @RequestBody ReqQuestion req) {
         ResQuestion res = questionService.write(member,req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
     // 리스트
     @GetMapping("/list")
-    public ResponseEntity<Page<ResQuestionList>> questionList(Member member,@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity<Page<ResQuestionList>> questionList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<ResQuestionList> listRes = questionService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listRes);
     }
 
     // 상세조회
     @GetMapping("/{questionId}")
-    public ResponseEntity<ResQuestion> detail(Member member,@PathVariable("questionId") Long questionId){
+    public ResponseEntity<ResQuestion> detail(@AuthenticationPrincipal Member member,@PathVariable("questionId") Long questionId){
         ResQuestion questionDetail = questionService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);
     }
 
     // 수정
     @PutMapping("/{questionId}/update")
-    public ResponseEntity<ResQuestion> update(Member member,@PathVariable("questionId") Long questionId, @RequestBody ReqQuestion req) {
+    public ResponseEntity<ResQuestion> update(@AuthenticationPrincipal Member member,@PathVariable("questionId") Long questionId, @RequestBody ReqQuestion req) {
         ResQuestion updateQuestion = questionService.update(member,questionId,req);
         return ResponseEntity.status(HttpStatus.OK).body(updateQuestion);
     }
 
     // 삭제
     @DeleteMapping("/{questionId}/delete")
-    public ResponseEntity<Long> delete(Member member,@PathVariable("questionId") Long questionId) {
-        questionService.delete(member,questionId);
+    public ResponseEntity<Long> delete(@PathVariable("questionId") Long questionId) {
+        questionService.delete(questionId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

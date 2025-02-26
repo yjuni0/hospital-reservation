@@ -55,25 +55,25 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private Role roles;
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Question> questions;
+    private List<Question> questions=new ArrayList<>();
 
     @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<Answer> answers=new ArrayList<>();
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    private List<Comment> comments=new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews=new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Pet> pets;
+    private List<Pet> pets=new ArrayList<>();
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
+    private List<Reservation> reservations=new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ReviewLike> likes;
+    private List<ReviewLike> likes=new ArrayList<>();
     @Builder
     public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles) {
         this.id = id;
@@ -110,7 +110,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE." + this.roles.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.roles.name()));
         return authorities;
     }
 

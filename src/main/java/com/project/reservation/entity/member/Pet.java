@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,12 +35,12 @@ public class Pet extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Breed breed;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(nullable = false)
     private Member member;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
+    private List<Reservation> reservations=new ArrayList<>();
 
     public Pet(long l, String name, int i, com.nimbusds.openid.connect.sdk.claims.Gender male, Breed breed, Member member) {
         super();

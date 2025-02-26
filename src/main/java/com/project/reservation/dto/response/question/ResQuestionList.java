@@ -17,7 +17,6 @@ public class ResQuestionList {
     private String title;
     private String content;
     private String writerName;
-    private Long answerId;
     private LocalDateTime createdDate;
 
     public static ResQuestionList fromEntity(Question question){
@@ -26,7 +25,6 @@ public class ResQuestionList {
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writerName(question.getMember().getNickName())
-                .answerId(question.getAnswer().getId())
                 .createdDate(question.getCreatedDate())
                 .build();
     }

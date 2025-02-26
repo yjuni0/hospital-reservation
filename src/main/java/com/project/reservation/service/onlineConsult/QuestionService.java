@@ -28,11 +28,9 @@ public class QuestionService {
     private final MemberRepository memberRepository;
     // 작성
     public ResQuestion write(Member member, ReqQuestion req) {
+        Member wrtierMember = memberRepository.findById(member.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
         Question saveQuestion = ReqQuestion.toEntity(req);
-        if (!memberRepository.existsById(member.getId())) {
-            throw new IllegalArgumentException("존재하지 않는 멤버입니다. ");
-        }
-        saveQuestion.setMappingMember(member);
+        saveQuestion.setMember(wrtierMember);
         questionRepository.save(saveQuestion);
         log.info("온라인 문의 작성: {}", saveQuestion);
         return ResQuestion.fromEntity(saveQuestion);
@@ -73,15 +71,7 @@ public class QuestionService {
     }
 
     // 삭제
-    public void delete(Member member,Long questionId) {
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 온라인 문의가 없습니다."));
-
-        // 작성자와 로그인한 멤버가 일치하거나 관리자인지 확인
-        if (!question.getMember().getId().equals(member.getId()) && !isAdmin(member)) {
-            throw new IllegalArgumentException("자신이 작성한 게시글만 삭제할 수 있습니다.");
-        }
-
+    public void delete(Long questionId) {
         questionRepository.deleteById(questionId);
         log.info("온라인 문의 삭제 완료: id={}", questionId);
     }

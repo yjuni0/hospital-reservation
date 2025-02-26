@@ -29,8 +29,8 @@ public class Notice extends BaseTimeEntity {
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<NoticeFile> noticeFile = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "admin_id")//,nullable = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "admin_id")
     private Member admin;
 
     @Builder
