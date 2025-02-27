@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,10 +18,10 @@ public class ResNoticeList implements Serializable {
     private String adminName;
     private String title;
     private String content;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Builder
-    public ResNoticeList(Long id, String adminName, String title, String content,LocalDateTime createdDate) {
+    public ResNoticeList(Long id, String adminName, String title, String content, LocalDate createdDate) {
         this.id = id;
         this.adminName = adminName;
         this.title = title;
@@ -31,10 +32,10 @@ public class ResNoticeList implements Serializable {
     public static ResNoticeList fromEntity(Notice notice) {
         return ResNoticeList.builder()
                 .id(notice.getId())
-                .adminName(notice.getAdmin().getName())
+                .adminName(notice.getAdmin().getNickName())
                 .title(notice.getTitle())
                 .content(notice.getContent())
-                .createdDate(notice.getCreatedDate())
+                .createdDate(notice.getCreatedDate().toLocalDate())
                 .build();
     }
 }

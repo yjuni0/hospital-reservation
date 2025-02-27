@@ -30,7 +30,7 @@ public class ReviewController {
     // 리뷰 페이징 목록
     @GetMapping("/list")
     public ResponseEntity<Page<ResReviewList>> reviewList(
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResReviewList> listDTO = reviewService.getReviews(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
@@ -38,7 +38,7 @@ public class ReviewController {
     // 리뷰 검색
     @GetMapping("/search")
     public ResponseEntity<Page<ResReviewList>> search(
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam String title,
             @RequestParam String content,
             @RequestParam String writerName) {

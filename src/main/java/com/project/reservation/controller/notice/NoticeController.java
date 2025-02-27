@@ -23,7 +23,7 @@ public class NoticeController {
 
     // 전체 페이징
     @GetMapping("/list")
-    public ResponseEntity<Page<ResNoticeList>> noticeList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ResNoticeList>> noticeList(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResNoticeList> listDto = noticeService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDto); //200 반환
     }
