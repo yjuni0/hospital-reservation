@@ -1,5 +1,6 @@
 package com.project.reservation.dto.response.member;
 
+import com.project.reservation.entity.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,19 +12,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 public class ResMemberToken {
 
-    private String email;
+    private String nickName;
     private String token;
 
     @Builder
-    public ResMemberToken(String email, String token) {
-        this.email = email;
+    public ResMemberToken(String nickName, String token) {
+        this.nickName = nickName;
         this.token = token;
     }
 
     // Entity -> DTO
-    public static ResMemberToken fromEntity(UserDetails user, String token) {
+    public static ResMemberToken fromEntity(Member member, String token) {
         return ResMemberToken.builder()
-                .email(user.getUsername())
+                .nickName(member.getNickName())
                 .token(token)
                 .build();
     }

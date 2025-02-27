@@ -34,16 +34,9 @@ public class JwtTokenUtil implements Serializable {
 
     // 1.토큰 생성
 
-    // generateToken - public 으로 선언. String 타입의 JWT 컴팩트 직렬화를 통해 URL-safe 문자열로 변환하여 반환.
-    // UserDetailsService 를 구현한 CustomUserDetailsService 에서 반환된, UserDetails 를 구현한 Member 객체를 매개변수로.
-    // HashMap 객체 생성, 토큰에 포함될 클레임을 저장하는 Map 객체를 claims 라는 변수로 초기화하여 키(String)와 값(Object)의 쌍으로 저장.
-    // Map<String, Object>는 키(String)와 값(Object)의 쌍을 저장하는 자료 구조. HashMap을 사용하여 이를 구현한 것
-    // 최종적으로 claims 안에는 String 타입의 여러 키와 Object 타입의 여러 값이 쌍으로 매핑되어 들어갑니다. JSON 데이터 같은 것.
-    // 예를 들어, claims에 사용자 역할을 추가하고 싶다면 다음과 같이 할 수 있습니다: claims.put("role", userDetails.getRole());
-    // doGenerateToken 메소드로 실제 토큰 생성. 초기화된 claims 맵과 userDetails 객체에서 가져온 사용자 이름(이메일)을 매개변수로 전달.
     public String generateToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id",member.getNickName());
+        claims.put("nickName",member.getNickName());
         claims.put("roles", member.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         return doGenerateToken(claims, member.getUsername());
     }

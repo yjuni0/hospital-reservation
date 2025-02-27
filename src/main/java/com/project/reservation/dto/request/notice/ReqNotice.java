@@ -13,16 +13,14 @@ import lombok.Setter;
 public class ReqNotice {
     private String title;
     private String content;
-    private Member member;
 
     @Builder
-    public ReqNotice(String title, String content, Member member) {
+    public ReqNotice(String title, String content) {
         this.title = title;
         this.content = content;
-        this.member = member;
     }
 
-    public static Notice ofEntity(ReqNotice req) {
-        return Notice.builder().title(req.getTitle()).content(req.getContent()).admin(req.getMember()).build();
+    public static Notice ofEntity(ReqNotice req,Member member) {
+        return Notice.builder().title(req.getTitle()).content(req.getContent()).admin(member).build();
     }
 }

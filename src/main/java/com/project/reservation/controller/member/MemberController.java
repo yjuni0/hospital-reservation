@@ -1,12 +1,10 @@
 package com.project.reservation.controller.member;
 
 import com.project.reservation.common.exception.MemberException;
-import com.project.reservation.dto.request.member.ReqMemberFindId;
-import com.project.reservation.dto.request.member.ReqMemberLogin;
-import com.project.reservation.dto.request.member.ReqMemberRegister;
-import com.project.reservation.dto.request.member.ReqMemberFindPw;
+import com.project.reservation.dto.request.member.*;
 import com.project.reservation.dto.response.member.ResMember;
 import com.project.reservation.dto.response.member.ResMemberToken;
+import com.project.reservation.entity.member.Member;
 import com.project.reservation.service.member.MailService;
 import com.project.reservation.service.member.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -54,10 +53,10 @@ public class MemberController {
         return ResponseEntity.ok(registeredMember);
     }
 
+
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<ResMemberToken> login(@RequestBody ReqMemberLogin reqMemberLogin, HttpServletResponse response){
-        // 서비스레이어에서 요청 DTO 로 로그인 메소드를 한 결과를 ResMemberToken 로 받음. 성공시 생성된 토큰 정보
         ResMemberToken resMemberToken = memberService.login(reqMemberLogin,response);
         return  ResponseEntity.status(HttpStatus.OK).header(resMemberToken.getToken()).body(resMemberToken);
 //        return ResponseEntity.ok()
@@ -70,7 +69,7 @@ public class MemberController {
     @PostMapping("/findId")
     public ResponseEntity<String> findId(
             @RequestBody ReqMemberFindId reqMemberFindId){
-        String memberEmail = memberService.findEmail(reqMemberFindId.email(), reqMemberFindId.phoneNum());
+        String memberEmail = memberService.findEmail(reqMemberFindId.name(), reqMemberFindId.phoneNum());
 
         return ResponseEntity.ok("귀하의 이메일 입니다. : " + memberEmail);
     }
@@ -113,5 +112,12 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/myPage")
+    public ResponseEntity<ResMember> myPagePasswordCheck(
+            @AuthenticationPrincipal Member member,
+            @RequestBody ReqPassword reqPassword) {
+        ResMember resMember = memberService.myPageCheck(member,reqPassword.password());
+        return ResponseEntity.ok(resMember);
+    }
 
 }

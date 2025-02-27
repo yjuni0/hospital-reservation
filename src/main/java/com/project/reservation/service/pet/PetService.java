@@ -8,44 +8,67 @@ import com.project.reservation.entity.member.Pet;
 import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.repository.member.PetRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-@RequiredArgsConstructor
-@Transactional
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
+
 public class PetService {
 
    private final PetRepository petRepository;
-    private final MemberRepository memberRepository;
 
-   // 모든 펫 조회
-   public List<Pet> findAllPets(Long memberId) {
-      return petRepository.findByMember_Id(memberId);
+   public List<ResPet> getPets(Member member) {
+      if(member.getPets() == null) {
+         return null;
+      }
+      return member.getPets().stream()
+              .map(ResPet::fromEntity)
+              .collect(Collectors.toList());
    }
 
-   // ID로 펫 조회
-   public Pet findPetById(Long petId) {
-      return petRepository.findById(petId).orElseThrow(()-> new IllegalArgumentException("펫이 없음"));
-   }
+   public List<ResPet> updatePetProfiles(Member member, List<ReqPet> reqPets) {
 
-   public Pet petRegister(Long memberId, Pet reqPet) {
-      Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-      reqPet.addMember(member);
-      petRepository.save(reqPet);
-      return reqPet;
-   }
+      // 기존 펫들을 Map으로 변환 (ID를 키로 사용)
+      Map<Long, Pet> existingPetsMap = petRepository.findByMember_Id(member.getId()).stream()
+              .collect(Collectors.toMap(Pet::getId, pet -> pet));
 
-   // 펫 정보 수정
-   public Pet updatePet(Long petId, Pet pet) {
-      Pet upPet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("Pet not found"));
-      upPet.updatePet(pet.getName(),pet.getBreed(),pet.getAge());
-      petRepository.save(pet);
-      return upPet;
-   }
-   public void deletePet(Long petId) {
-      petRepository.deleteById(petId);
+      List<Pet> petsToSave = new ArrayList<>();
+
+      for (ReqPet reqPet : reqPets) {
+         if (reqPet.getId() == null) {
+            // 새 펫 추가
+            Pet newPet = ReqPet.toEntity(reqPet, member);
+            newPet.setMember(member);
+            petsToSave.add(newPet);
+         } else {
+            // 기존 펫 업데이트 또는 새 펫 추가
+            Pet pet = existingPetsMap.getOrDefault(reqPet.getId(), new Pet());
+            pet.updatePet(reqPet.getName(), reqPet.getBreed(), reqPet.getAge());
+            pet.setMember(member);
+            petsToSave.add(pet);
+            existingPetsMap.remove(reqPet.getId());
+         }
+      }
+
+      // 변경된 펫들 저장 (새로운 펫 포함)
+      petRepository.saveAll(petsToSave);
+
+      // 남은 펫들 삭제 (요청에 포함되지 않은 기존 펫)
+      if (!existingPetsMap.isEmpty()) {
+         petRepository.deleteAll(existingPetsMap.values());
+      }
+
+      return member.getPets().stream()
+              .map(ResPet::fromEntity)
+              .collect(Collectors.toList());
    }
 }

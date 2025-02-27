@@ -29,27 +29,28 @@ public class Pet extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private Breed breed;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(nullable = false)
     private Member member;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations=new ArrayList<>();
 
-    public Pet(long l, String name, int i, com.nimbusds.openid.connect.sdk.claims.Gender male, Breed breed, Member member) {
-        super();
-    }
     public void addMember(Member member) {
         this.member = member;
         member.getPets().add(this);
     }
 
     public void updatePet(String name, Breed breed, int age) {
+        this.name=name;
+        this.breed = breed;
+        this.age = age;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getPets().add(this);
     }
 }

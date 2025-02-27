@@ -9,6 +9,7 @@ import com.project.reservation.dto.request.member.ReqMemberRegister;
 import com.project.reservation.dto.response.member.ResMember;
 
 
+import com.project.reservation.dto.response.member.ResMemberList;
 import com.project.reservation.dto.response.member.ResMemberToken;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.member.Pet;
@@ -21,14 +22,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +52,6 @@ public class MemberService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final PetService petService;
 
     // 인증상태를 관리하기 위한 동시성 맵. 키값은 수신자, 값은 true/false
     private final Map<String, Boolean> verificationStatus = new ConcurrentHashMap<>();
@@ -183,4 +189,10 @@ public class MemberService {
             throw new MemberException("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public Page<ResMemberList> getAll(Pageable pageable) {
+        return memberRepository.findAll(pageable).map(ResMemberList::fromEntity);
+    }
+
+
 }

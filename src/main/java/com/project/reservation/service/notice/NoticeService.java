@@ -36,16 +36,11 @@ public class NoticeService {
     private final RedisService redisService;
 
     public ResNoticeDetail create(Member admin, ReqNotice req) {
-        if(!(admin.getRoles() == Role.ADMIN)){
-            throw new MemberException("관리자가 아닙니다.", HttpStatus.BAD_REQUEST);
-        }
         // Member 엔티티를 환영속 상태로 변
         Member persistentAdmin = memberRepository.findById(admin.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관리자입니다."));
 
-        req.setMember(persistentAdmin); // 영속 상태의 Member 설정
-
-        Notice notice = ReqNotice.ofEntity(req);
+        Notice notice = ReqNotice.ofEntity(req,persistentAdmin);
         log.info("해당 공지사항 생성 완료: {}", notice);
 
         Notice savedNotice = noticeRepository.save(notice);
@@ -53,6 +48,7 @@ public class NoticeService {
 
         return ResNoticeDetail.fromEntity(savedNotice);
     }
+
     // 공지사항 전체 조회
     public Page<ResNoticeList> getAll(Pageable pageable) {
         log.info("요청 한 공지사항 전체 리스트"+noticeRepository.findAll(pageable).map(ResNoticeList::fromEntity));

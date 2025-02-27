@@ -1,5 +1,6 @@
 package com.project.reservation.dto.response.member;
 
+import com.project.reservation.dto.response.pet.ResPet;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.member.Pet;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,10 +22,10 @@ public class ResMember {
     private String addr;
     private String birth;
     private String phoneNum;
-    private List<Pet> pets;
+    private List<ResPet> pets;
 
     @Builder
-    public ResMember(String name, String email, String password, String nickName, String addr, String birth, String phoneNum, List<Pet> pets) {
+    public ResMember(String name, String email, String password, String nickName, String addr, String birth, String phoneNum, List<ResPet> pets) {
         this.name = name;
         this.email = email;
         this.nickName = nickName;
@@ -43,7 +45,7 @@ public class ResMember {
                 .addr(member.getAddr())
                 .birth(member.getBirth())
                 .phoneNum(member.getPhoneNum())
-                .pets(member.getPets())
+                .pets(member.getPets().stream().map(ResPet::fromEntity).collect(Collectors.toList()))
                 .build();
     }
 }
