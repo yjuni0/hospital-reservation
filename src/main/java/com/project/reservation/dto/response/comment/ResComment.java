@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ResComment {
 
-    private Long commentId;
+    private Long id;
     private String content;
     private String nickName;
     private LocalDateTime createdDate;
 
     @Builder
-    public ResComment(Long commentId, String content, String nickName, LocalDateTime createdDate) {
-        this.commentId = commentId;
+    public ResComment(Long id, String content, String nickName, LocalDateTime createdDate) {
+        this.id = id;
         this.content = content;
         this.nickName = nickName;
         this.createdDate = createdDate;
@@ -29,7 +29,7 @@ public class ResComment {
     // Entity -> DTO
     public static ResComment fromEntity(Comment comment) {
         return ResComment.builder()
-                .commentId(comment.getId())
+                .id(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getMember().getNickName())
                 .createdDate(comment.getCreatedDate())

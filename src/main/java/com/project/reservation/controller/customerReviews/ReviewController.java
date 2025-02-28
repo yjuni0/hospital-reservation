@@ -12,18 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/review")
+@RequestMapping("/api/member/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -31,7 +30,7 @@ public class ReviewController {
     // 리뷰 페이징 목록
     @GetMapping("/list")
     public ResponseEntity<Page<ResReviewList>> reviewList(
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResReviewList> listDTO = reviewService.getReviews(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
@@ -41,7 +40,7 @@ public class ReviewController {
     @GetMapping("/{reviewId}")
     public ResponseEntity<ResReviewDetail> detail(
             @PathVariable("reviewId")
-            @Param("reviewId") Long reviewId
+            Long reviewId
     ) {
         ResReviewDetail getDetail = reviewService.readReview(reviewId);
         return ResponseEntity.status(HttpStatus.OK).body(getDetail);
@@ -50,10 +49,11 @@ public class ReviewController {
     // 리뷰 작성
     @PostMapping("/write")
     public ResponseEntity<ResReviewDetail> write(
-            @RequestBody ReqReviewWrite reqReviewWrite,
-            @AuthenticationPrincipal Member member
+            @AuthenticationPrincipal Member member,
+            @RequestBody ReqReviewWrite reqReviewWrite
+
     ) {
-        ResReviewDetail saveReviewDTO = reviewService.createReview(reqReviewWrite, member);
+        ResReviewDetail saveReviewDTO = reviewService.createReview(member,reqReviewWrite);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveReviewDTO);
     }
 
@@ -63,6 +63,9 @@ public class ReviewController {
             @PathVariable("reviewId") Long reviewId,
             @RequestBody ReqReviewUpdate reqReviewUpdate,
             @AuthenticationPrincipal Member member) {
+
+        log.info("🔍 현재 로그인한 사용자: {}" ,member.getNickName());
+
         ResReviewDetail resReviewDetail = reviewService.updateReview(reviewId, reqReviewUpdate, member);
         return ResponseEntity.status(HttpStatus.OK).body(resReviewDetail);
     }

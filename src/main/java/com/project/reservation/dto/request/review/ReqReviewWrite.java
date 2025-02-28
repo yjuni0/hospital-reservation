@@ -1,6 +1,7 @@
 package com.project.reservation.dto.request.review;
 
 import com.project.reservation.entity.customerReviews.Review;
+import com.project.reservation.entity.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

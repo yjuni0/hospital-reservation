@@ -6,7 +6,7 @@ import com.project.reservation.entity.onlineReserve.Reservation;
 import java.time.LocalDateTime;
 
 public record ResReservation(
-        Long reservationId,
+        Long id,
         String memberName,
         String petName,
         String departmentName,

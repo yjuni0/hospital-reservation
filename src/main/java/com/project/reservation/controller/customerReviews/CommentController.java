@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("{reviewId}/comment")
+@RequestMapping("/api/review/{reviewId}/comment")
 public class CommentController {
 
     private final CommentService commentService;
-
     // 댓글 목록(페이징)
     @GetMapping("/list")
     public ResponseEntity<Page<ResComment>> commentList(
@@ -43,20 +42,11 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveCommentDTO);
     }
 
-    // 댓글 수정
-    @PutMapping("/{commentId}/update")
-    public ResponseEntity<ResComment> update(
-            @PathVariable("commentId") Long commentId,
-            @RequestBody ReqComment reqComment,
-            @AuthenticationPrincipal Member member) {
-
-        ResComment resComment = commentService.updateComment(commentId, reqComment, member);
-        return ResponseEntity.status(HttpStatus.OK).body(resComment);
-    }
 
     // 댓글 삭제
     @DeleteMapping("/{commentId}/delete")
     public ResponseEntity<Long> delete(
+            @PathVariable("reviewId") Long reviewId,
             @PathVariable("commentId") Long commentId,
             @AuthenticationPrincipal Member member) {
 

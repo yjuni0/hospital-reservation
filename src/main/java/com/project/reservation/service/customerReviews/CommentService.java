@@ -36,7 +36,7 @@ public class CommentService {
     //댓글 조회 (페이징) -  pageable 페이징 정보, reviewId 댓글을 조회할 리뷰의 ID
     public Page<ResComment> getComments(Pageable pageable, Long reviewId) {
         // 리뷰 ID에 해당하는 댓글들을 페이징 처리하여 조회 (댓글과 작성자, 리뷰를 함께 가져옴)
-        Page<Comment> comments = commentRepository.findAllWithMemberAndReview(pageable, reviewId);
+        Page<Comment> comments = commentRepository.findByReview_Id(pageable, reviewId);
         // 조회된 댓글 엔티티 리스트를 ResComment DTO 리스트로
         List<ResComment> commentList = comments.getContent().stream()
                 .map(ResComment::fromEntity) // 각 Comment 엔티티를 ResComment DTO로 변환
@@ -63,21 +63,6 @@ public class CommentService {
         Comment saveComment = commentRepository.save(comment);
         // 저장된 Comment 엔티티를 ResComment DTO로 변환하여 반환
         return ResComment.fromEntity(saveComment);
-    }
-
-    // 댓글 수정
-    public ResComment updateComment(@Param("commentId") Long commentId, ReqComment reqComment, Member currentMember) {
-        Comment comment = commentRepository.findByIdWithMemberAndReview(commentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Comment", "Comment Id", String.valueOf(commentId))
-                );
-
-        // 현재 사용자가 댓글 작성자인지 확인
-        if (!comment.getMember().getId().equals(currentMember.getId())) {
-            throw new ReviewException("댓글 작성자만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST);
-        }
-        comment.update(reqComment.getContent());
-        Comment newComment = commentRepository.save(comment);
-        return ResComment.fromEntity(newComment);
     }
 
     // 댓글 삭제

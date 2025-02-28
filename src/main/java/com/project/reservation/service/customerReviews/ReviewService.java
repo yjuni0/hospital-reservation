@@ -1,6 +1,5 @@
 package com.project.reservation.service.customerReviews;
 
-import com.project.reservation.common.SearchDto;
 import com.project.reservation.common.exception.ResourceNotFoundException;
 
 import com.project.reservation.common.exception.ReviewException;
@@ -19,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +26,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class ReviewService {
 
     private final MemberRepository memberRepository;
@@ -48,7 +48,7 @@ public class ReviewService {
 
 
     // 리뷰 등록
-    public ResReviewDetail createReview(ReqReviewWrite reqReviewWrite, Member member) {
+    public ResReviewDetail createReview(Member member, ReqReviewWrite reqReviewWrite ) {
         // 요청 데이터를 Review 엔티티로 변환
         Review review = ReqReviewWrite.ofEntity(reqReviewWrite);
         // 작성자 회원 정보 조회
@@ -57,7 +57,6 @@ public class ReviewService {
         );
         // 리뷰에 작성자 매핑
         review.setMember(writerMember);
-
         // 리뷰 저장
         Review saveReview = reviewRepository.save(review);
         // 저장된 리뷰 데이터 반환
@@ -65,9 +64,9 @@ public class ReviewService {
     }
 
     // 리뷰 상세보기
-    public ResReviewDetail readReview(@Param("reviewId") Long reviewId) {
+    public ResReviewDetail readReview( Long reviewId) {
         // 리뷰 ID로 리뷰 조회
-        Review findReview = reviewRepository.findByIdWithMemberAndComments(reviewId)
+        Review findReview = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId))
                 );
         // 조회수 증가
@@ -77,16 +76,17 @@ public class ReviewService {
     }
 
     // 리뷰 수정
-    public ResReviewDetail updateReview(@Param("reviewId") Long reviewId, ReqReviewUpdate reqReviewUpdate, Member currentMember) {
+    public ResReviewDetail updateReview( Long reviewId, ReqReviewUpdate reqReviewUpdate, Member member) {
         // 리뷰 ID로 기존 리뷰 조회
-        Review review = reviewRepository.findByIdWithMemberAndComments(reviewId)
+        Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId))
                 );
-
+        log.info(review.getMember().getEmail());
         // 현재 로그인한 사용자와 리뷰 작성자 비교
-        if (!review.getMember().getId().equals(currentMember.getId())) {
+        if (!review.getMember().getEmail().equals(member.getUsername())) {
             throw new ReviewException("후기 작성자만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST);
         }
+
         // 리뷰 내용 수정
         review.update(reqReviewUpdate.getTitle(), reqReviewUpdate.getContent());
         // 수정된 리뷰 저장
@@ -96,7 +96,7 @@ public class ReviewService {
     }
 
     // 리뷰 삭제
-    @Transactional
+
     public void deleteReview(Long reviewId, Member currentMember) {
 
         Review review = reviewRepository.findById(reviewId)

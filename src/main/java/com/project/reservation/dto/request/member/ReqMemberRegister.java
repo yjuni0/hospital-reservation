@@ -18,7 +18,6 @@ public class ReqMemberRegister {
     private String name;
     private String email;
     private String password;
-    private String passwordCheck;
     private String nickName;
     private String addr;
     private String birth;
@@ -27,12 +26,11 @@ public class ReqMemberRegister {
 
     @Builder
     public ReqMemberRegister(
-            String name, String email,String password, String passwordCheck,
+            String name, String email,String password,
             String nickName, String addr, String birth, String phoneNum, List<ReqPet> pets) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.passwordCheck = passwordCheck;
         this.nickName = nickName;
         this.addr = addr;
         this.birth = birth;

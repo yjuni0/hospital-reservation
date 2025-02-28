@@ -12,11 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class ResReviewList implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long reviewId;
+    private Long id;
     private String title;
     private String nickName;
     private LocalDateTime createdDate;
@@ -24,8 +23,8 @@ public class ResReviewList implements Serializable {
     private int likes;
 
     @Builder
-    public ResReviewList(Long reviewId, String title, String nickName, LocalDateTime createdDate, int views, int likes) {
-        this.reviewId = reviewId;
+    public ResReviewList(Long id, String title, String nickName, LocalDateTime createdDate, int views, int likes) {
+        this.id = id;
         this.title = title;
         this.nickName = nickName;
         this.createdDate = createdDate;
@@ -36,7 +35,7 @@ public class ResReviewList implements Serializable {
     // Entity -> DTO
     public static ResReviewList fromEntity(Review review){
         return ResReviewList.builder()
-                .reviewId(review.getId())
+                .id(review.getId())
                 .title(review.getTitle())
                 .nickName(review.getMember().getNickName())
                 .createdDate(review.getCreatedDate())

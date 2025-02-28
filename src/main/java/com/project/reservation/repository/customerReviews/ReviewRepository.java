@@ -13,9 +13,6 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    // 게시글 상세 조회, @BatchSize : Comments와 Files는 필요할 때 in 절로 가져옴
-    @Query(value = "SELECT r FROM Review r JOIN FETCH r.member WHERE r.id = :reviewID")
-    Optional<Review> findByIdWithMemberAndComments(Long reviewID);
 
     // 첫 페이징 화면("/")
     @Query(value = "SELECT r FROM Review r JOIN FETCH r.member")
