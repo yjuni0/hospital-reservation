@@ -1,6 +1,7 @@
 package com.project.reservation.repository.customerReviews;
 
 import com.project.reservation.entity.customerReviews.Review;
+import com.project.reservation.entity.member.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +40,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findTop4ByOrderByViewsDesc();
 
     Page<Review> findByCreatedDateContaining(LocalDateTime createdDate, Pageable pageable);
+
+    void deleteByMember(Member member);
 }

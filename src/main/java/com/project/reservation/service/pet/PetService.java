@@ -1,17 +1,15 @@
 package com.project.reservation.service.pet;
 
-
 import com.project.reservation.dto.request.pet.ReqPet;
 import com.project.reservation.dto.response.pet.ResPet;
+
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.member.Pet;
 import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.repository.member.PetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,51 +22,54 @@ import java.util.stream.Collectors;
 
 public class PetService {
 
-   private final PetRepository petRepository;
+    private final PetRepository petRepository;
+    private final MemberRepository memberRepository;
 
-   public List<ResPet> getPets(Member member) {
-      if(member.getPets() == null) {
-         return null;
-      }
-      return member.getPets().stream()
-              .map(ResPet::fromEntity)
-              .collect(Collectors.toList());
-   }
+    public List<ResPet> getPets(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다"));
 
-   public List<ResPet> updatePetProfiles(Member member, List<ReqPet> reqPets) {
+        return member.getPets().stream()
+                .map(ResPet::fromEntity)
+                .collect(Collectors.toList());
+    }
 
-      // 기존 펫들을 Map으로 변환 (ID를 키로 사용)
-      Map<Long, Pet> existingPetsMap = petRepository.findByMember_Id(member.getId()).stream()
-              .collect(Collectors.toMap(Pet::getId, pet -> pet));
+    public List<ResPet> updatePetProfiles(Long memberId, List<ReqPet> reqPets) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
 
-      List<Pet> petsToSave = new ArrayList<>();
+        // 기존 펫들을 Map으로 변환 (ID를 키로 사용)
+        Map<Long, Pet> existingPetsMap = petRepository.findByMember_Id(memberId).stream()
+                .collect(Collectors.toMap(Pet::getId, pet -> pet));
 
-      for (ReqPet reqPet : reqPets) {
-         if (reqPet.getId() == null) {
-            // 새 펫 추가
-            Pet newPet = ReqPet.toEntity(reqPet, member);
-            newPet.setMember(member);
-            petsToSave.add(newPet);
-         } else {
-            // 기존 펫 업데이트 또는 새 펫 추가
-            Pet pet = existingPetsMap.getOrDefault(reqPet.getId(), new Pet());
-            pet.updatePet(reqPet.getName(), reqPet.getBreed(), reqPet.getAge());
-            pet.setMember(member);
-            petsToSave.add(pet);
-            existingPetsMap.remove(reqPet.getId());
-         }
-      }
+        List<Pet> petsToSave = new ArrayList<>();
 
-      // 변경된 펫들 저장 (새로운 펫 포함)
-      petRepository.saveAll(petsToSave);
+        for (ReqPet reqPet : reqPets) {
+            if (reqPet.getId() == null) {
+                // 새 펫 추가
+                Pet newPet = ReqPet.toEntity(reqPet, member);
+                newPet.setMember(member);
+                petsToSave.add(newPet);
+            } else {
+                // 기존 펫 업데이트 또는 새 펫 추가
+                Pet pet = existingPetsMap.getOrDefault(reqPet.getId(), new Pet());
+                pet.updatePet(reqPet.getName(), reqPet.getBreed(), reqPet.getAge());
+                pet.setMember(member);
+                petsToSave.add(pet);
+                existingPetsMap.remove(reqPet.getId());
+            }
+        }
 
-      // 남은 펫들 삭제 (요청에 포함되지 않은 기존 펫)
-      if (!existingPetsMap.isEmpty()) {
-         petRepository.deleteAll(existingPetsMap.values());
-      }
+        // 변경된 펫들 저장 (새로운 펫 포함)
+        petRepository.saveAll(petsToSave);
 
-      return member.getPets().stream()
-              .map(ResPet::fromEntity)
-              .collect(Collectors.toList());
-   }
+        // 남은 펫들 삭제 (요청에 포함되지 않은 기존 펫)
+        if (!existingPetsMap.isEmpty()) {
+            petRepository.deleteAll(existingPetsMap.values());
+        }
+
+        return member.getPets().stream()
+                .map(ResPet::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

@@ -11,12 +11,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("{reviewId}/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -24,7 +24,7 @@ public class CommentController {
     // 댓글 목록(페이징)
     @GetMapping("/list")
     public ResponseEntity<Page<ResComment>> commentList(
-            @PathVariable Long reviewId,
+            @PathVariable("reviewId") Long reviewId,
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<ResComment> commentList = commentService.getComments(pageable, reviewId);
@@ -34,8 +34,8 @@ public class CommentController {
     // 댓글 작성
     @PostMapping("/write")
     public ResponseEntity<ResComment> write(
-            @PathVariable Long reviewId,
-//            @AuthenticationPrincipal
+            @PathVariable("reviewId") Long reviewId,
+            @AuthenticationPrincipal
             Member member,
             @RequestBody ReqComment reqComment) {
 
@@ -46,18 +46,21 @@ public class CommentController {
     // 댓글 수정
     @PutMapping("/{commentId}/update")
     public ResponseEntity<ResComment> update(
-            @PathVariable Long commentId,
-            @RequestBody ReqComment reqComment) {
+            @PathVariable("commentId") Long commentId,
+            @RequestBody ReqComment reqComment,
+            @AuthenticationPrincipal Member member) {
 
-        ResComment updateCommentDTO = commentService.updateComment(commentId, reqComment);
-        return ResponseEntity.status(HttpStatus.OK).body(updateCommentDTO);
+        ResComment resComment = commentService.updateComment(commentId, reqComment, member);
+        return ResponseEntity.status(HttpStatus.OK).body(resComment);
     }
 
     // 댓글 삭제
     @DeleteMapping("/{commentId}/delete")
-    public ResponseEntity<Long> delete(@PathVariable Long commentId) {
+    public ResponseEntity<Long> delete(
+            @PathVariable("commentId") Long commentId,
+            @AuthenticationPrincipal Member member) {
 
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, member);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

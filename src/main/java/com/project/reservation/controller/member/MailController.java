@@ -1,14 +1,11 @@
 package com.project.reservation.controller.member;
 
 
-
 import com.project.reservation.service.member.MailService;
 import com.project.reservation.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,5 +43,6 @@ public class MailController {
             return ResponseEntity.badRequest().body("메일 인증 실패 또는 만료된 코드입니다. 메일 인증을 다시 시도해주세요.");
         }
     }
-}
 
+
+}

@@ -1,7 +1,5 @@
 package com.project.reservation.security.jwt;
 
-import com.project.reservation.entity.member.Member;
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,9 +32,9 @@ public class JwtTokenUtil implements Serializable {
 
     // 1.토큰 생성
 
-    public String generateToken(Member member) {
+    public String generateToken(UserDetails member, String nickName) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("nickName",member.getNickName());
+        claims.put("id",member.getUsername());
         claims.put("roles", member.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         return doGenerateToken(claims, member.getUsername());
     }

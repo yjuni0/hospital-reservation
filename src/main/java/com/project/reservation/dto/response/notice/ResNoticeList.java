@@ -18,10 +18,10 @@ public class ResNoticeList implements Serializable {
     private String adminName;
     private String title;
     private String content;
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Builder
-    public ResNoticeList(Long id, String adminName, String title, String content, LocalDate createdDate) {
+    public ResNoticeList(Long id, String adminName, String title, String content, LocalDateTime createdDate) {
         this.id = id;
         this.adminName = adminName;
         this.title = title;
@@ -35,7 +35,7 @@ public class ResNoticeList implements Serializable {
                 .adminName(notice.getAdmin().getNickName())
                 .title(notice.getTitle())
                 .content(notice.getContent())
-                .createdDate(notice.getCreatedDate().toLocalDate())
+                .createdDate(notice.getCreatedDate())
                 .build();
     }
 }

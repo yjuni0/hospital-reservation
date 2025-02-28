@@ -19,12 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class MailService {
 
-    Dotenv dotenv = Dotenv.load();
-
+    @Value("${spring.mail.username}")
+    private String sender;
+    @Value("${spring.mail.password}")
+    private String password;
     // 메일링을 위한 JavaMailSender 인터페이스 주입
     private final JavaMailSender javaMailSender;
 
-    private final String SENDER=dotenv.get("MAIL_USERNAME");// 동물병원 대표 이메일 주소,
     private int number;
 
     // (동시성 맵 1) String 이메일 주소를 키로, Integer 인증 코드를 값으로 가지는 '동시성' 맵. 동시에 여러 스레드가 맵에 접근해 정보를 교환해도 안전하다.
@@ -47,7 +48,7 @@ public class MailService {
 
         try {
             // 발신자 설정
-            mimeMessage.setFrom(SENDER);
+            mimeMessage.setFrom(sender);
             // 수신자 설정. setRecipients 메소드로 MimeMessage.RecipientType.TO 로 주 수신자를 설정하겠다, 받을 상대의 메일 주소
             mimeMessage.setRecipients(MimeMessage.RecipientType.TO, receiver);
             // 메일 제목 설정
@@ -75,6 +76,7 @@ public class MailService {
     public void sendMail(String receiver) {
         // createMail(수신자 메일주소) 메소드 실행해서 MimeMessage 인스턴스인 mail 변수에 할당
         MimeMessage mail = createMail(receiver);
+        log.info("생성된 메일 {}", receiver);
         // send 메소드로 mail 인스턴스를 보냄.
         try{
             javaMailSender.send(mail);

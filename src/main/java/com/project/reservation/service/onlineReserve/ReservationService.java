@@ -39,35 +39,20 @@ public class ReservationService {
     private final SlotRepository slotRepository;
 
     // 예약 등록
-    public ResReservation registerReservation(Long memberId, ReqReservation reqReservation) {
-        log.info("예약 등록 요청: memberId={}, petName={}, slotId={}", memberId, reqReservation.petName(), reqReservation.slotId());
+    public ResReservation registerReservation(Member member, ReqReservation reqReservation) {
+        log.info("예약 등록 요청: member={}, petName={}, slotId={}", member, reqReservation.petName(), reqReservation.slotId());
 
-        Member rvMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> {
-                    log.error("멤버가 존재하지 않음: memberId={}", memberId);
-                    return new IllegalArgumentException("멤버가 없음");
-                });
-
-        Pet rvPet = petRepository.findByName(reqReservation.petName())
-                .orElseThrow(() -> {
-                    log.error("펫이 존재하지 않음: petName={}", reqReservation.petName());
-                    return new IllegalArgumentException("펫이 없음");
-                });
-
-        Slot rvSlot = slotRepository.findById(reqReservation.slotId())
-                .orElseThrow(() -> {
-                    log.error("슬롯이 존재하지 않음: slotId={}", reqReservation.slotId());
-                    return new IllegalArgumentException("슬롯이 없음");
-                });
-
+        Pet rvPet = petRepository.findByName(reqReservation.petName()).orElseThrow();
+        Member rvmember = rvPet.getMember();
+        Slot rvSlot = slotRepository.findById(reqReservation.slotId()).orElseThrow();
         AvailableDate rvAvailableDate = rvSlot.getAvailableDate();
         Department rvDepartment = rvAvailableDate.getDepartment();
         LocalDateTime rvDateTime = LocalDateTime.of(rvAvailableDate.getDate(), rvSlot.getSlotTime());
 
         log.info("예약 정보: department={}, dateTime={}", rvDepartment.getName(), rvDateTime);
 
-        Reservation rvSave = ReqReservation.toEntity(rvMember, rvPet, rvDepartment.getName(), rvDateTime);
-        rvSave.setMember(rvMember);
+        Reservation rvSave = ReqReservation.toEntity(rvPet, rvDepartment.getName(), rvDateTime);
+        rvSave.setMember(rvmember);
         rvSlot.setIsAvailable(false);
         reservationRepository.save(rvSave);
         slotRepository.save(rvSlot);
