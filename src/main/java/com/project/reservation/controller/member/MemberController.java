@@ -74,12 +74,11 @@ public class MemberController {
         return ResponseEntity.ok(updatedMember);
     }
 
-    // 삭제
-    @DeleteMapping("/{memberId}")
-    public ResponseEntity<Long> delete(
-            @PathVariable("memberId") Long memberId,
+    // 탈퇴
+    @DeleteMapping
+    public ResponseEntity<?> delete(
             @AuthenticationPrincipal Member member) {
-        memberService.deleteMember(memberId, member);
+        memberService.deleteMember( member);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

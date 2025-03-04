@@ -140,13 +140,10 @@ public class MemberService {
 
     // 삭제(DeletedMember 로 이동)
     @Transactional
-    public void deleteMember(Long memberId, Member currentMember) {
-        Member member = memberRepository.findById(memberId)
+    public void deleteMember(Member currentMember) {
+        Member member = memberRepository.findById(currentMember.getId())
                 .orElseThrow(() -> new MemberException("회원정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
-        if (!member.getId().equals(currentMember.getId())) {
-            throw new MemberException("본인 계정만 탈퇴할 수 있습니다.", HttpStatus.BAD_REQUEST);
-        }
 
         DeletedMember deletedMember = DeletedMember.builder()
                 .originalId(member.getId())
@@ -210,13 +207,10 @@ public class MemberService {
     //=========================================================================================================
     // 마이페이지 - 비밀번호 확인
     public ResMember myPageCheck(Member member, String typedPassword) {
-        log.info("memberservice - myPageCheck 0 사용됨");
         // 현재 로그인한 멤버 (Member member) 의 정보를 조회, ResMember 로 사용하기 위해 UserDetails 타입을 Member 타입으로 캐스팅
         Member currentMember = memberRepository.findByEmail(member.getEmail()).orElseThrow();
-        log.info("memberservice - myPageCheck 1 사용됨");
         // checkStoredPasswordInDB 메소드로 사용자가 입력하는 비밀번호가 DB 의 사용자의 비밀번호와 일치하는지 확인
         checkStoredPasswordInDB(typedPassword, currentMember.getPassword());
-        log.info("memberservice - myPageCheck 2 사용됨");
         // 성공하면 조회된 사용자 정보를 DTO 로 변환하여 반환
         return ResMember.fromEntity(currentMember);
     }

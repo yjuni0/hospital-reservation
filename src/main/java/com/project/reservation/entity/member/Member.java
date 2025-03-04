@@ -30,10 +30,10 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false, length = 10)
     private String name;
 
-    @Column(nullable = false,unique = true, length = 10)
+    @Column(nullable = false, length = 50)
     private String nickName;
 
     @Column(nullable = false,length = 50)
@@ -74,8 +74,12 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewLike> likes=new ArrayList<>();
+
+    private String provider;
+    private String providerId;
+
     @Builder
-    public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles) {
+    public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles,String provider, String providerId) {
         this.id = id;
         this.name = name;
         this.nickName = nickName;
@@ -85,8 +89,13 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.birth = birth;
         this.phoneNum = phoneNum;
         this.roles = roles;
+        this.provider = provider;
+        this.providerId = providerId;
     }
-
+    public void updateOAuth2Info(String provider, String providerId) {
+        this.provider = provider;
+        this.providerId = providerId;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
