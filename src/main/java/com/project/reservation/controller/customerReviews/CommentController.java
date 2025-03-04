@@ -21,7 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
     // 댓글 목록(페이징)
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<ResComment>> commentList(
             @PathVariable("reviewId") Long reviewId,
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -31,7 +31,7 @@ public class CommentController {
     }
 
     // 댓글 작성
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<ResComment> write(
             @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal
@@ -44,7 +44,7 @@ public class CommentController {
 
 
     // 댓글 삭제
-    @DeleteMapping("/{commentId}/delete")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<Long> delete(
             @PathVariable("reviewId") Long reviewId,
             @PathVariable("commentId") Long commentId,

@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member/review")
+@RequestMapping("/api/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
     // 리뷰 페이징 목록
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<ResReviewList>> reviewList(
             @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResReviewList> listDTO = reviewService.getReviews(pageable);
@@ -47,18 +47,17 @@ public class ReviewController {
     }
 
     // 리뷰 작성
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<ResReviewDetail> write(
             @AuthenticationPrincipal Member member,
             @RequestBody ReqReviewWrite reqReviewWrite
-
     ) {
         ResReviewDetail saveReviewDTO = reviewService.createReview(member,reqReviewWrite);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveReviewDTO);
     }
 
     // 리뷰 수정
-    @PatchMapping("/{reviewId}/update")
+    @PatchMapping("/{reviewId}")
     public ResponseEntity<ResReviewDetail> update(
             @PathVariable("reviewId") Long reviewId,
             @RequestBody ReqReviewUpdate reqReviewUpdate,
@@ -71,7 +70,7 @@ public class ReviewController {
     }
     
     // 리뷰 삭제
-    @DeleteMapping("/{reviewId}/delete")
+    @DeleteMapping("/{reviewId}")
     public ResponseEntity<Long> delete(
             @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal Member member) {

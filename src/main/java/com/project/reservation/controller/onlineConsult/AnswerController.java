@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/member/question/{questionId}/answer")
+@RequestMapping("/api/question/{questionId}/answer")
 @RequiredArgsConstructor
 public class AnswerController {
 

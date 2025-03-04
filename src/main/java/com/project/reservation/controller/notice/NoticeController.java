@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/member/notice")
+@RequestMapping("/api/notice")
 @RequiredArgsConstructor
 public class NoticeController {
 
@@ -22,7 +22,7 @@ public class NoticeController {
 
 
     // 전체 페이징
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<ResNoticeList>> noticeList(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResNoticeList> listDto = noticeService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listDto); //200 반환

@@ -212,7 +212,7 @@ public class MemberService {
     public ResMember myPageCheck(Member member, String typedPassword) {
         log.info("memberservice - myPageCheck 0 사용됨");
         // 현재 로그인한 멤버 (Member member) 의 정보를 조회, ResMember 로 사용하기 위해 UserDetails 타입을 Member 타입으로 캐스팅
-        Member currentMember = (Member) customUserDetailsService.loadUserByUsername(member.getEmail());
+        Member currentMember = memberRepository.findByEmail(member.getEmail()).orElseThrow();
         log.info("memberservice - myPageCheck 1 사용됨");
         // checkStoredPasswordInDB 메소드로 사용자가 입력하는 비밀번호가 DB 의 사용자의 비밀번호와 일치하는지 확인
         checkStoredPasswordInDB(typedPassword, currentMember.getPassword());

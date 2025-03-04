@@ -1,6 +1,7 @@
 package com.project.reservation.admin.controller;
 
 import com.project.reservation.dto.response.reservation.ResReservationList;
+import com.project.reservation.entity.member.Member;
 import com.project.reservation.service.onlineReserve.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminReservationController {
     private final ReservationService reservationService;
 
-    @GetMapping("/list")
-    public ResponseEntity<Page<ResReservationList>> listReservation(Long memberId,Pageable pageable) {
-        Page<ResReservationList> reservations = reservationService.listReservation(memberId,pageable);
+    @GetMapping
+    public ResponseEntity<Page<ResReservationList>> listReservation(Member member, Pageable pageable) {
+        Page<ResReservationList> reservations = reservationService.listReservation(member,pageable);
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
     }
 

@@ -20,13 +20,13 @@ public class PetController {
 
     private final PetService petService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<ResPet>> getPets(@AuthenticationPrincipal Member member) {
         List<ResPet> pets = petService.getPets(member.getId());
         return ResponseEntity.ok(pets);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<List<ResPet>> updatePetProfiles(@AuthenticationPrincipal Member member, @RequestBody List<ReqPet> reqPets) {
         List<ResPet> updatePets = petService.updatePetProfiles(member.getId(), reqPets);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatePets);

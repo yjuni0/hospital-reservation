@@ -71,7 +71,7 @@ public class QuestionService {
     }
 
     // 삭제
-    public void delete(Long questionId) {
+    public void delete(Member member, Long questionId) {
         questionRepository.deleteById(questionId);
         log.info("온라인 문의 삭제 완료: id={}", questionId);
     }

@@ -66,7 +66,7 @@ public class MemberController {
     }
     //====================================================================================================
     // 수정
-    @PatchMapping("/{memberId}/update")
+    @PatchMapping("/{memberId}")
     public ResponseEntity<ResMember> update(
             @AuthenticationPrincipal Member member,
             @RequestBody ReqMemberUpdate reqMemberUpdate){
@@ -75,7 +75,7 @@ public class MemberController {
     }
 
     // 삭제
-    @DeleteMapping("/{memberId}/delete")
+    @DeleteMapping("/{memberId}")
     public ResponseEntity<Long> delete(
             @PathVariable("memberId") Long memberId,
             @AuthenticationPrincipal Member member) {
@@ -83,13 +83,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // !! 관리자용 !!
-    @GetMapping("/deletedMember")
-    public ResponseEntity<List<DeletedMember>> getAllDeletedMembers() {
 
-        List<DeletedMember> deletedMembers = memberService.getAllDeletedMember();
-        return new ResponseEntity<>(deletedMembers, HttpStatus.OK);
-    }
 
     //====================================================================================================
     // 이메일 찾기
@@ -142,11 +136,11 @@ public class MemberController {
     }
     //====================================================================================================
     // 마이페이지 - 올바른 비밀번호 POST 시 로그인한 사용자 정보 반환
-    @GetMapping("/myPage")
+    @PostMapping("/myPage")
     public ResponseEntity<ResMember> myPagePasswordCheck(
             @AuthenticationPrincipal Member member,
             @RequestBody ReqMemberMyPage reqMemberMyPage) {
-        log.info("memcon - myPageCheck 사용됨1");
+        log.info("현재 로그인 한 사용자 {}", member);
         ResMember resMember = memberService.myPageCheck(member, reqMemberMyPage.getPassword());
 
         return ResponseEntity.ok(resMember);

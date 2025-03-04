@@ -16,21 +16,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/member/question")
+@RequestMapping("/api/question")
 @RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
 
     // 작성
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<ResQuestion> write(@AuthenticationPrincipal Member member, @RequestBody ReqQuestion req) {
         ResQuestion res = questionService.write(member,req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
     // 리스트
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<ResQuestionList>> questionList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<ResQuestionList> listRes = questionService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listRes);
@@ -38,22 +38,22 @@ public class QuestionController {
 
     // 상세조회
     @GetMapping("/{questionId}")
-    public ResponseEntity<ResQuestion> detail(@AuthenticationPrincipal Member member,@PathVariable("questionId") Long questionId){
+    public ResponseEntity<ResQuestion> detail(@PathVariable("questionId") Long questionId){
         ResQuestion questionDetail = questionService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);
     }
 
     // 수정
-    @PutMapping("/{questionId}/update")
+    @PutMapping("/{questionId}")
     public ResponseEntity<ResQuestion> update(@AuthenticationPrincipal Member member,@PathVariable("questionId") Long questionId, @RequestBody ReqQuestion req) {
         ResQuestion updateQuestion = questionService.update(member,questionId,req);
         return ResponseEntity.status(HttpStatus.OK).body(updateQuestion);
     }
 
     // 삭제
-    @DeleteMapping("/{questionId}/delete")
-    public ResponseEntity<Long> delete(@PathVariable("questionId") Long questionId) {
-        questionService.delete(questionId);
+    @DeleteMapping("/{questionId}")
+    public ResponseEntity<Long> delete(@AuthenticationPrincipal Member member,@PathVariable("questionId") Long questionId) {
+        questionService.delete(member,questionId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

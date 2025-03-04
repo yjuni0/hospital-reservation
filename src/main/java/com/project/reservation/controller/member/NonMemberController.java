@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class NonMemberController {
     private final NonMemberService nonMemberService;
 
-    @PostMapping("/post")
+    @PostMapping
     public ResponseEntity<?> createNonMember(@RequestBody ReqNonMember reqNonMember) {
 
         try {

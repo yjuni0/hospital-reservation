@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class AdminAnswerController {
     private final AnswerService answerService;
 
-    @PostMapping("/question/{questionId}/answer/write")
+    @PostMapping("/question/{questionId}/answer")
     public ResponseEntity<ResAnswer> writeAnswer(@AuthenticationPrincipal Member admin, @PathVariable Long questionId, @RequestBody ReqAnswer reqAnswer) {
         ResAnswer resAnswer = answerService.write(admin,questionId,reqAnswer);
         return ResponseEntity.status(HttpStatus.OK).body(resAnswer);
     }
-    @PutMapping("/{answerId}/update")
+    @PutMapping("/{answerId}")
     public ResponseEntity<ResAnswer> updateAnswer(@PathVariable Long answerId, @RequestBody ReqAnswer reqAnswer) {
         ResAnswer resAnswer = answerService.update(answerId,reqAnswer);
         return ResponseEntity.status(HttpStatus.OK).body(resAnswer);
     }
 
-    @DeleteMapping("/{answerId}/delete")
+    @DeleteMapping("/{answerId}")
     public ResponseEntity<ResAnswer> deleteAnswer(@PathVariable Long answerId) {
         answerService.delete(answerId);
         return ResponseEntity.status(HttpStatus.OK).build();

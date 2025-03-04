@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.*;
 public class AdminNoticeController {
     private final NoticeService noticeService;
     //작성
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<ResNoticeDetail> write(@AuthenticationPrincipal Member admin, @RequestBody ReqNotice noticeReq){
         ResNoticeDetail saveNotice = noticeService.create(admin,noticeReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
     }
-        // 수정
-    @PatchMapping("/{noticeId}/update")
+    // 수정
+    @PatchMapping("/{noticeId}")
     public ResponseEntity<ResNoticeDetail> update(@PathVariable("noticeId") Long noticeId, @RequestBody ReqNoticeUpdate updateReq){
         ResNoticeDetail updateDetail = noticeService.update(noticeId,updateReq);
         return ResponseEntity.status(HttpStatus.OK).body(updateDetail);
     }
     // 삭제
-    @DeleteMapping("/{noticeId}/delete")
+    @DeleteMapping("/{noticeId}")
     public ResponseEntity<Long> delete(@PathVariable("noticeId") Long noticeId){
         noticeService.delete(noticeId);
         return ResponseEntity.status(HttpStatus.OK).build(); //성공시 200 반환

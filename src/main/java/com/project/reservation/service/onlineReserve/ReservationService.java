@@ -62,8 +62,8 @@ public class ReservationService {
     }
 
     // 예약 조회 - 본인 예약만 확인 가능
-    public ResReservation getReservation(Long memberId, Long reservationId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
+    public ResReservation getReservation(Member member, Long reservationId) {
+        Member RvMember = memberRepository.findById(member.getId()).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
 
         log.info("예약 조회 요청: memberId={}, reservationId={}", member.getId(), reservationId);
 
@@ -83,16 +83,16 @@ public class ReservationService {
     }
 
     // 예약 목록 조회 - 관리자와 사용자 구분
-    public Page<ResReservationList> listReservation(Long memberId, Pageable pageable) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
-        log.info("예약 목록 조회 요청: memberId={}, role={}", member.getId(), member.getRoles());
-        member.getReservations().stream().toList();
+    public Page<ResReservationList> listReservation(Member member, Pageable pageable) {
+        Member RvMember = memberRepository.findById(member.getId()).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
+        log.info("예약 목록 조회 요청: memberId={}, role={}", RvMember.getId(), RvMember.getRoles());
+        RvMember.getReservations().stream().toList();
         Page<Reservation> reservations;
-        if (member.getRoles().equals(Role.ADMIN)) {
+        if (RvMember.getRoles().equals(Role.ADMIN)) {
             reservations = reservationRepository.findAll(pageable);
             log.info("관리자 모든 예약 조회: total={}", reservations.getTotalElements());
         } else {
-            reservations = reservationRepository.findByMember(member, pageable);
+            reservations = reservationRepository.findByMember(RvMember, pageable);
             log.info("사용자 본인 예약 조회: total={}", reservations.getTotalElements());
         }
 
@@ -104,9 +104,9 @@ public class ReservationService {
     }
 
     // 예약 취소
-    public void deleteReservation(Long memberId, Long reservationId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
-        log.info("예약 취소 요청: memberId={}, reservationId={}", member.getId(), reservationId);
+    public void deleteReservation(Member member, Long reservationId) {
+        Member RvMember = memberRepository.findById(member.getId()).orElseThrow(()->new IllegalArgumentException("멤버가 없음"));
+        log.info("예약 취소 요청: memberId={}, reservationId={}", RvMember.getId(), reservationId);
 
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> {
@@ -114,8 +114,8 @@ public class ReservationService {
                     return new IllegalArgumentException("해당 아이디의 예약이 없음");
                 });
 
-        if (!reservation.getMember().getId().equals(member.getId()) && member.getRoles().equals(Role.ADMIN)) {
-            log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", member.getId(), reservation.getMember().getId());
+        if (!reservation.getMember().getId().equals(RvMember.getId()) && RvMember.getRoles().equals(Role.ADMIN)) {
+            log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", RvMember.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");
         }
         LocalTime slotTime = reservation.getReservationTime().toLocalTime();
