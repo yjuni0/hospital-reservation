@@ -1,5 +1,7 @@
 package com.project.reservation.security.config;
 
+import com.project.reservation.oauth2.CustomOAuth2UserService;
+import com.project.reservation.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.project.reservation.security.jwt.JwtAuthenticationEntryPoint;
 import com.project.reservation.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     // AuthenticationManager - 인증을 담당하는 매니저. 사용자의 인증 정보(ID, 비밀번호 등)를 검증하고 인증 결과를 반환하는 역할
     // AuthenticationManager 를 생성하려면 AuthenticationConfiguration 을 주입받아서, getAuthenticationManager 메소드를 실행해야 함
@@ -47,7 +51,10 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
-
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig.userService(customOAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                )
                 // authorizeHttpRequests - HTTP 요청에 대한 인가 규칙 설정을 시작 메소드
                 // requestMatchers - 특정 HTTP 요청에 대한 보안 규칙을 정의하는 데 사용되는 메소드
                 .authorizeHttpRequests(authorize -> authorize
