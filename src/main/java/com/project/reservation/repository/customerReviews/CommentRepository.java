@@ -12,6 +12,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByReview_Id(Pageable pageable, Long reviewId);
 
-    @Query(value = "SELECT c FROM Comment c JOIN FETCH c.member m JOIN FETCH c.review r WHERE c.id = :commentId")
-    Optional<Comment> findByIdWithMemberAndReview(Long commentId);
 }

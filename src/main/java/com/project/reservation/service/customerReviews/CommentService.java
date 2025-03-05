@@ -1,5 +1,6 @@
 package com.project.reservation.service.customerReviews;
 
+import com.project.reservation.common.exception.MemberException;
 import com.project.reservation.common.exception.ResourceNotFoundException;
 import com.project.reservation.common.exception.ReviewException;
 import com.project.reservation.dto.request.comment.ReqComment;
@@ -66,15 +67,15 @@ public class CommentService {
     }
 
     // 댓글 삭제
-    public void deleteComment(@Param("commentId")Long commentId, Member currentMember) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new ResourceNotFoundException("Comment", "Comment Id", String.valueOf(commentId)));
+    @Transactional
+    public void deleteComment(Long commentId, Member currentMember) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "Comment id", String.valueOf(commentId)));
 
-        // 현재 사용자가 댓글 작성자인지 확인
-        if (!comment.getMember().getId().equals(currentMember.getId())) {
-            throw new ReviewException("댓글 작성자만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST);
+        Long memberId = comment.getMember().getId();
+        if(!currentMember.getId().equals(memberId)) {
+            throw new IllegalArgumentException("너꺼아님");
         }
-
-        commentRepository.deleteById(commentId);
+        commentRepository.deleteById(comment.getId());
+        commentRepository.flush();
     }
 }

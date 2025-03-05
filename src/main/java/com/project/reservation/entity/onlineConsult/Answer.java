@@ -19,11 +19,12 @@ public class Answer extends BaseTimeEntity {
     @Column(length = 500,nullable = false)
     private String content;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "question_id", nullable = false)
+
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JoinColumn(nullable = false)
     private Question question;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "admin_id", nullable = false)
     private Member admin;
 
@@ -35,15 +36,6 @@ public class Answer extends BaseTimeEntity {
         this.admin = admin;
     }
 
-
-    public void setMappingAdmin(Member admin){
-        this.admin = admin;
-        admin.getQuestions().add(question);
-    }
-    public void setMappingQuestion(Question question){
-        this.question = question;
-        question.setAnswer(this);
-    }
     public void update(String content){
         this.content = content;
     }

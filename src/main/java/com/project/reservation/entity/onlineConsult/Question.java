@@ -22,11 +22,11 @@ public class Question extends BaseTimeEntity {
     @Column(nullable = false,length = 500)
     private String content;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Member member;
 
-    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     private Answer answer;
 
     @Builder
@@ -44,8 +44,4 @@ public class Question extends BaseTimeEntity {
     public void setMember(Member member) {
         this.member = member;
     }
-    public void setAnswer(Answer answer) {
-    }
-
-
 }

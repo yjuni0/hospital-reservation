@@ -16,9 +16,9 @@ public class AnswerController {
     private final AnswerService answerService;
 
     // 조회
-    @GetMapping("/{answerId}")
-    public ResponseEntity<ResAnswer> getAnswer(@PathVariable("questionId") Long questionId , @PathVariable("answerId") Long answerId) {
-        ResAnswer answer = answerService.getById(questionId,answerId);
+    @GetMapping
+    public ResponseEntity<ResAnswer> getAnswer(@PathVariable("questionId") Long questionId ) {
+        ResAnswer answer = answerService.getById(questionId);
         return ResponseEntity.status(HttpStatus.OK).body(answer);
     }
 }

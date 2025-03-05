@@ -46,8 +46,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         // 웹 애플리케이션은 여러 사용자의 요청을 동시에 처리. 각 요청은 별도의 스레드에서 처리, 현재 실행 중인 스레드의 요청 처리의 동시성을 모니터링
-        Thread currentThread = Thread.currentThread();
-        log.info("현재 실행 중인 스레드: " + currentThread.getName());
 
         // request.getHeader 로 HTTP 요청의 Authorization 헤더에서 Bearer 로 시작하는 문자열을 찾음. Bearer lkshg.afuqwo.cxoih 같은 형태로.
         // getHeader 라고 해서 lkshg 같은 진짜 헤더 클레임만 가져오는 것이 아니라 Bearer lkshg.afuqwo.cxoih 같은 bearer 를 포함한 전체 JWT 가 가져옴

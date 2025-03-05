@@ -1,7 +1,9 @@
 package com.project.reservation.oauth2;
 
+import com.project.reservation.entity.member.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -13,7 +15,7 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User, UserDetails {
 
     private final ResOAuth2 resOAuth2;
-    private final String role;
+    private final Role roles;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -22,9 +24,9 @@ public class CustomOAuth2User implements OAuth2User, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add((GrantedAuthority) () -> role);
-        return collection;
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.roles.name()));
+        return authorities;
     }
 
     @Override

@@ -29,12 +29,12 @@ public class Review extends BaseTimeEntity {
 
     private int likes;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
-    private List<Comment> comments=new ArrayList<>();
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true )
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Review(Long id, String title, String content, int views, int likes, Member member) {

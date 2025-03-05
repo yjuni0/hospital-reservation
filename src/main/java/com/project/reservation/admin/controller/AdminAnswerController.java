@@ -17,18 +17,18 @@ public class AdminAnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/question/{questionId}/answer")
-    public ResponseEntity<ResAnswer> writeAnswer(@AuthenticationPrincipal Member admin, @PathVariable Long questionId, @RequestBody ReqAnswer reqAnswer) {
+    public ResponseEntity<ResAnswer> writeAnswer(@AuthenticationPrincipal Member admin, @PathVariable("questionId") Long questionId, @RequestBody ReqAnswer reqAnswer) {
         ResAnswer resAnswer = answerService.write(admin,questionId,reqAnswer);
         return ResponseEntity.status(HttpStatus.OK).body(resAnswer);
     }
     @PutMapping("/{answerId}")
-    public ResponseEntity<ResAnswer> updateAnswer(@PathVariable Long answerId, @RequestBody ReqAnswer reqAnswer) {
+    public ResponseEntity<ResAnswer> updateAnswer(@PathVariable("answerId") Long answerId, @RequestBody ReqAnswer reqAnswer) {
         ResAnswer resAnswer = answerService.update(answerId,reqAnswer);
         return ResponseEntity.status(HttpStatus.OK).body(resAnswer);
     }
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<ResAnswer> deleteAnswer(@PathVariable Long answerId) {
+    public ResponseEntity<ResAnswer> deleteAnswer(@PathVariable("answerId") Long answerId) {
         answerService.delete(answerId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

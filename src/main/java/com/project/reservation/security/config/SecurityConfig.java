@@ -51,10 +51,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
-                .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig.userService(customOAuth2UserService))
-                        .successHandler(oAuth2AuthenticationSuccessHandler)
-                )
+
                 // authorizeHttpRequests - HTTP 요청에 대한 인가 규칙 설정을 시작 메소드
                 // requestMatchers - 특정 HTTP 요청에 대한 보안 규칙을 정의하는 데 사용되는 메소드
                 .authorizeHttpRequests(authorize -> authorize
@@ -65,7 +62,10 @@ public class SecurityConfig {
 //                        .requestMatchers("/api/member/**").hasRole("USER")      // 추가 필요
 
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN"))     // 추가 필요
-
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig.userService(customOAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                )
                 // 서버가 클라이언트 세션을 유지하지 않도록 무상태로 설정 메소드
                 // 보안예외처리 구성 메소드. authenticationEntryPoint - 인증되지 않은 사용자가 보호된 리소스에 접근하려 할 때의 동작을 정의.
                 // 필터체인에 커스텀 JWT 인증 필터를 추가하는 메소드. JWT 토큰 검증이 먼저 수행해서 추가적인 인증 과정 거치지 않게.

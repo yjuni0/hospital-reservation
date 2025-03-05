@@ -29,13 +29,10 @@ public class AnswerService {
 
     // 작성
     public ResAnswer write(Member admin,Long questionId,  ReqAnswer reqAnswer){
-        Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("해당 문의가 존재하지 않습니다."));
+       Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("문의 없음 "));
 
-        Answer answer = ReqAnswer.ofEntity(reqAnswer);
-        answer.setMappingAdmin(admin);
-        answer.setMappingQuestion(question);
-        answerRepository.save(answer);
-
+       Answer answer = ReqAnswer.ofEntity(reqAnswer,admin,question);
+       answerRepository.save(answer);
         return ResAnswer.fromEntity(answer);
     }
 
@@ -47,9 +44,9 @@ public class AnswerService {
     }
 
     // 상세 조회
-    public ResAnswer getById(Long questionId,Long answerId){
+    public ResAnswer getById(Long questionId){
         Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("해당 문의글이 없습니다 "));
-        Answer answer = answerRepository.findByQuestionAndId(question,answerId)
+        Answer answer = answerRepository.findByQuestion(question)
                 .orElseThrow(() -> new IllegalArgumentException("해당 답변이 존재하지 않습니다."));
         return ResAnswer.fromEntity(answer);
     }

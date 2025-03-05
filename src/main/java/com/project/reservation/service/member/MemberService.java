@@ -128,13 +128,11 @@ public class MemberService {
 
     // 수정
     public ResMember update(Member member, ReqMemberUpdate reqMemberUpdate) {
-        // 새 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(reqMemberUpdate.getPassword());
 
         Member currentMember =  memberRepository.findByEmail(member.getEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("Member", "Member Email", member.getEmail())
         );
-        currentMember.updateMember(encodedPassword, reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getPhone());
+        currentMember.updateMember( reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getPhone());
         return ResMember.fromEntity(currentMember);
     }
 

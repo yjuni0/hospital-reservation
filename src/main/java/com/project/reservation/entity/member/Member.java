@@ -54,25 +54,22 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role roles;
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Question> questions=new ArrayList<>();
-
-    @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Answer> answers=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Comment> comments=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Review> reviews=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Pet> pets=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Reservation> reservations=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ReviewLike> likes=new ArrayList<>();
 
     private String provider;
@@ -132,8 +129,8 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.name = name;
     }
 
-    public void updateMember(String encodedPassword, String nickName, String addr, String phoneNum) {
-        this.password = encodedPassword;
+    public void updateMember( String nickName, String addr, String phoneNum) {
+
         this.nickName = nickName;
         this.addr = addr;
         this.phoneNum = phoneNum;

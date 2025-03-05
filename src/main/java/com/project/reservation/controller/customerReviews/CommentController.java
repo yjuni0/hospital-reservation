@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/review/{reviewId}/comment")
+@RequestMapping("/api")
 public class CommentController {
 
     private final CommentService commentService;
     // 댓글 목록(페이징)
-    @GetMapping
+    @GetMapping("/review/{reviewId}/comment")
     public ResponseEntity<Page<ResComment>> commentList(
             @PathVariable("reviewId") Long reviewId,
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -31,7 +31,7 @@ public class CommentController {
     }
 
     // 댓글 작성
-    @PostMapping
+    @PostMapping("/review/{reviewId}/comment")
     public ResponseEntity<ResComment> write(
             @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal
@@ -44,9 +44,8 @@ public class CommentController {
 
 
     // 댓글 삭제
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<Long> delete(
-            @PathVariable("reviewId") Long reviewId,
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> delete(
             @PathVariable("commentId") Long commentId,
             @AuthenticationPrincipal Member member) {
 

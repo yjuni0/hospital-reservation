@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ResQuestion {
+    private Long id;
     private String title;
     private String content;
     private String writerName;
@@ -21,6 +22,7 @@ public class ResQuestion {
 
     public static ResQuestion fromEntity(Question question){
         return ResQuestion.builder()
+                .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writerName(question.getMember().getNickName())

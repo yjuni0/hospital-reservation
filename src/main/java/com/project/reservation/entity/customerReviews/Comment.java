@@ -18,11 +18,11 @@ public class Comment extends BaseTimeEntity {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
