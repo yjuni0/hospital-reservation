@@ -39,9 +39,9 @@ public class AdminMemberController {
     }
     // !! 관리자용 !!
     @GetMapping("/deletedMember")
-    public ResponseEntity<List<DeletedMember>> getAllDeletedMembers() {
-
-        List<DeletedMember> deletedMembers = memberService.getAllDeletedMember();
-        return new ResponseEntity<>(deletedMembers, HttpStatus.OK);
+    public ResponseEntity<Page<DeletedMember>> deletedMemberList(
+            @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<DeletedMember> deletedMembers = memberService.getAllDeletedMember(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(deletedMembers);
     }
 }

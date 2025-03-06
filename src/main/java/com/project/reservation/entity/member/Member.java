@@ -76,7 +76,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String providerId;
 
     @Builder
-    public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles,String provider, String providerId) {
+    public Member(Long id, String name, String nickName, String email, String password, String addr, String birth, String phoneNum, Role roles,String provider, String providerId, List<Pet> pets) {
         this.id = id;
         this.name = name;
         this.nickName = nickName;
@@ -88,6 +88,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.roles = roles;
         this.provider = provider;
         this.providerId = providerId;
+        this.pets = pets;
     }
     public void updateOAuth2Info(String provider, String providerId) {
         this.provider = provider;
@@ -138,5 +139,20 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     public void resetPassword(String encodedPassword) {
         this.password = encodedPassword;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = new ArrayList<>();
+        if (pets != null) {
+            for (Pet pet : pets) {
+                this.pets.add(pet);
+                pet.setMember(this);
+            }
+        }
+    }
+
+    public void addPet(Pet pet) {
+        pet.setMember(this);
+        this.pets.add(pet);
     }
 }

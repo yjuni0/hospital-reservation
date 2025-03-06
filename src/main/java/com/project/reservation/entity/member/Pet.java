@@ -32,7 +32,7 @@ public class Pet extends BaseTimeEntity {
     private Breed breed;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Member member;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

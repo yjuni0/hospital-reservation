@@ -160,8 +160,10 @@ public class MemberService {
     }
 
     // 탈퇴 회원 조회
-    public List<DeletedMember> getAllDeletedMember() {
-        List<DeletedMember> deletedMembers = deletedMemberRepository.findAll();
+    public Page<DeletedMember> getAllDeletedMember(Pageable pageable) {
+        // Repository에서 Pageable을 활용해 페이징 처리된 데이터를 가져옴
+        Page<DeletedMember> deletedMembers = deletedMemberRepository.findAll(pageable);
+
         if (deletedMembers.isEmpty()) {
             throw new MemberException("보관중인 탈퇴 회원이 없습니다.", HttpStatus.BAD_REQUEST);
         }
@@ -281,4 +283,5 @@ public class MemberService {
         List<ResMemberList> pageMember = listMember.stream().map(ResMemberList::fromEntity).toList();
         return new PageImpl<>(pageMember, listMember.getPageable(), listMember.getTotalElements());
     }
+
 }

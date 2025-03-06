@@ -22,10 +22,10 @@ public class ResMember {
     private String addr;
     private String birth;
     private String phoneNum;
-    private List<ResPet> pets;
+    private List<ResPet> pets; //응답에서 순환참조 문제 발생.
 
     @Builder
-    public ResMember(String name, String email, String password, String nickName, String addr, String birth, String phoneNum, List<ResPet> pets) {
+    public ResMember(String name, String email, String nickName, String addr, String birth, String phoneNum, List<ResPet> pets) {
         this.name = name;
         this.email = email;
         this.nickName = nickName;
@@ -40,12 +40,15 @@ public class ResMember {
         return ResMember.builder()
                 .name(member.getName())
                 .email(member.getEmail())
-                .password(member.getPassword())
                 .nickName(member.getNickName())
                 .addr(member.getAddr())
                 .birth(member.getBirth())
                 .phoneNum(member.getPhoneNum())
-                .pets(member.getPets().stream().map(ResPet::fromEntity).collect(Collectors.toList()))
+                .pets(member.getPets() != null ?
+                        member.getPets().stream()
+                                .map(ResPet::fromEntity)
+                                .collect(Collectors.toList())
+                        : null)
                 .build();
     }
 }
