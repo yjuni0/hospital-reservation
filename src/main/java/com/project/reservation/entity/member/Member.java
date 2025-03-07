@@ -54,6 +54,9 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role roles;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Question> questions=new ArrayList<>();
+
     @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Answer> answers=new ArrayList<>();
 

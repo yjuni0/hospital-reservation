@@ -31,7 +31,7 @@ public class QuestionController {
 
     // 리스트
     @GetMapping
-    public ResponseEntity<Page<ResQuestionList>> questionList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity<Page<ResQuestionList>> questionList(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
         Page<ResQuestionList> listRes = questionService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listRes);
     }
