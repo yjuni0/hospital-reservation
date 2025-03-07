@@ -104,7 +104,7 @@ private final String FOLDER_PATH = "./files/";
         when(noticeFileRepository.findById(1L)).thenReturn(Optional.of(noticeFile));
 
         //when
-        ResNoticeFileDownload downloadRes = noticeFileService.download(1L);
+        ResNoticeFileDownload downloadRes = noticeFileService.download(1L,1L);
 
         //then
         assertNotNull(downloadRes);

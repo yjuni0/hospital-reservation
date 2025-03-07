@@ -6,12 +6,14 @@ import com.project.reservation.dto.request.member.ReqMemberFindPw;
 import com.project.reservation.dto.request.member.ReqMemberLogin;
 import com.project.reservation.dto.request.member.ReqMemberRegister;
 import com.project.reservation.dto.request.member.ReqMemberUpdate;
+import com.project.reservation.dto.request.pet.ReqPet;
 import com.project.reservation.dto.response.member.ResMember;
 import com.project.reservation.dto.response.member.ResMemberList;
 import com.project.reservation.dto.response.member.ResMemberToken;
 
 import com.project.reservation.entity.member.DeletedMember;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Pet;
 import com.project.reservation.repository.customerReviews.CommentRepository;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
 import com.project.reservation.repository.member.DeletedMemberRepository;
@@ -56,6 +58,7 @@ public class MemberService {
     private final JwtTokenUtil jwtTokenUtil;
     // 인증상태를 관리하기 위한 동시성 맵. 키값은 수신자, 값은 true/false
     private final Map<String, Boolean> verificationStatus = new ConcurrentHashMap<>();
+    private final PetRepository petRepository;
 
 
 //    // 비밀번호와 비밀번호 확인 같은지 체크 - 프론트에서
@@ -87,6 +90,7 @@ public class MemberService {
     public void setEmailVerified(String receiver) {
         verificationStatus.put(receiver, true);
     }
+
 
     // 회원가입
     public ResMember register(ReqMemberRegister reqMemberRegister) {
@@ -132,13 +136,13 @@ public class MemberService {
         Member currentMember =  memberRepository.findByEmail(member.getEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("Member", "Member Email", member.getEmail())
         );
-        currentMember.updateMember( reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getPhone());
+        currentMember.updateMember( reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getPhoneNum());
         return ResMember.fromEntity(currentMember);
     }
 
     // 삭제(DeletedMember 로 이동)
     @Transactional
-    public void deleteMember(Member currentMember) {
+    public void resignMember(Member currentMember) {
         Member member = memberRepository.findById(currentMember.getId())
                 .orElseThrow(() -> new MemberException("회원정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
@@ -157,6 +161,11 @@ public class MemberService {
 
         deletedMemberRepository.save(deletedMember);
         memberRepository.delete(member);
+    }
+    public void deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("없음"));
+        resignMember(member);
+
     }
 
     // 탈퇴 회원 조회
@@ -282,6 +291,10 @@ public class MemberService {
         Page<Member> listMember = memberRepository.findAll(pageable);
         List<ResMemberList> pageMember = listMember.stream().map(ResMemberList::fromEntity).toList();
         return new PageImpl<>(pageMember, listMember.getPageable(), listMember.getTotalElements());
+    }
+    public ResMember getMember(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("없음"));
+        return ResMember.fromEntity(member);
     }
 
 }

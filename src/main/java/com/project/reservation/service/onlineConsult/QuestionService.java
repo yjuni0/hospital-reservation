@@ -46,13 +46,18 @@ public class QuestionService {
     }
 
     // 상세 조회
-    public ResQuestion getById(Long questionId) {
+    public ResQuestion getById(Member member , Long questionId) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> {
                     log.warn("온라인 문의 조회 실패 - 존재하지 않음: id={}", questionId);
                     return new IllegalArgumentException("해당하는 온라인 문의가 존재하지 않습니다.");
                 });
-        return ResQuestion.fromEntity(question);
+        if (member.getId().equals(question.getMember().getId())) {
+            return ResQuestion.fromEntity(question);
+        }else {
+            throw new IllegalArgumentException("해당 문의를 작성한 사람이 아님");
+        }
+
     }
 
     // 수정

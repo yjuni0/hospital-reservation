@@ -20,14 +20,12 @@ public class NoticeFileController {
 
 
     // 파일 다운로드
-    @GetMapping
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable("noticeId")Long noticeId, @RequestParam("fileId") Long fileId) throws IOException {
-        ResNoticeFileDownload downloadRes = noticeFileService.download(fileId);
+    @GetMapping("/{fileId}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable("noticeId")Long noticeId, @PathVariable("fileId") Long fileId) throws IOException {
+        ResNoticeFileDownload downloadRes = noticeFileService.download(noticeId,fileId);
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.parseMediaType(downloadRes.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; fileName=\""+downloadRes.getOriginalFilename()+"\"").body(new ByteArrayResource(downloadRes.getContent()));
     }
-
-
 
 }

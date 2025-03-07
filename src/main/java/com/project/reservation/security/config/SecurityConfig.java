@@ -56,12 +56,10 @@ public class SecurityConfig {
                 // requestMatchers - 특정 HTTP 요청에 대한 보안 규칙을 정의하는 데 사용되는 메소드
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/**").permitAll())    // 추가 필요
+                        "/api/admin/**").hasRole("ADMIN")    // 추가 필요
+                        .requestMatchers("/api/member/**").hasAnyRole("USER","ADMIN")
 
-
-//                        .requestMatchers("/api/member/**").hasRole("USER")      // 추가 필요
-
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN"))     // 추가 필요
+                        .anyRequest().permitAll())
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig.userService(customOAuth2UserService))
                         .successHandler(oAuth2AuthenticationSuccessHandler)

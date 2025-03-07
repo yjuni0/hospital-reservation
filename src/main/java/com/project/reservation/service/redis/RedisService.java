@@ -40,6 +40,8 @@ public class RedisService {
     public List<ResReviewList> getTopReview(){
         log.info("리뷰 캐시 데이터 없음 DB 조회 실행");
         List<Review> reviews = reviewRepository.findTop4ByOrderByViewsDesc();
+        log.info("조회된 리뷰 개수: {}", reviews.size());
+
         return reviews.stream().map(ResReviewList::fromEntity).toList();
     }
 
@@ -47,5 +49,22 @@ public class RedisService {
     @CacheEvict(value = "notices", key = "'latestNotices'")
     public void deleteCacheNotices(){
         log.info("신규 공지사항 등록 이전 캐시 삭제");
+    }
+    @CacheEvict(value = "reviews", key = "'topReviews'")
+    public void deleteCacheReviews(){
+        log.info("신규 공지사항 등록 이전 캐시 삭제");
+    }
+
+    public void checkCache() {
+        Object cacheData = cacheManager.getCache("notices").get("latestNotices");
+        Object cacheData2 = cacheManager.getCache("reviews").get("topReviews");
+
+        if (cacheData == null) {
+            log.info("🚨 Redis에서 'latestNotices' 키를 찾을 수 없음");
+        } else {
+            log.info("✅ Redis에서 캐시 데이터 확인: {}", cacheData);
+            log.info("✅ Redis에서 캐시 데이터 확인: {}", cacheData2);
+
+        }
     }
 }

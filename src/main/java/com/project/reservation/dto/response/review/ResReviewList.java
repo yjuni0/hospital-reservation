@@ -17,15 +17,17 @@ public class ResReviewList implements Serializable {
 
     private Long id;
     private String title;
+    private String content;
     private String nickName;
     private LocalDateTime createdDate;
     private int views;
     private int likes;
 
     @Builder
-    public ResReviewList(Long id, String title, String nickName, LocalDateTime createdDate, int views, int likes) {
+    public ResReviewList(Long id, String title,String content, String nickName, LocalDateTime createdDate, int views, int likes) {
         this.id = id;
         this.title = title;
+        this.content = content;
         this.nickName = nickName;
         this.createdDate = createdDate;
         this.views = views;
@@ -37,6 +39,7 @@ public class ResReviewList implements Serializable {
         return ResReviewList.builder()
                 .id(review.getId())
                 .title(review.getTitle())
+                .content(review.getContent())
                 .nickName(review.getMember().getNickName())
                 .createdDate(review.getCreatedDate())
                 .views(review.getViews())

@@ -36,7 +36,7 @@ public class DeletedMember extends BaseTimeEntity {
     @Column(nullable = false, length = 50)
     private String addr;
 
-    @Column(nullable = false, length = 8)
+    @Column
     private String birth;
 
     @Column(length = 13)

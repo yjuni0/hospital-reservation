@@ -12,6 +12,7 @@ import com.project.reservation.entity.customerReviews.Review;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
 import com.project.reservation.repository.member.MemberRepository;
+import com.project.reservation.service.redis.RedisService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class ReviewService {
 
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final RedisService redisService;
 
     // 모든 리뷰 조회(페이징) - 페이징
     public Page<ResReviewList> getReviews(Pageable pageable) {

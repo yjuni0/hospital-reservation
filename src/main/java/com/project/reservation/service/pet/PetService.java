@@ -46,7 +46,7 @@ public class PetService {
         for (ReqPet reqPet : reqPets) {
             if (reqPet.getId() == null) {
                 // 새 펫 추가
-                Pet newPet = ReqPet.toEntity(reqPet, member);
+                Pet newPet = ReqPet.ofEntity(reqPet, member);
                 newPet.setMember(member);
                 petsToSave.add(newPet);
             } else {

@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -118,8 +119,10 @@ public class ReservationService {
             log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", RvMember.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");
         }
+        LocalDate slotDate = reservation.getReservationTime().toLocalDate();
         LocalTime slotTime = reservation.getReservationTime().toLocalTime();
-        Slot cancelSlot = slotRepository.findBySlotTime(slotTime);
+
+        Slot cancelSlot = slotRepository.findByIsAvailableAndSlotTimeAndAvailableDate_Date(false,slotTime,slotDate);
         cancelSlot.setIsAvailable(true);
         slotRepository.save(cancelSlot);
         reservationRepository.delete(reservation);

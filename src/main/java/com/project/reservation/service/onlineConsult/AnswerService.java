@@ -59,6 +59,7 @@ public class AnswerService {
         return ResAnswer.fromEntity(updateAnswer);
     }
     // 삭제
+    @Transactional
     public void delete(Long answerId){
         if (!answerRepository.existsById(answerId)) {
             throw new IllegalArgumentException("해당 답변이 존재하지 않습니다.");

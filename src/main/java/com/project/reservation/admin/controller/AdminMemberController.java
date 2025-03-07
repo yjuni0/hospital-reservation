@@ -1,5 +1,6 @@
 package com.project.reservation.admin.controller;
 
+import com.project.reservation.dto.response.member.ResMember;
 import com.project.reservation.dto.response.member.ResMemberList;
 import com.project.reservation.entity.member.DeletedMember;
 import com.project.reservation.entity.member.NonMember;
@@ -12,9 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,11 +36,22 @@ public class AdminMemberController {
         Page<ResMemberList> listMember = memberService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(listMember);
     }
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<ResMember> getMember(@PathVariable("memberId") Long memberId) {
+        ResMember resMember = memberService.getMember(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(resMember);
+    }
     // !! 관리자용 !!
     @GetMapping("/deletedMember")
     public ResponseEntity<Page<DeletedMember>> deletedMemberList(
             @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<DeletedMember> deletedMembers = memberService.getAllDeletedMember(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(deletedMembers);
+    }
+
+    @DeleteMapping("/member/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable("memberId") Long memberId) {
+        memberService.deleteMember(memberId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

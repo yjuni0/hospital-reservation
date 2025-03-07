@@ -142,13 +142,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     }
 
     public void setPets(List<Pet> pets) {
-        this.pets = new ArrayList<>();
-        if (pets != null) {
-            for (Pet pet : pets) {
-                this.pets.add(pet);
-                pet.setMember(this);
-            }
-        }
+        this.pets = pets;
     }
 
     public void addPet(Pet pet) {

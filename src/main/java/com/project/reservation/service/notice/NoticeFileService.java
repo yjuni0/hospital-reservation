@@ -86,7 +86,7 @@ public class NoticeFileService {
     }
 
     //파일 다운로드
-    public ResNoticeFileDownload download(Long noticeFileId) throws IOException{
+    public ResNoticeFileDownload download(Long noticeId, Long noticeFileId) throws IOException{
         // 파일 찾기
         NoticeFile file = noticeFileRepository.findById(noticeFileId).orElseThrow(()->new IllegalArgumentException("해당 아이디와 일치하는 파일이 없습니다."));
         log.info("요청 noticeId와 일치하는 파일 "+ file);

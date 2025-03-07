@@ -1,6 +1,7 @@
 package com.project.reservation.controller.search;
 
 import com.project.reservation.common.SearchDto;
+import com.project.reservation.dto.response.member.ResMemberList;
 import com.project.reservation.dto.response.notice.ResNoticeList;
 import com.project.reservation.dto.response.question.ResQuestionList;
 import com.project.reservation.dto.response.reservation.ResReservationList;
@@ -33,16 +34,16 @@ public class SearchController {
                 Object memberPage = searchMember.searchMember(searchDto, pageable);
                 return new ResponseEntity<>(memberPage, HttpStatus.OK);
             case "question":
-                Page<ResQuestionList> questionPage = searchQuestion.listQuestion(searchDto, pageable);
+                Object questionPage = searchQuestion.searchQuestions(searchDto, pageable);
                 return new ResponseEntity<>(questionPage, HttpStatus.OK);
             case "notice":
-                Page<ResNoticeList> noticePage = searchNotice.listNotice(searchDto, pageable);
+                Object noticePage = searchNotice.listNotice(searchDto, pageable);
                 return new ResponseEntity<>(noticePage, HttpStatus.OK);
             case "reservation":
-                Page<ResReservationList> reservationPage = searchReservation.listReservation(searchDto, pageable);
+                Object reservationPage = searchReservation.listReservation(searchDto, pageable);
                 return new ResponseEntity<>(reservationPage, HttpStatus.OK);
             case "review":
-                Page<ResReviewList> reviewPage = searchReview.listReview(searchDto, pageable);
+                Object reviewPage = searchReview.listReview(searchDto, pageable);
                 return new ResponseEntity<>(reviewPage, HttpStatus.OK);
             default:
                 return new ResponseEntity<>("잘못된 검색 타입입니다.", HttpStatus.BAD_REQUEST);

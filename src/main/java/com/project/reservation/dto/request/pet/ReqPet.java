@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class ReqPet {
     private Long id;
     private String name;
@@ -18,18 +19,19 @@ public class ReqPet {
     private int age;
 
     @Builder
-    public ReqPet(Long id,String name, Breed breed, int age) {
+    public ReqPet(Long id, String name, Breed breed, int age) {
         this.id = id;
         this.name = name;
         this.breed = breed;
         this.age = age;
     }
-    public static Pet toEntity(ReqPet pet, Member member){
+
+    public static Pet ofEntity(ReqPet reqPet, Member member) {
         return Pet.builder()
-                .id(pet.getId())
-                .name(pet.getName())
-                .breed(pet.getBreed())
-                .age(pet.getAge())
+                .id(reqPet.getId())
+                .name(reqPet.getName())
+                .breed(reqPet.getBreed())
+                .age(reqPet.getAge())
                 .member(member)
                 .build();
     }

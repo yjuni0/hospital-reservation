@@ -31,7 +31,7 @@ public class CommentController {
     }
 
     // 댓글 작성
-    @PostMapping("/review/{reviewId}/comment")
+    @PostMapping("/member/review/{reviewId}/comment")
     public ResponseEntity<ResComment> write(
             @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal
@@ -44,7 +44,7 @@ public class CommentController {
 
 
     // 댓글 삭제
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/member/comment/{commentId}")
     public ResponseEntity<?> delete(
             @PathVariable("commentId") Long commentId,
             @AuthenticationPrincipal Member member) {

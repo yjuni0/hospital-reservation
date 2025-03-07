@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/review")
+@RequestMapping("/api")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
     // 리뷰 페이징 목록
-    @GetMapping
+    @GetMapping("/review")
     public ResponseEntity<Page<ResReviewList>> reviewList(
             @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResReviewList> listDTO = reviewService.getReviews(pageable);
@@ -37,7 +37,7 @@ public class ReviewController {
 
 
     // 리뷰 상세조회
-    @GetMapping("/{reviewId}")
+    @GetMapping("/review/{reviewId}")
     public ResponseEntity<ResReviewDetail> detail(
             @PathVariable("reviewId")
             Long reviewId
@@ -47,7 +47,7 @@ public class ReviewController {
     }
 
     // 리뷰 작성
-    @PostMapping
+    @PostMapping("/member/review")
     public ResponseEntity<ResReviewDetail> write(
             @AuthenticationPrincipal Member member,
             @RequestBody ReqReviewWrite reqReviewWrite
@@ -57,7 +57,7 @@ public class ReviewController {
     }
 
     // 리뷰 수정
-    @PatchMapping("/{reviewId}")
+    @PatchMapping("/member/review/{reviewId}")
     public ResponseEntity<ResReviewDetail> update(
             @PathVariable("reviewId") Long reviewId,
             @RequestBody ReqReviewUpdate reqReviewUpdate,
@@ -70,7 +70,7 @@ public class ReviewController {
     }
     
     // 리뷰 삭제
-    @DeleteMapping("/{reviewId}")
+    @DeleteMapping("/member/review/{reviewId}")
     public ResponseEntity<Long> delete(
             @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal Member member) {

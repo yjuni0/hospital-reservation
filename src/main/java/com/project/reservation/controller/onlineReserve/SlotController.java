@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/slot")
+@RequestMapping("/api/member/slot")
 public class SlotController {
 
     private final SlotService slotService;

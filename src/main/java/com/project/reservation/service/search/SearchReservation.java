@@ -26,11 +26,11 @@ public class SearchReservation {
         Page<Reservation> result;
 
         // 조건에 맞는 검색을 메서드로 분리
-        if (!searchDto.getPetName().isEmpty()) {
+        if (searchDto.getPetName()!=null&&!searchDto.getPetName().isEmpty()) {
             result = searchByPetName(searchDto.getPetName(), pageable);
-        } else if (!searchDto.getNickName().isEmpty()) {
+        } else if (searchDto.getNickName()!=null&&!searchDto.getNickName().isEmpty()) {
             result = searchByNickName(searchDto.getNickName(), pageable);
-        } else if (!searchDto.getCreatedDate().isEmpty()) {
+        } else if (searchDto.getCreatedDate()!=null&&!searchDto.getCreatedDate().isEmpty()) {
             result = searchByCreatedDate(searchDto.getCreatedDate(), pageable);
         } else {
             throw new IllegalArgumentException("검색 조건이 없습니다.");

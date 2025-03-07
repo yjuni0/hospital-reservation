@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 public class SearchQuestion {
     private final QuestionRepository questionRepository;
     // 문의 검색
-    public Page<ResQuestionList> listQuestion(SearchDto searchDto, Pageable pageable) {
+    public Page<ResQuestionList> searchQuestions(SearchDto searchDto, Pageable pageable) {
         Page<Question> result;
 
         // 조건에 맞는 검색을 메서드로 분리
-        if (!searchDto.getTitle().isEmpty()) {
+        if (searchDto.getTitle()!=null&&!searchDto.getTitle().isEmpty()) {
             result = searchByTitle(searchDto.getTitle(), pageable);
-        } else if (!searchDto.getWriter().isEmpty()) {
+        } else if (searchDto.getWriter()!=null&&!searchDto.getWriter().isEmpty()) {
             result = searchByWriter(searchDto.getWriter(), pageable);
-        } else if (!searchDto.getCreatedDate().isEmpty()) {
+        } else if (searchDto.getCreatedDate()!=null&&!searchDto.getCreatedDate().isEmpty()) {
             result = searchByCreatedDate(searchDto.getCreatedDate(), pageable);
         } else {
             throw new IllegalArgumentException("검색 조건이 없습니다.");

@@ -18,11 +18,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Page<Member> findByBirthContaining(String birth,Pageable pageable);
 
-    Optional<Member> findByEmailContaining(String email);
+    Page<Member> findByEmailContaining(String email,Pageable pageable);
 
-    Optional<Member> findByNickNameContaining(String nickName);
+    Page<Member> findByNickNameContaining(String nickName,Pageable pageable);
 
-    Optional<Member> findByPhoneNumContaining(String phoneNum);
+    Page<Member> findByPhoneNumContaining(String phoneNum,Pageable pageable);
 
     Optional<Member> findByNameAndPhoneNum(String name, String phone);
 }

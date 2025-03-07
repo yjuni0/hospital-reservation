@@ -16,7 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/question")
+@RequestMapping("/api/member/question")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -38,8 +38,8 @@ public class QuestionController {
 
     // 상세조회
     @GetMapping("/{questionId}")
-    public ResponseEntity<ResQuestion> detail(@PathVariable("questionId") Long questionId){
-        ResQuestion questionDetail = questionService.getById(questionId);
+    public ResponseEntity<ResQuestion> detail(@AuthenticationPrincipal Member member, @PathVariable("questionId") Long questionId){
+        ResQuestion questionDetail = questionService.getById(member, questionId);
         return ResponseEntity.status(HttpStatus.OK).body(questionDetail);
     }
 

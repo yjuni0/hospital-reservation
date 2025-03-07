@@ -26,9 +26,9 @@ public class SearchNotice {
         Page<Notice> result;
 
         // 검색 조건에 따른 처리
-        if (!searchDto.getTitle().isEmpty()) {
+        if (searchDto.getTitle()!=null&&!searchDto.getTitle().isEmpty()) {
             result = searchByTitle(searchDto.getTitle(), pageable);
-        } else if (!searchDto.getCreatedDate().isEmpty()) {
+        } else if (searchDto.getCreatedDate()!=null&&!searchDto.getCreatedDate().isEmpty()) {
             result = searchByCreatedDate(searchDto.getCreatedDate(), pageable);
         } else {
             throw new IllegalArgumentException("검색 조건이 없습니다.");

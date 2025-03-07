@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,23 +29,23 @@ public class SearchMember {
     // 멤버 검색
     public Object searchMember(SearchDto searchDto, Pageable pageable) {
         // 유효한 검색 조건이 없을 경우 예외 처리
-        if (isEmptySearchDto(searchDto)) {
+        if (isEmptySearchDto(searchDto, pageable)) {
             throw new MemberException("검색할 정보가 없습니다", HttpStatus.BAD_REQUEST);
         }
 
         // 유니크 검색 (단일 객체 반환)
-        if (!searchDto.getEmail().isEmpty()) {
-            return searchByEmail(searchDto.getEmail());
-        } else if (!searchDto.getNickName().isEmpty()) {
-            return searchByNickName(searchDto.getNickName());
-        } else if (!searchDto.getPhoneNum().isEmpty()) {
-            return searchByPhoneNum(searchDto.getPhoneNum());
+        if (searchDto.getEmail() != null && !searchDto.getEmail().isEmpty()) {
+            return searchByEmail(searchDto.getEmail(), pageable);
+        } else if (searchDto.getNickName()!=null&&!searchDto.getNickName().isEmpty()) {
+            return searchByNickName(searchDto.getNickName(), pageable);
+        } else if (searchDto.getPhoneNum()!=null&&!searchDto.getPhoneNum().isEmpty()) {
+            return searchByPhoneNum(searchDto.getPhoneNum(), pageable);
         }
 
         // 리스트 검색 (페이징 처리)
-        if (!searchDto.getName().isEmpty()) {
+        if (searchDto.getName()!=null&&!searchDto.getName().isEmpty()) {
             return searchByName(searchDto.getName(), pageable);
-        } else if (!searchDto.getBirth().isEmpty()) {
+        } else if (searchDto.getBirth()!=null&&!searchDto.getBirth().isEmpty()) {
             return searchByBirth(searchDto.getBirth(), pageable);
         }
 
@@ -52,34 +53,36 @@ public class SearchMember {
     }
 
     // 검색 조건이 비어있는지 확인
-    private boolean isEmptySearchDto(SearchDto searchDto) {
-        return searchDto.getEmail().isEmpty() && searchDto.getNickName().isEmpty()
-                && searchDto.getPhoneNum().isEmpty() && searchDto.getName().isEmpty()
-                && searchDto.getBirth().isEmpty();
+    private boolean isEmptySearchDto(SearchDto searchDto, Pageable pageable) {
+        return (searchDto.getEmail() == null || searchDto.getEmail().isEmpty()) &&
+                (searchDto.getNickName() == null || searchDto.getNickName().isEmpty()) &&
+                (searchDto.getPhoneNum() == null || searchDto.getPhoneNum().isEmpty()) &&
+                (searchDto.getName() == null || searchDto.getName().isEmpty()) &&
+                (searchDto.getBirth() == null || searchDto.getBirth().isEmpty());
     }
 
     // 이메일로 검색 (단일 객체 반환)
-    private ResMember searchByEmail(String email) {
-        Member result = memberRepository.findByEmailContaining(email)
-                .orElseThrow(() -> new MemberException("검색한 이메일 없음", HttpStatus.BAD_REQUEST));
+    private Page<ResMember> searchByEmail(String email, Pageable pageable) {
+        Page<Member> result = memberRepository.findByEmailContaining(email, pageable);
+        List<ResMember> listMember = result.getContent().stream().map(ResMember::fromEntity).collect(Collectors.toList());
         log.info("검색한 이메일에 해당하는 멤버 {}", result);
-        return ResMember.fromEntity(result);
+        return new PageImpl<>(listMember, pageable, result.getTotalElements());
     }
 
     // 닉네임으로 검색 (단일 객체 반환)
-    private ResMember searchByNickName(String nickName) {
-        Member result = memberRepository.findByNickNameContaining(nickName)
-                .orElseThrow(() -> new MemberException("검색한 닉네임 없음", HttpStatus.BAD_REQUEST));
+    private Page<ResMember>  searchByNickName(String nickName, Pageable pageable) {
+        Page<Member>  result = memberRepository.findByNickNameContaining(nickName, pageable);
+        List<ResMember> listMember = result.getContent().stream().map(ResMember::fromEntity).collect(Collectors.toList());
         log.info("검색한 닉네임에 해당하는 멤버 {}", result);
-        return ResMember.fromEntity(result);
+        return new PageImpl<>(listMember, pageable, result.getTotalElements());
     }
 
     // 전화번호로 검색 (단일 객체 반환)
-    private ResMember searchByPhoneNum(String phoneNum) {
-        Member result = memberRepository.findByPhoneNumContaining(phoneNum)
-                .orElseThrow(() -> new MemberException("휴대폰 번호 없음", HttpStatus.BAD_REQUEST));
+    private Page<ResMember>  searchByPhoneNum(String phoneNum, Pageable pageable) {
+        Page<Member>  result = memberRepository.findByPhoneNumContaining(phoneNum, pageable);
+        List<ResMember> listMember = result.getContent().stream().map(ResMember::fromEntity).collect(Collectors.toList());
         log.info("검색한 휴대폰 번호에 해당하는 멤버 {}", result);
-        return ResMember.fromEntity(result);
+        return new PageImpl<>(listMember, pageable, result.getTotalElements());
     }
 
     // 이름으로 검색 (리스트 반환, 페이징 처리)

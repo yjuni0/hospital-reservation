@@ -16,15 +16,13 @@ public class ReqMemberUpdate {
 
     private String nickName;
     private String addr;
-    private String phone;
-    private List<Pet> pets;
+    private String phoneNum;
 
     @Builder
-    public ReqMemberUpdate( String nickName, String addr, String birth, String phone, List<Pet> pets) {
+    public ReqMemberUpdate( String nickName, String addr, String birth, String phoneNum) {
 
         this.nickName = nickName;
         this.addr = addr;
-        this.phone = phone;
-        this.pets = pets;
+        this.phoneNum = phoneNum;
     }
 }

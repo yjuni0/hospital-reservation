@@ -4,8 +4,8 @@ import com.project.reservation.entity.onlineReserve.Reservation;
 
 import java.time.LocalDateTime;
 
-public record ResReservationList(Long reservationId,
-                                 String memberNickName,
+public record ResReservationList(Long id,
+                                 String nickName,
                                  LocalDateTime reservationDateTime,
                                  String petName,
                                  LocalDateTime createdDate) {

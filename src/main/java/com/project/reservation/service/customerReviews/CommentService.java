@@ -68,7 +68,7 @@ public class CommentService {
 
     // 댓글 삭제
     @Transactional
-    public void deleteComment(Long commentId, Member currentMember) {
+    public void deleteComment( Long commentId, Member currentMember) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "Comment id", String.valueOf(commentId)));
 
         Long memberId = comment.getMember().getId();

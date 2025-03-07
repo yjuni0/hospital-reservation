@@ -75,10 +75,10 @@ public class MemberController {
     }
 
     // 탈퇴
-    @DeleteMapping
-    public ResponseEntity<?> delete(
+    @DeleteMapping("/member")
+    public ResponseEntity<?> resign(
             @AuthenticationPrincipal Member member) {
-        memberService.deleteMember( member);
+        memberService.resignMember(member);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

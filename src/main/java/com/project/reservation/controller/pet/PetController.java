@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/pet")
+@RequestMapping("/api/member/pet")
 
 public class PetController {
 
