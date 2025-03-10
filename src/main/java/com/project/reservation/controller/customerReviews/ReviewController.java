@@ -57,7 +57,7 @@ public class ReviewController {
     }
 
     // 리뷰 수정
-    @PatchMapping("/member/review/{reviewId}")
+    @PutMapping("/member/review/{reviewId}")
     public ResponseEntity<ResReviewDetail> update(
             @PathVariable("reviewId") Long reviewId,
             @RequestBody ReqReviewUpdate reqReviewUpdate,

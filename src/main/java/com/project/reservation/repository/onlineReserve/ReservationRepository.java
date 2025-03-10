@@ -18,4 +18,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Page<Reservation> findByMember_NickNameContaining(String nickName, Pageable pageable);
 
     Page<Reservation> findByCreatedDateContaining(LocalDateTime createdDate, Pageable pageable);
+
+
+    boolean existsByReservationTime(LocalDateTime reservationTime);
+
 }

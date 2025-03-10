@@ -18,13 +18,14 @@ public class Comment extends BaseTimeEntity {
 
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn
     private Review review;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
 
     @Builder
     public Comment(Long id, String content, Member member) {

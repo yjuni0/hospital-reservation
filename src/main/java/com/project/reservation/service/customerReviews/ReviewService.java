@@ -10,6 +10,7 @@ import com.project.reservation.dto.response.review.ResReviewList;
 
 import com.project.reservation.entity.customerReviews.Review;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Role;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
 import com.project.reservation.repository.member.MemberRepository;
 import com.project.reservation.service.redis.RedisService;
@@ -100,15 +101,15 @@ public class ReviewService {
     // 리뷰 삭제
 
     public void deleteReview(Long reviewId, Member currentMember) {
-
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId)));
 
         // 현재 로그인한 사용자와 리뷰 작성자 비교
-        if (!review.getMember().getId().equals(currentMember.getId())) {
+        if (!review.getMember().getId().equals(currentMember.getId()) && !currentMember.getRoles().equals(Role.ADMIN)) {
             throw new ReviewException("후기 작성자만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST);
         }
 
+        // 리뷰 삭제
         reviewRepository.deleteById(reviewId);
     }
 

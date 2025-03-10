@@ -23,7 +23,7 @@ public class AdminNoticeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNotice); // 201 반환
     }
     // 수정
-    @PatchMapping("/{noticeId}")
+    @PutMapping("/{noticeId}")
     public ResponseEntity<ResNoticeDetail> update(@PathVariable("noticeId") Long noticeId, @RequestBody ReqNoticeUpdate updateReq){
         ResNoticeDetail updateDetail = noticeService.update(noticeId,updateReq);
         return ResponseEntity.status(HttpStatus.OK).body(updateDetail);

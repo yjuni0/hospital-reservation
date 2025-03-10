@@ -1,8 +1,11 @@
 package com.project.reservation.service.onlineConsult;
 
+import com.project.reservation.common.exception.ResourceNotFoundException;
+import com.project.reservation.common.exception.ReviewException;
 import com.project.reservation.dto.request.qeustion.ReqQuestion;
 import com.project.reservation.dto.response.question.ResQuestionList;
 import com.project.reservation.dto.response.question.ResQuestion;
+import com.project.reservation.entity.customerReviews.Review;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.onlineConsult.Question;
 import com.project.reservation.entity.member.Role;
@@ -13,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,8 +81,15 @@ public class QuestionService {
 
     // 삭제
     public void delete(Member member, Long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(questionId)));
+
+        // 현재 로그인한 사용자와 리뷰 작성자 비교
+        if (!question.getMember().getId().equals(member.getId()) && !isAdmin(member)) {
+            throw new ReviewException("문의 작성자만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST);
+        }
+
         questionRepository.deleteById(questionId);
-        log.info("온라인 문의 삭제 완료: id={}", questionId);
     }
 
     private boolean isAdmin(Member member) {

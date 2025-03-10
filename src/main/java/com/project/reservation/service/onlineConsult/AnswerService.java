@@ -3,6 +3,7 @@ package com.project.reservation.service.onlineConsult;
 import com.project.reservation.dto.request.answer.ReqAnswer;
 import com.project.reservation.dto.response.answer.ResAnswer;
 import com.project.reservation.dto.response.answer.ResAnswerList;
+import com.project.reservation.entity.member.Role;
 import com.project.reservation.entity.onlineConsult.Answer;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.entity.onlineConsult.Question;
@@ -28,19 +29,15 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
 
     // 작성
-    public ResAnswer write(Member admin,Long questionId,  ReqAnswer reqAnswer){
+    @Transactional
+    public ResAnswer write(Member admin, Long questionId,  ReqAnswer reqAnswer){
        Question question = questionRepository.findById(questionId).orElseThrow(()->new IllegalArgumentException("문의 없음 "));
-
-       Answer answer = ReqAnswer.ofEntity(reqAnswer,admin,question);
-       answerRepository.save(answer);
-        return ResAnswer.fromEntity(answer);
-    }
-
-    // 조회
-    public Page<ResAnswerList> getAllAnswer(Pageable pageable){
-        Page<Answer> answers = answerRepository.findAll(pageable);
-        List<ResAnswerList> answerList = answers.stream().map(ResAnswerList::fromEntity).toList();
-        return new PageImpl<>(answerList, pageable, answers.getTotalElements());
+        if (admin.getRoles().equals(Role.ADMIN)) {
+            Answer answer = ReqAnswer.ofEntity(reqAnswer,admin,question);
+            answerRepository.save(answer);
+            return ResAnswer.fromEntity(answer);
+        }
+        throw new IllegalArgumentException("관리자만 가능");
     }
 
     // 상세 조회

@@ -76,6 +76,7 @@ public class SlotService {
                 .orElseThrow(()->new IllegalArgumentException("  진료과에 해당 예약 가능 날짜가 없음  "));
 
         List<Slot> slots = slotRepository.findByAvailableDateAndAvailableDateDepartment(availableDate,department);
+        log.info("선택된 날짜 {} ",availableDate.getDate());
         log.info("슬롯 조회 {} 개", slots.size() );
 
         return slots.stream().map(ResSlotList::fromEntity).toList();

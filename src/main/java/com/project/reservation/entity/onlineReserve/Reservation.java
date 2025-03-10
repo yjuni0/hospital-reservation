@@ -32,6 +32,7 @@ public class Reservation extends BaseTimeEntity {
 
     private String departmentName;
 
+    @Column(nullable = false,unique = true)
     private LocalDateTime reservationTime;
 
 

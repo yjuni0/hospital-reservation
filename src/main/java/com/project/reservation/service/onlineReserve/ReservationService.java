@@ -1,5 +1,6 @@
 package com.project.reservation.service.onlineReserve;
 
+import com.project.reservation.common.exception.ReservationException;
 import com.project.reservation.dto.request.reservation.ReqReservation;
 import com.project.reservation.dto.response.reservation.ResReservation;
 import com.project.reservation.dto.response.reservation.ResReservationList;
@@ -41,9 +42,9 @@ public class ReservationService {
 
     // 예약 등록
     public ResReservation registerReservation(Member member, ReqReservation reqReservation) {
-        log.info("예약 등록 요청: member={}, petName={}, slotId={}", member, reqReservation.petName(), reqReservation.slotId());
+        log.info("예약 등록 요청: member={}, petId={}, slotId={}", member, reqReservation.petId(), reqReservation.slotId());
 
-        Pet rvPet = petRepository.findByName(reqReservation.petName()).orElseThrow();
+        Pet rvPet = petRepository.findById(reqReservation.petId()).orElseThrow();
         Member rvmember = rvPet.getMember();
         Slot rvSlot = slotRepository.findById(reqReservation.slotId()).orElseThrow();
         AvailableDate rvAvailableDate = rvSlot.getAvailableDate();
@@ -51,12 +52,17 @@ public class ReservationService {
         LocalDateTime rvDateTime = LocalDateTime.of(rvAvailableDate.getDate(), rvSlot.getSlotTime());
 
         log.info("예약 정보: department={}, dateTime={}", rvDepartment.getName(), rvDateTime);
-
+        if (reservationRepository.existsByReservationTime(rvDateTime)) {
+            throw new ReservationException("해당 시간에 이미 예약이 존재합니다.");
+        }
         Reservation rvSave = ReqReservation.toEntity(rvPet, rvDepartment.getName(), rvDateTime);
         rvSave.setMember(rvmember);
         rvSlot.setIsAvailable(false);
+
         reservationRepository.save(rvSave);
+
         slotRepository.save(rvSlot);
+        slotRepository.flush();
 
         log.info("예약 저장 완료: reservationId={}", rvSave.getId());
         return ResReservation.fromEntity(rvSave);
@@ -115,7 +121,7 @@ public class ReservationService {
                     return new IllegalArgumentException("해당 아이디의 예약이 없음");
                 });
 
-        if (!reservation.getMember().getId().equals(RvMember.getId()) && RvMember.getRoles().equals(Role.ADMIN)) {
+        if (!reservation.getMember().getId().equals(RvMember.getId()) && !RvMember.getRoles().equals(Role.ADMIN)) {
             log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", RvMember.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");
         }

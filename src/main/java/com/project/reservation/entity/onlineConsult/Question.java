@@ -22,7 +22,7 @@ public class Question extends BaseTimeEntity {
     @Column(nullable = false,length = 500)
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Member member;
 

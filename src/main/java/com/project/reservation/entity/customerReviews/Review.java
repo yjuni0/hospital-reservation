@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,11 @@ public class Review extends BaseTimeEntity {
     private int likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn
     private Member member;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true )
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @BatchSize(size = 5)
     private List<Comment> comments = new ArrayList<>();
 
     @Builder

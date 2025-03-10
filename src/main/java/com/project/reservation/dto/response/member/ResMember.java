@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,16 +23,18 @@ public class ResMember {
     private String addr;
     private String birth;
     private String phoneNum;
+    private LocalDateTime createdDate;
     private List<ResPet> pets; //응답에서 순환참조 문제 발생.
 
     @Builder
-    public ResMember(String name, String email, String nickName, String addr, String birth, String phoneNum, List<ResPet> pets) {
+    public ResMember(String name, String email, String nickName, String addr, String birth, String phoneNum, LocalDateTime createdDate,List<ResPet> pets) {
         this.name = name;
         this.email = email;
         this.nickName = nickName;
         this.addr = addr;
         this.birth = birth;
         this.phoneNum = phoneNum;
+        this.createdDate = createdDate;
         this.pets = pets;
     }
 
@@ -44,6 +47,7 @@ public class ResMember {
                 .addr(member.getAddr())
                 .birth(member.getBirth())
                 .phoneNum(member.getPhoneNum())
+                .createdDate(member.getCreatedDate())
                 .pets(member.getPets() != null ?
                         member.getPets().stream()
                                 .map(ResPet::fromEntity)

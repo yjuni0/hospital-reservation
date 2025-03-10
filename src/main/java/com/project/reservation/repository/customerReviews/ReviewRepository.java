@@ -5,6 +5,7 @@ import com.project.reservation.entity.member.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -37,11 +38,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query(value = "SELECT * FROM Review r ORDER BY r.views DESC LIMIT 4", nativeQuery = true)
     List<Review> findTop4ByOrderByViewsDesc();
+    @Modifying
+    @Query(value = "DELETE FROM review WHERE id = :id", nativeQuery = true)
+    void deleteById(@Param("id") Long reviewId);
 
     Page<Review> findByCreatedDateContaining(LocalDateTime createdDate, Pageable pageable);
 
-    void deleteByMember(Member member);
-
-    List<Review> findTop4ByOrderByCreatedDateDesc();
 
 }
