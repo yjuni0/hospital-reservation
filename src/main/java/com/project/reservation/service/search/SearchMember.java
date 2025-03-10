@@ -6,14 +6,12 @@ import com.project.reservation.dto.response.member.ResMember;
 import com.project.reservation.dto.response.member.ResMemberList;
 import com.project.reservation.entity.member.Member;
 import com.project.reservation.repository.member.MemberRepository;
-import com.project.reservation.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +36,6 @@ public class SearchMember {
             return searchByEmail(searchDto.getEmail(), pageable);
         } else if (searchDto.getNickName()!=null&&!searchDto.getNickName().isEmpty()) {
             return searchByNickName(searchDto.getNickName(), pageable);
-        } else if (searchDto.getPhoneNum()!=null&&!searchDto.getPhoneNum().isEmpty()) {
-            return searchByPhoneNum(searchDto.getPhoneNum(), pageable);
         }
 
         // 리스트 검색 (페이징 처리)
@@ -47,6 +43,8 @@ public class SearchMember {
             return searchByName(searchDto.getName(), pageable);
         } else if (searchDto.getBirth()!=null&&!searchDto.getBirth().isEmpty()) {
             return searchByBirth(searchDto.getBirth(), pageable);
+        } else if (searchDto.getPhoneNum()!=null&&!searchDto.getPhoneNum().isEmpty()) {
+            return searchByPhoneNum(searchDto.getPhoneNum(), pageable);
         }
 
         throw new MemberException("검색할 정보가 없습니다", HttpStatus.BAD_REQUEST);

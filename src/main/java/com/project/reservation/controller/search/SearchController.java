@@ -26,8 +26,8 @@ public class SearchController {
     private final SearchReservation searchReservation;
     private final SearchReview searchReview;
 
-    @GetMapping
-    public ResponseEntity<?> search(@RequestParam("type") String type, @RequestBody SearchDto searchDto, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @PostMapping
+    public ResponseEntity<?> search(@RequestParam("type") String type, @RequestBody SearchDto searchDto, @PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         // 타입에 따라 해당하는 서비스 메서드를 호출
         switch (type) {
             case "member":

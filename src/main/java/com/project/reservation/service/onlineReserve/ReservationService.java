@@ -80,7 +80,7 @@ public class ReservationService {
                     return new IllegalArgumentException("해당 아이디의 예약이 없음");
                 });
 
-        if (!reservation.getMember().getId().equals(member.getId())) {
+        if (!reservation.getMember().getId().equals(member.getId()) && !RvMember.getRoles().equals(Role.ADMIN)) {
             log.warn("예약 조회 권한 없음: 요청자={}, 예약 소유자={}", member.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 조회 가능합니다.");
         }
