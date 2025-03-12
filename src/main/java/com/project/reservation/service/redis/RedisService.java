@@ -39,8 +39,8 @@ public class RedisService {
     @Cacheable(value = "reviews", key = "'topReviews'")
     public List<ResReviewList> getTopReview(){
         log.info("리뷰 캐시 데이터 없음 DB 조회 실행");
-        List<Review> reviews = reviewRepository.findTop4ByOrderByViewsDesc();
-        log.info("조회된 리뷰 개수: {}", reviews.size());
+        List<Review> reviews = reviewRepository.findTop4ByOrderByLikesDescViewsDesc();
+        log.info("조회된 리뷰 개수: {}", reviews.stream().map(Review::getId).toList());
 
         return reviews.stream().map(ResReviewList::fromEntity).toList();
     }

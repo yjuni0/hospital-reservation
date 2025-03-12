@@ -16,13 +16,15 @@ public class ResComment {
     private Long id;
     private String content;
     private String nickName;
+    private Long memberId;
     private LocalDateTime createdDate;
 
     @Builder
-    public ResComment(Long id, String content, String nickName, LocalDateTime createdDate) {
+    public ResComment(Long id, String content, String nickName,Long memberId, LocalDateTime createdDate) {
         this.id = id;
         this.content = content;
         this.nickName = nickName;
+        this.memberId = memberId;
         this.createdDate = createdDate;
     }
 
@@ -32,6 +34,7 @@ public class ResComment {
                 .id(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getMember().getNickName())
+                .memberId(comment.getMember().getId())
                 .createdDate(comment.getCreatedDate())
                 .build();
     }

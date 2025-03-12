@@ -27,28 +27,13 @@ public class ReviewLikeController {
         return ResponseEntity.ok(result);
     }
 
-    // Get - 사용자가 특정 리뷰에 좋아요를 눌렀는지 여부 반환
-//    @GetMapping("/status")
-//    public ResponseEntity<Boolean> hasLiked(
-//            @PathVariable("reviewId") Long reviewId,
-//            @RequestParam("memberId") Long memberId) {
-//        boolean hasLiked = reviewLikeService.hasLiked(reviewId, memberId);
-//        return ResponseEntity.ok(hasLiked);
-//    }
 
     @GetMapping("/status")
     public ResponseEntity<Boolean> hasLiked(
-            @PathVariable Long reviewId,
+            @PathVariable("reviewId") Long reviewId,
             @AuthenticationPrincipal Member member) {
         boolean hasLiked = reviewLikeService.hasLiked(reviewId, member.getId());
         return ResponseEntity.ok(hasLiked);
     }
 }
 
-
-//    // GET - 총 좋아요 수 정수로 반환 - 불필요
-//    @GetMapping("/countLikes")
-//    public ResponseEntity<Integer> getLikesCount(@PathVariable("reviewId") Long reviewId) {
-//        int likesCount = reviewLikeService.countLike(reviewId);
-//        return ResponseEntity.ok(likesCount);
-//    }

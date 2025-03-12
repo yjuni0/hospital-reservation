@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByReview_Id(Pageable pageable, Long reviewId);
-
-    @Modifying
-    @Query(value = "DELETE FROM comment WHERE id = :id", nativeQuery = true)
-    void deleteById(@Param("id") Long id);
+//
+//    @Modifying
+//    @Query(value = "DELETE FROM comment WHERE id = :id", nativeQuery = true)
+//    void deleteById(@Param("id") Long id);
 }

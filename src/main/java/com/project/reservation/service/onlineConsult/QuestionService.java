@@ -24,13 +24,13 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
     // 작성
+    @Transactional
     public ResQuestion write(Member member, ReqQuestion req) {
         Member wrtierMember = memberRepository.findById(member.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
         Question saveQuestion = ReqQuestion.toEntity(req);
@@ -41,6 +41,7 @@ public class QuestionService {
     }
 
     // 조회 (페이징)
+    @Transactional
     public Page<ResQuestionList> getAll(Pageable pageable) {
         Page<Question> questions = questionRepository.findAll(pageable);
         List<ResQuestionList> list = questions.getContent().stream()
@@ -50,21 +51,23 @@ public class QuestionService {
     }
 
     // 상세 조회
+    @Transactional
     public ResQuestion getById(Member member , Long questionId) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> {
                     log.warn("온라인 문의 조회 실패 - 존재하지 않음: id={}", questionId);
                     return new IllegalArgumentException("해당하는 온라인 문의가 존재하지 않습니다.");
                 });
-        if (member.getId().equals(question.getMember().getId())) {
-            return ResQuestion.fromEntity(question);
-        }else {
+        if (!member.getId().equals(question.getMember().getId())&&!isAdmin(member)) {
             throw new IllegalArgumentException("해당 문의를 작성한 사람이 아님");
+        }else {
+            return ResQuestion.fromEntity(question);
         }
 
     }
 
     // 수정
+    @Transactional
     public ResQuestion update(Member member, Long questionId, ReqQuestion req) {
         Question updateQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> {

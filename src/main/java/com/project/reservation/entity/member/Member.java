@@ -57,7 +57,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @OneToMany(mappedBy = "admin", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notice> notices=new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Question> questions=new ArrayList<>();
 
     @OneToMany(mappedBy = "admin",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)

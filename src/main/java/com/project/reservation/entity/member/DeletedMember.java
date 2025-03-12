@@ -24,7 +24,7 @@ public class DeletedMember extends BaseTimeEntity {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String email;
 
     @Column(length = 500)

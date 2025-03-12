@@ -1,5 +1,7 @@
 package com.project.reservation.security.jwt;
 
+import com.project.reservation.entity.member.Member;
+import com.project.reservation.repository.member.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,6 +24,7 @@ public class JwtTokenUtil implements Serializable {
 
     // serialVersionUID 는 개발자가 직접 값을 지정하는 비밀키로, 직렬화된 객체를 역직렬화 할때 일치해야 함.
     private static final long serialVersionUID = -2550185165626007488L;
+    private final MemberRepository memberRepository;
 
     // 미리 소스코드에서 분리해놓은 설정파일(프로퍼티나 yml) 에서 " " 에 맞는 데이터를 가져와서 필드에 주입
     @Value("${jwt.tokenExpirationTime}")
@@ -30,10 +33,16 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secret ;
 
+    public JwtTokenUtil(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
     // 1.토큰 생성
 
     public String generateToken(UserDetails member, String nickName) {
+        Member findMember = memberRepository.findByEmail(member.getUsername()).orElseThrow();
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id",findMember.getId());
         claims.put("email",member.getUsername());
         claims.put("roles", member.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         return doGenerateToken(claims, member.getUsername());

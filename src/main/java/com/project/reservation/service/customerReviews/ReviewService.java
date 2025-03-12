@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class ReviewService {
 
@@ -37,6 +36,7 @@ public class ReviewService {
     private final RedisService redisService;
 
     // 모든 리뷰 조회(페이징) - 페이징
+    @Transactional
     public Page<ResReviewList> getReviews(Pageable pageable) {
         // 페이지네이션된 리뷰 목록 조회
         Page<Review> reviews = reviewRepository.findAllWithMemberAndComments(pageable);
@@ -48,10 +48,9 @@ public class ReviewService {
         return new PageImpl<>(resReviewLists, pageable, reviews.getTotalElements());
     }
 
-
-
     // 리뷰 등록
-    public ResReviewDetail createReview(Member member, ReqReviewWrite reqReviewWrite ) {
+    @Transactional
+    public ResReviewDetail createReview(Member member, ReqReviewWrite reqReviewWrite) {
         // 요청 데이터를 Review 엔티티로 변환
         Review review = ReqReviewWrite.ofEntity(reqReviewWrite);
         // 작성자 회원 정보 조회
@@ -62,12 +61,14 @@ public class ReviewService {
         review.setMember(writerMember);
         // 리뷰 저장
         Review saveReview = reviewRepository.save(review);
+        redisService.deleteCacheReviews();
         // 저장된 리뷰 데이터 반환
         return ResReviewDetail.fromEntity(saveReview);
     }
 
     // 리뷰 상세보기
-    public ResReviewDetail readReview( Long reviewId) {
+    @Transactional
+    public ResReviewDetail readReview(Long reviewId) {
         // 리뷰 ID로 리뷰 조회
         Review findReview = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId))
@@ -79,7 +80,8 @@ public class ReviewService {
     }
 
     // 리뷰 수정
-    public ResReviewDetail updateReview( Long reviewId, ReqReviewUpdate reqReviewUpdate, Member member) {
+    @Transactional
+    public ResReviewDetail updateReview(Long reviewId, ReqReviewUpdate reqReviewUpdate, Member member) {
         // 리뷰 ID로 기존 리뷰 조회
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId))
@@ -99,7 +101,6 @@ public class ReviewService {
     }
 
     // 리뷰 삭제
-
     public void deleteReview(Long reviewId, Member currentMember) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("Review", "Review Id", String.valueOf(reviewId)));
@@ -112,12 +113,4 @@ public class ReviewService {
         // 리뷰 삭제
         reviewRepository.deleteById(reviewId);
     }
-
-//    // 리뷰에 포함된 총 좋아요 개수 확인 - 불필요
-//    public int getLikes(Long reviewId) {
-//        // 리뷰 ID로 조회
-//        int likeCount = reviewRepository.countLikesByReview(reviewId);
-//        // 좋아요 개수 계산
-//        return (int)likeCount;
-//    }
 }

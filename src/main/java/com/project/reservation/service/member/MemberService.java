@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class MemberService {
 
@@ -137,9 +136,16 @@ public class MemberService {
                 () -> new ResourceNotFoundException("Member", "Member Email", member.getEmail())
         );
         currentMember.updateMember( reqMemberUpdate.getNickName(), reqMemberUpdate.getAddr(), reqMemberUpdate.getPhoneNum());
+        memberRepository.save(currentMember);
         return ResMember.fromEntity(currentMember);
     }
 
+    //마이페이지
+    public ResMember myProfile(Member member){
+        // Member 엔티티를 ResMember DTO로 변환하는 로직
+        Member currentMember = (Member) customUserDetailsService.loadUserByUsername(member.getEmail());
+        return ResMember.fromEntity(currentMember);
+    }
     // 삭제(DeletedMember 로 이동)
     @Transactional
     public void resignMember(Member currentMember) {

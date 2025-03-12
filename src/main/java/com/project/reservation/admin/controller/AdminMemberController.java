@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class AdminMemberController {
     private final MemberService memberService;
-    private NonMemberService nonMemberService;
+    private final NonMemberService nonMemberService;
 
     @GetMapping("/nonMember")
     public ResponseEntity<Page<NonMember>> getAllNonMembers(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {

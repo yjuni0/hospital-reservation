@@ -22,6 +22,7 @@ public class ResReviewDetail {
     private String nickName;
     private String content;
     private LocalDateTime createdDate;
+    private Long memberId;
     private int views;
     private int likes;
     private boolean hasLiked;   // 댓글은 dto 에서 제외
@@ -29,10 +30,11 @@ public class ResReviewDetail {
     private List<ResComment> comments;
 
     @Builder
-    public ResReviewDetail(Long id, String title, String nickName, String content, LocalDateTime createdDate, int views, int likes, boolean hasLiked, List<ResComment> comments) {
+    public ResReviewDetail(Long id, String title, String nickName,Long memberId, String content, LocalDateTime createdDate, int views, int likes, boolean hasLiked, List<ResComment> comments) {
         this.id = id;
         this.title = title;
         this.nickName = nickName;
+        this.memberId = memberId;
         this.content = content;
         this.createdDate = createdDate;
         this.views = views;
@@ -47,6 +49,7 @@ public class ResReviewDetail {
                 .id(review.getId())
                 .title(review.getTitle())
                 .nickName(review.getMember().getNickName())
+                .memberId(review.getMember().getId())
                 .content(review.getContent())
                 .createdDate(review.getCreatedDate())
                 .views(review.getViews())

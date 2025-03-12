@@ -38,12 +38,8 @@ public class Pet extends BaseTimeEntity {
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations=new ArrayList<>();
 
-    public void addMember(Member member) {
-        this.member = member;
-        member.getPets().add(this);
-    }
 
-    public void updatePet(String name, Breed breed, int age) {
+    public void updatePet(String name, Breed breed, Integer age) {
         this.name=name;
         this.breed = breed;
         this.age = age;

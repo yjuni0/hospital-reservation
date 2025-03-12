@@ -120,7 +120,6 @@ public class ReservationService {
                     log.error("예약이 존재하지 않음: reservationId={}", reservationId);
                     return new IllegalArgumentException("해당 아이디의 예약이 없음");
                 });
-
         if (!reservation.getMember().getId().equals(RvMember.getId()) && !RvMember.getRoles().equals(Role.ADMIN)) {
             log.warn("예약 삭제 권한 없음: 요청자={}, 예약 소유자={}", RvMember.getId(), reservation.getMember().getId());
             throw new IllegalArgumentException("자신의 예약만 삭제 가능합니다.");

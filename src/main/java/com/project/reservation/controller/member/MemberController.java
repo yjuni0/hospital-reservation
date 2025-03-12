@@ -35,7 +35,11 @@ public class MemberController {
         memberService.checkIdDuplicate(email);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
+    @GetMapping("/myProfile")
+    public ResponseEntity<ResMember> myProfile(@AuthenticationPrincipal Member member) {
+        ResMember resMember = memberService.myProfile(member);
+        return ResponseEntity.ok(resMember);
+    }
     // 닉네임 중복확인
     @GetMapping("/checkNickName")
     public ResponseEntity<?> checkNickNameDuplicate(@RequestParam(name = "nickName") String nickName) {

@@ -38,11 +38,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query(value = "SELECT * FROM Review r ORDER BY r.views DESC LIMIT 4", nativeQuery = true)
     List<Review> findTop4ByOrderByViewsDesc();
-    @Modifying
-    @Query(value = "DELETE FROM review WHERE id = :id", nativeQuery = true)
-    void deleteById(@Param("id") Long reviewId);
+
 
     Page<Review> findByCreatedDateContaining(LocalDateTime createdDate, Pageable pageable);
 
-
+    @Query(value = "SELECT * FROM Review r ORDER BY r.likes DESC, r.views DESC  LIMIT 4", nativeQuery = true)
+    List<Review> findTop4ByOrderByLikesDescViewsDesc();
 }

@@ -9,6 +9,7 @@ import com.project.reservation.dto.response.comment.ResComment;
 import com.project.reservation.entity.customerReviews.Comment;
 import com.project.reservation.entity.customerReviews.Review;
 import com.project.reservation.entity.member.Member;
+import com.project.reservation.entity.member.Role;
 import com.project.reservation.repository.customerReviews.CommentRepository;
 import com.project.reservation.repository.customerReviews.ReviewRepository;
 import com.project.reservation.repository.member.MemberRepository;
@@ -28,13 +29,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
     //댓글 조회 (페이징) -  pageable 페이징 정보, reviewId 댓글을 조회할 리뷰의 ID
+    @Transactional
     public Page<ResComment> getComments(Pageable pageable, Long reviewId) {
         // 리뷰 ID에 해당하는 댓글들을 페이징 처리하여 조회 (댓글과 작성자, 리뷰를 함께 가져옴)
         Page<Comment> comments = commentRepository.findByReview_Id(pageable, reviewId);
@@ -47,6 +48,7 @@ public class CommentService {
     }
 
     //댓글 작성 - reviewId 댓글을 작성할 리뷰의 ID, member 댓글 작성자인 회원 정보 (로그인된 사용자) reqComment 요청받은 댓글 데이터 (DTO)
+    @Transactional
     public ResComment createComment(Long reviewId, Member member, ReqComment reqComment) {
         // 리뷰 ID에 해당하는 리뷰 엔티티 조회 (없으면 예외 발생)
         Review review = reviewRepository.findById(reviewId)
@@ -67,12 +69,11 @@ public class CommentService {
     }
 
     // 댓글 삭제
-    @Transactional
     public void deleteComment( Long commentId, Member currentMember) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "Comment id", String.valueOf(commentId)));
 
         Long memberId = comment.getMember().getId();
-        if(!currentMember.getId().equals(memberId)) {
+        if(!currentMember.getId().equals(memberId) && currentMember.getRoles().equals(Role.ADMIN)) {
             throw new IllegalArgumentException("너꺼아님");
         }
         commentRepository.deleteById(comment.getId());

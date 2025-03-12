@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public record ResReservationList(Long id,
                                  String nickName,
+                                 String departmentName,
                                  LocalDateTime reservationDateTime,
                                  String petName,
                                  LocalDateTime createdDate) {
@@ -14,6 +15,7 @@ public record ResReservationList(Long id,
         return new ResReservationList(
                 reservation.getId(),
                 reservation.getMember().getNickName(),
+                reservation.getDepartmentName(),
                 reservation.getReservationTime(),
                 reservation.getPet().getName(),
                 reservation.getCreatedDate()

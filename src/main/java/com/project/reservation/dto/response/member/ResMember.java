@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class ResMember {
-
+    private Long id;
     private String name;
     private String email;
     private String nickName;
@@ -27,7 +27,8 @@ public class ResMember {
     private List<ResPet> pets; //응답에서 순환참조 문제 발생.
 
     @Builder
-    public ResMember(String name, String email, String nickName, String addr, String birth, String phoneNum, LocalDateTime createdDate,List<ResPet> pets) {
+    public ResMember(Long id,String name, String email, String nickName, String addr, String birth, String phoneNum, LocalDateTime createdDate,List<ResPet> pets) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.nickName = nickName;
@@ -41,6 +42,7 @@ public class ResMember {
     // Entity -> DTO
     public static ResMember fromEntity(Member member) {
         return ResMember.builder()
+                .id(member.getId())
                 .name(member.getName())
                 .email(member.getEmail())
                 .nickName(member.getNickName())

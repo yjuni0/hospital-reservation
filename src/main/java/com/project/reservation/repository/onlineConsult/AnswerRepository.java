@@ -12,11 +12,5 @@ import java.util.Optional;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer,Long> {
-    Optional<Answer> findByQuestionAndId(Question question, Long id);
-
     Optional<Answer> findByQuestion(Question question);
-
-    @Modifying
-    @Query(value = "DELETE FROM answer WHERE id = :id", nativeQuery = true)
-    void deleteById(@Param("id") Long id);
 }

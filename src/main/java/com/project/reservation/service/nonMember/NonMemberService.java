@@ -22,6 +22,9 @@ public class NonMemberService {
     }
 
     public Page<NonMember> getAllNonMembers(Pageable pageable) {
+        if(nonMemberRepository.findAll(pageable).getContent().isEmpty()) {
+            return null;
+        }
         return nonMemberRepository.findAll(pageable);
     }
 }
