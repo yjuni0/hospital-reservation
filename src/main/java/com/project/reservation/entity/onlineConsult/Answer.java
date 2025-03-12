@@ -20,12 +20,12 @@ public class Answer extends BaseTimeEntity {
     private String content;
 
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(nullable = false)
     private Question question;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinColumn( nullable = false)
     private Member admin;
 
     @Builder

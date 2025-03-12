@@ -19,7 +19,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Page<Question> findByMember_NickNameContaining(String memberNickName, Pageable pageable);
     Page<Question> findByCreatedDateContaining(LocalDateTime searchData, Pageable pageable);
 
-    @Modifying
-    @Query(value = "DELETE FROM question WHERE id = :id", nativeQuery = true)
-    void deleteById(@Param("id") Long id);
+
 }
