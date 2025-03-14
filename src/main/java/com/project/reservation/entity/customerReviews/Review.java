@@ -34,11 +34,11 @@ public class Review extends BaseTimeEntity {
     @JoinColumn
     private Member member;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     @BatchSize(size = 5)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
     private List<ReviewLike> reviewLikes = new ArrayList<>();
 
     @Builder

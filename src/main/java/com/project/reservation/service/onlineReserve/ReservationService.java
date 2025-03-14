@@ -60,7 +60,6 @@ public class ReservationService {
         rvSlot.setIsAvailable(false);
 
         reservationRepository.save(rvSave);
-
         slotRepository.save(rvSlot);
         slotRepository.flush();
 

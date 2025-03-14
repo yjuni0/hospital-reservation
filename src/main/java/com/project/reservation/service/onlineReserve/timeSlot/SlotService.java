@@ -7,6 +7,7 @@ import com.project.reservation.entity.onlineReserve.Slot;
 import com.project.reservation.repository.onlineReserve.AvailableDateRepository;
 import com.project.reservation.repository.onlineReserve.DepartmentRepository;
 import com.project.reservation.repository.onlineReserve.SlotRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class SlotService {
     private final SlotRepository slotRepository;
     private final AvailableDateRepository availableDateRepository;
     private final DepartmentRepository departmentRepository;
-
+    private final EntityManager entityManager;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
@@ -41,7 +42,7 @@ public class SlotService {
     public void generateSlotsBatch() {
         List<Slot> slotsToSave = new ArrayList<>();
         List<AvailableDate> availableDates = availableDateRepository.findAll();
-        int batchSize = 1000;  // 한 번에 처리할 배치 크기
+        int batchSize = 500;  // 한 번에 처리할 배치 크기
         int count = 0;
 
         for (AvailableDate availableDate : availableDates) {
@@ -55,9 +56,8 @@ public class SlotService {
 
                 count++;
                 if (count % batchSize == 0) {
-                    // 배치 크기마다 flush를 해서 성능을 최적화
                     slotRepository.flush();
-
+                    entityManager.clear();  // 영속성 컨텍스트 비우기
                     log.info("현재 슬롯 생성된 수: {}", slotsToSave.size());
                     log.info("현재 배치 크기: {}", batchSize);
                 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/notice/{noticeId}/file")
+@RequestMapping("/api/member/notice/{noticeId}/file")
 @RequiredArgsConstructor
 public class NoticeFileController {
     private final NoticeFileService noticeFileService;

@@ -35,7 +35,6 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
 
-
     // 리뷰 상세조회
     @GetMapping("/review/{reviewId}")
     public ResponseEntity<ResReviewDetail> detail(

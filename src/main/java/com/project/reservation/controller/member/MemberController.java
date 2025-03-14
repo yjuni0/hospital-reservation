@@ -70,7 +70,7 @@ public class MemberController {
     }
     //====================================================================================================
     // 수정
-    @PatchMapping("/{memberId}")
+    @PatchMapping
     public ResponseEntity<ResMember> update(
             @AuthenticationPrincipal Member member,
             @RequestBody ReqMemberUpdate reqMemberUpdate){

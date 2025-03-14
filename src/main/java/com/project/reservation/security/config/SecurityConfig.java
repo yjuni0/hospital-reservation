@@ -56,7 +56,7 @@ public class SecurityConfig {
                 // requestMatchers - 특정 HTTP 요청에 대한 보안 규칙을 정의하는 데 사용되는 메소드
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                        "/api/admin/**").hasRole("ADMIN")    // 추가 필요
+                        "/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/member/**").hasAnyRole("USER","ADMIN")
 
                         .anyRequest().permitAll())

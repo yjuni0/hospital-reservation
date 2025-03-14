@@ -14,12 +14,6 @@ import java.util.List;
 @Repository
 public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findByAvailableDateAndAvailableDateDepartment(AvailableDate availableDate, Department availableDate_department);
-
-    Slot findBySlotTime(LocalTime slotTime);
-
-    Slot findBySlotTimeAndAvailableDate(LocalTime slotTime, AvailableDate availableDate);
-
-    Slot findBySlotTimeAndAvailableDate_Date(LocalTime slotTime, LocalDate availableDateDate);
-
     Slot findByIsAvailableAndSlotTimeAndAvailableDate_Date(boolean b, LocalTime slotTime, LocalDate slotDate);
+
 }

@@ -61,7 +61,7 @@ public class ReviewService {
         review.setMember(writerMember);
         // 리뷰 저장
         Review saveReview = reviewRepository.save(review);
-        redisService.deleteCacheReviews();
+//        redisService.deleteCacheReviews();
         // 저장된 리뷰 데이터 반환
         return ResReviewDetail.fromEntity(saveReview);
     }

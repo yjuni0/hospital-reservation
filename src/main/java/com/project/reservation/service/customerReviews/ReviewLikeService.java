@@ -22,6 +22,7 @@ public class ReviewLikeService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public String toggleLike(Member member, ReqReviewLike reqReviewLike) {
         //리뷰 ID로 조회, 없으면 예외
         Review review = reviewRepository.findById(reqReviewLike.getReviewId())

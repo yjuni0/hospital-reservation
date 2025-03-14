@@ -44,7 +44,7 @@ public class NoticeService {
         log.info("해당 공지사항 생성 완료: {}", notice);
 
         Notice savedNotice = noticeRepository.save(notice);
-        redisService.deleteCacheNotices();
+//        redisService.deleteCacheNotices();
 
         return ResNoticeDetail.fromEntity(savedNotice);
     }
