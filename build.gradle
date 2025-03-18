@@ -70,17 +70,6 @@ dependencies {
 
 	// -------------------- TEST --------------------------------------------------------------------
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	// JUnit 5 (Jupiter)
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-	// Mockito (Mock 객체 생성)
-	testImplementation 'org.mockito:mockito-core:5.2.0'
-	testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
-	// H2 테스트용 DB
-	testImplementation 'com.h2database:h2'
 }
 
-tasks.named("test") {
-	useJUnitPlatform()
-}
