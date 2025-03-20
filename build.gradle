@@ -33,8 +33,7 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// Redis 관련 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // Redis 지원을 위한 Spring Boot 스타터
-	implementation 'org.springframework.redis:spring-data-redis' // Spring Data Redis 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.3.8' // Redis 지원을 위한 Spring Boot 스타터
 
 	// 모니터링 관리
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -64,7 +63,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON Web Token (JWT) 생성 및 검증을 위한 Jackson 기반 JJWT 구현을 제공
 
 	//OAuth2
-	implementation  'com.google.http-client:google-http-client-jackson2'
+	implementation  'com.google.http-client:google-http-client-jackson2:2.39.0'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth 2.0 클라이언트 기능을 위한 Spring Boot 스타터를 제공
 
 
