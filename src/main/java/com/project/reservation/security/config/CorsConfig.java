@@ -26,7 +26,7 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // CorsConfiguration 에 포함된 메소드 (setAllowedOrigins) 허용된 출처 설정 - 프론트엔드 개발 서버의 주소
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("https://reservation-front-opal.vercel.app/"));
 
         // CorsConfiguration 에 포함된 메소드 (setAllowedMethods) 허용된 HTTP 메서드 설정
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS", "PATCH", "DELETE"));
